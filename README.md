@@ -10,3 +10,4 @@ Details about the project will be given here. For now you can check [our wiki pa
 +    [Themes/Features] (https://github.com/bounswe/bounswe2016group9/wiki/Themes)
 +    [Personas] (https://github.com/bounswe/bounswe2016group9/wiki/Personas)
 +    [User Stories] (https://github.com/bounswe/bounswe2016group9/wiki/User%20Stories)
++    [How to write user stories] (https://github.com/bounswe/bounswe2016group9/wiki/UserStoryWriting)
