@@ -5,8 +5,8 @@ Details about the project will be given here. For now you can check [our wiki pa
 
 ## Homework-2
 
-+    [Project Description] (Project Description)
-+    [Domain Analysis] (Domain Analysis)
-+    [Themes/Features] (Themes)
-+    [Personas] (Personas)
-+    [User Stories] (User Stories)
++    [Project Description] (https://github.com/bounswe/bounswe2016group9/wiki/Project%20Description)
++    [Domain Analysis] (https://github.com/bounswe/bounswe2016group9/wiki/Domain%20Analysis)
++    [Themes/Features] (https://github.com/bounswe/bounswe2016group9/wiki/Themes)
++    [Personas] (https://github.com/bounswe/bounswe2016group9/wiki/Personas)
++    [User Stories] (https://github.com/bounswe/bounswe2016group9/wiki/User%20Stories)
