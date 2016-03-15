@@ -11,3 +11,10 @@ Details about the project will be given here. For now you can check [our wiki pa
 +    [Personas] (https://github.com/bounswe/bounswe2016group9/wiki/Personas)
 +    [User Stories] (https://github.com/bounswe/bounswe2016group9/wiki/User%20Stories)
 +    [How to write user stories] (https://github.com/bounswe/bounswe2016group9/wiki/UserStoryWriting)
+
+
+## Homework-3 
++    [Communication Plan] (https://github.com/bounswe/bounswe2016group9/wiki/Communication%20Plan)
++    [Requirements] (https://github.com/bounswe/bounswe2016group9/wiki/Requirements)
++    [Responsibility Assignment Matrix] (https://github.com/bounswe/bounswe2016group9/wiki/Responsibility%20Assignment%20Matrix)
++    Libreproject file is under code 
