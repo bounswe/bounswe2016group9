@@ -18,3 +18,4 @@ Details about the project will be given here. For now you can check [our wiki pa
 +    [Requirements] (https://github.com/bounswe/bounswe2016group9/wiki/Requirements)
 +    [Responsibility Assignment Matrix] (https://github.com/bounswe/bounswe2016group9/wiki/Responsibility%20Assignment%20Matrix)
 +    Libreproject file is under code 
++    [Requirements: What & How ?] (https://github.com/bounswe/bounswe2016group9/wiki/HowToRequirements)
