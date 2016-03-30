@@ -3,7 +3,7 @@ CmpE 352/451 Group Project
 
 Details about the project will be given here. For now you can check [our wiki page](https://github.com/bounswe/bounswe2016group9/wiki) out.
 
-## Homework-2
+## Assignment-2
 
 +    [Project Description] (https://github.com/bounswe/bounswe2016group9/wiki/Project%20Description)
 +    [Domain Analysis] (https://github.com/bounswe/bounswe2016group9/wiki/Domain%20Analysis)
@@ -13,7 +13,7 @@ Details about the project will be given here. For now you can check [our wiki pa
 +    [How to write user stories] (https://github.com/bounswe/bounswe2016group9/wiki/UserStoryWriting)
 
 
-## Homework-3 
+## Assignment-3 
 +    [Communication Plan] (https://github.com/bounswe/bounswe2016group9/wiki/Communication%20Plan)
 +    [Requirements] (https://github.com/bounswe/bounswe2016group9/wiki/Requirements)
 +    [Responsibility Assignment Matrix] (https://github.com/bounswe/bounswe2016group9/wiki/Responsibility%20Assignment%20Matrix)
