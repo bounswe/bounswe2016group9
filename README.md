@@ -9,7 +9,6 @@ Project
 +    [Sequence Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Sequence-Diagram)
 +    [Class Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Class%20Diagram)
 +    [Activity Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Activity-Diagram)
-+    
 
 +    [Communication Plan] (https://github.com/bounswe/bounswe2016group9/wiki/Communication%20Plan)
 +    [Requirements] (https://github.com/bounswe/bounswe2016group9/wiki/Requirements)
