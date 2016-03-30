@@ -19,3 +19,8 @@ Details about the project will be given here. For now you can check [our wiki pa
 +    [Responsibility Assignment Matrix] (https://github.com/bounswe/bounswe2016group9/wiki/Responsibility%20Assignment%20Matrix)
 +    Libreproject file is under code 
 +    [Requirements: What & How ?] (https://github.com/bounswe/bounswe2016group9/wiki/HowToRequirements)
+
+## Assignment -4
++    [Use Cases and Use Case Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Use%20Cases)
++    [Sequence Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Sequence-Diagram)
++    [Class Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Class%20Diagram)
