@@ -1,6 +1,6 @@
 # bounswe2016group9
 CmpE 352/451 Group Project
-
+Check our web site on aws , [click] (http://ec2-54-82-189-218.compute-1.amazonaws.com:8080/)
 Details about the project will be given here. For now you can check [our wiki page](https://github.com/bounswe/bounswe2016group9/wiki) out.
 
 #InfoGrappo 
