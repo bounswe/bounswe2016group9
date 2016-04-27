@@ -1,7 +1,7 @@
 # bounswe2016group9
 CmpE 352/451 Group Project
 
-Click [here] (http://ec2-54-82-189-218.compute-1.amazonaws.com:8080/sample) to check our web site on Amazon Web Server.
+Click [here] (http://ec2-54-82-189-218.compute-1.amazonaws.com:8080/InfoGrappo) to check our web site on Amazon Web Server.
 
 Details about the project will be given here. For now you can check [our wiki page](https://github.com/bounswe/bounswe2016group9/wiki) out.
 
