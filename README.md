@@ -7,6 +7,7 @@ Details about the project will be given here. For now you can check [our wiki pa
 
 #InfoGrappo 
 
+
 ##Project Model    
 +    [Mockups](https://github.com/bounswe/bounswe2016group9/wiki/Mockups)
 +    You can look up our peer reviews  at [here] (https://github.com/bounswe/bounswe2016group9/issues?utf8=%E2%9C%93&q=peer)
@@ -14,6 +15,8 @@ Details about the project will be given here. For now you can check [our wiki pa
 +    [Sequence Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Sequence-Diagram)    
 +    [Class Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Class%20Diagram)     
 +    [Activity Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Activity-Diagram)         
++    [Test Plan] (https://github.com/bounswe/bounswe2016group9/wiki/TestPlan)
++    [Tutorial for Programming Enviroment] (https://github.com/bounswe/bounswe2016group9/wiki/Setup%20Tutorial)
 
 ##Initial Plan    
 +    [Communication Plan] (https://github.com/bounswe/bounswe2016group9/wiki/Communication%20Plan)    
