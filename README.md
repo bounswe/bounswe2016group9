@@ -1,5 +1,5 @@
 # bounswe2016group9
-CmpE 352/451 Group Project
+CmpE 352/451 Group Project.
 
 Click [here] (http://ec2-54-82-189-218.compute-1.amazonaws.com:8080/InfoGrappo) to check our web site on Amazon Web Server.
 
