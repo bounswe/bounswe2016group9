@@ -8,7 +8,7 @@ public class MustafaTest {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		fail("Not implemented yet");
 	}
 
 }
