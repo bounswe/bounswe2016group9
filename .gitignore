@@ -24,4 +24,7 @@ nbdist/
 .mvn
 mvnw
 mvnw.cmd
+src
+pom.xml
+
 
