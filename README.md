@@ -3,10 +3,10 @@ CmpE 451 Group 9 Project
 
 Details about the project will be given here. For now you can check [our wiki page](https://github.com/bounswe/bounswe2016group9/wiki) out.
 
-#InfoGrappo 
+# InfoGrappo 
 
 
-##Project Model   
+## Project Model   
 +    [Test Plan] (https://github.com/bounswe/bounswe2016group9/wiki/TestPlan)
 +    [Tutorial for Programming Enviroment] (https://github.com/bounswe/bounswe2016group9/wiki/Setup%20Tutorial)
 +    [Mockups](https://github.com/bounswe/bounswe2016group9/wiki/Mockups)
@@ -17,13 +17,13 @@ Details about the project will be given here. For now you can check [our wiki pa
 +    [Activity Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Activity-Diagram)         
 
 
-##Initial Plan    
+## Initial Plan    
 +    [Communication Plan] (https://github.com/bounswe/bounswe2016group9/wiki/Communication%20Plan)    
 +    [Requirements] (https://github.com/bounswe/bounswe2016group9/wiki/Requirements)     
 +    [Responsibility Assignment Matrix](https://github.com/bounswe/bounswe2016group9/wiki/Responsibility%20Assignment%20Matrix)
 +    [Project Plan](https://github.com/bounswe/bounswe2016group9/blob/master/InfoGrappo.pod?raw=true)      
 
-##Project Definition
+## Project Definition
 +    [Project Description] (https://github.com/bounswe/bounswe2016group9/wiki/Project%20Description)    
 +    [Domain Analysis] (https://github.com/bounswe/bounswe2016group9/wiki/Domain%20Analysis)    
 +    [Themes/Features] (https://github.com/bounswe/bounswe2016group9/wiki/Themes)     
