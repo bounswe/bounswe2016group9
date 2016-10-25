@@ -1,0 +1,6 @@
+classes/
+.idea/
+*.iml
+.DS_STORE
+android/local.properties
+shared/target/
