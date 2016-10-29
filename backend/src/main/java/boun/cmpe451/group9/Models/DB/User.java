@@ -1,16 +1,17 @@
 package boun.cmpe451.group9.Models.DB;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "USER")
-public class User {
+public class User extends ResourceSupport {
     @Id
     @GeneratedValue
     @Column(name = "ID")
-    private long id;
+    private long userID;
 
     @Column(name = "USERNAME")
     @Length(min = 3, max = 20)
@@ -22,12 +23,12 @@ public class User {
     @Column(name = "SURNAME")
     private String surname;
 
-    public long getId() {
-        return id;
+    public long getUserID() {
+        return userID;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setUserID(long userID) {
+        this.userID = userID;
     }
 
     public String getUsername() {
