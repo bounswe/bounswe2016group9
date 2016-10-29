@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ui.bootstrap.demo">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Info Grappo</title>
+
+    <!-- Font file from cdn-->
+    <!--script src="https://use.fontawesome.com/b11d304967.js"></script-->
+    <!-- Font file from local-->
+    <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"-->
+    <!-- Our own CSS file -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Info Grappo</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!--div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </div--><!-- /.navbar-collapse -->
+        <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+          <ul class="nav navbar-nav">
+            <li>
+              <form class="navbar-form">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+            </li>
+            <li class="navbar-right"><a href="#">Log Out</a></li>
+            <li class="navbar-right"><a href="#">Settings</a></li>
+            <li class="navbar-right"><a href="#">Notification</a></li>
+            <li class="navbar-right"><a href="#">Profile</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container">
+      <h1>Hello, world!</h1>
+      <i class="fa fa-camera-retro fa-5x"></i> fa-5x
+    </div>
+    <!--div ng-controller="ModalDemoCtrl as $ctrl" class="modal-demo">
+        <script type="text/ng-template" id="myModalContent.html">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <ul>
+                    <li ng-repeat="item in $ctrl.items">
+                        <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
+                    </li>
+                </ul>
+                Selected: <b>{{ $ctrl.selected.item }}</b>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+                <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+            </div>
+        </script>
+        <script type="text/ng-template" id="stackedModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title-{{name}}">The {{name}} modal!</h3>
+            </div>
+            <div class="modal-body" id="modal-body-{{name}}">
+                Having multiple modals open at once is probably bad UX but it's technically possible.
+            </div>
+        </script>
+
+        <button type="button" class="btn btn-default" ng-click="$ctrl.open()">Open me!</button>
+        <button type="button" class="btn btn-default" ng-click="$ctrl.open('lg')">Large modal</button>
+        <button type="button" class="btn btn-default" ng-click="$ctrl.open('sm')">Small modal</button>
+        <button type="button" 
+            class="btn btn-default" 
+            ng-click="$ctrl.open('sm', '.modal-parent')">
+                Modal appended to a custom parent
+        </button>
+        <button type="button" class="btn btn-default" ng-click="$ctrl.toggleAnimation()">Toggle Animation ({{ $ctrl.animationsEnabled }})</button>
+        <button type="button" class="btn btn-default" ng-click="$ctrl.openComponentModal()">Open a component modal!</button>
+        <button type="button" class="btn btn-default" ng-click="$ctrl.openMultipleModals()">
+            Open multiple modals at once 
+        </button>
+        <div ng-show="$ctrl.selected">Selection from a modal: {{ $ctrl.selected }}</div>
+        <div class="modal-parent">
+        </div>
+    </div-->
+
+    <!-- Angular file(necessary for UI-Bootstrap's Angular plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-touch.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
+    <!-- Our own js file -->
+    <script src="js/InfoGrappo.js"></script>
+  </body>
+</html>
