@@ -71,6 +71,7 @@ public class TopicController {
     @PutMapping("{id}")
     public ResponseEntity<Topic> updateTopic(@PathVariable("id") long id, @RequestBody Topic topic){
         if(topicService.checkTopicExistsById(id)){
+            topic.setEntityId(id);
             topicService.updateTopic(topic);
 
             Link selfLink = linkTo(Topic.class).slash(id).withSelfRel();

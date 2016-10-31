@@ -64,6 +64,7 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user){
 
         if(userService.checkUserExists(id)){
+            user.setEntityId(id);
             userService.updateUser(user);
 
             Link selfLink = linkTo(UserController.class).slash(id).withSelfRel();
