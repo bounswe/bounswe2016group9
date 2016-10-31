@@ -19,9 +19,9 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void addUser(User u){
+    public void addUser(User user){
         Session session = this.sessionFactory.getCurrentSession();
-        session.persist(u);
+        session.persist(user);
     }
 
     @Override
@@ -42,10 +42,9 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUser(long id, User u){
+    public void updateUser(User user){
         Session session = this.sessionFactory.getCurrentSession();
-
-        session.merge(u);
+        session.merge(user);
     }
 
     @Override

@@ -18,31 +18,40 @@ public class TopicDAOImpl implements TopicDAO {
 
     @Override
     public void addTopic(Topic t) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.persist(t);
     }
 
     @Override
     public Topic getTopicById(long id) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         return session.get(Topic.class, id);
     }
 
     @Override
+    public Topic getTopicByName(String name) {
+        Session session = sessionFactory.getCurrentSession();
+        return (Topic) session.createSQLQuery("SELECT * FROM topic WHERE name = :name")
+                .addEntity(Topic.class)
+                .setParameter("name", name)
+                .uniqueResult();
+    }
+
+    @Override
     public void updateTopic(Topic t) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.merge(t);
     }
 
     @Override
     public void removeTopicById(long id) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.delete(getTopicById(id));
     }
 
     @Override
     public List<Topic> getTopicsByUserId(long id) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
 
         return (List<Topic>) session.createSQLQuery("SELECT topic.* FROM user JOIN topic ON user.ID = topic.user_id WHERE user.id = :id")
                 .addEntity(Topic.class)
@@ -53,5 +62,10 @@ public class TopicDAOImpl implements TopicDAO {
     @Override
     public boolean checkTopicExistsById(long id) {
         return getTopicById(id) != null;
+    }
+
+    @Override
+    public boolean checkTopicExistsByName(String name) {
+        return getTopicByName(name) != null;
     }
 }

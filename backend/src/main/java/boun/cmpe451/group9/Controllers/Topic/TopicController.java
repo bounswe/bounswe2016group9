@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
-
+/**
+ * The controller for the resource "Topic"
+ */
 @RestController
 @RequestMapping(value = "/topics")
 public class TopicController {
@@ -22,6 +24,11 @@ public class TopicController {
         this.topicService = topicService;
     }
 
+    /**
+     * Returns a response for the request "GET /topics/{id}"
+     * @param id the id of the resource "Topic"
+     * @return OK with resource with the given id if it is found, NOT_FOUND if the resource is not found
+     */
     @GetMapping("{id}")
     public ResponseEntity<Topic> getTopic(@PathVariable("id") long id){
         if(topicService.checkTopicExistsById(id)){
@@ -36,16 +43,31 @@ public class TopicController {
         }
     }
 
+    /**
+     * Returns a response for the request "POST /topics"
+     * @param topic a new resource "Topic"
+     * @return CREATED if a new resource is successfully created, CONFLICT if the resource already exists
+     */
     @PostMapping
     public ResponseEntity<Topic> addTopic(@RequestBody Topic topic){
-        topicService.addTopic(topic);
+        if(topicService.checkTopicExistsById(topic.getEntityId())) {
+            topicService.addTopic(topic);
 
-        Link selfLink = linkTo(Topic.class).slash(0).withSelfRel();
-        topic.add(selfLink);
+            Link selfLink = linkTo(Topic.class).slash(0).withSelfRel();
+            topic.add(selfLink);
 
-        return new ResponseEntity<>(topic, HttpStatus.OK);
+            return new ResponseEntity<>(topic, HttpStatus.CREATED);
+        }else {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
+    /**
+     * Returns a response for the request "PUT /topics/{id}"
+     * @param id the id of the updated resource "Topic"
+     * @param topic the updated resource "Topic"
+     * @return OK with the updated resource if the update is successful, NOT_FOUND if the resource is not found
+     */
     @PutMapping("{id}")
     public ResponseEntity<Topic> updateTopic(@PathVariable("id") long id, @RequestBody Topic topic){
         if(topicService.checkTopicExistsById(id)){
@@ -60,6 +82,11 @@ public class TopicController {
         }
     }
 
+    /**
+     * Returns a response for the request "DELETE /topics/{id}"
+     * @param id the id of the deleted resource "Topic"
+     * @return NO_CONTENT if the deletion is successful, NOT_FOUND if the resource is not found
+     */
     @DeleteMapping("{id}")
     public ResponseEntity<Topic> deleteTopic(@PathVariable("id") long id){
         if(topicService.checkTopicExistsById(id)) {
