@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Info Grappo</title>
-
     <!-- Font file from cdn-->
     <!--script src="https://use.fontawesome.com/b11d304967.js"></script-->
     <!-- Font file from local-->
@@ -27,6 +26,18 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script type="text/javascript" src="dist/vis.js"></script>
+    <link href="dist/vis.css" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        #mynetwork {
+            width: 600px;
+            height: 400px;
+            border: 1px solid lightgray;
+        }
+    </style>
+
   </head>
   <body>
     <nav class="navbar navbar-default">
@@ -78,7 +89,12 @@
       <h3>Hello, world!</h3>
       <h3>Hello, world!</h3>
       <i class="fa fa-camera-retro fa-5x"></i> fa-5x
+       <div id="mynetwork"></div>
     </div>
+   
+
+   
+
     <!--div ng-controller="ModalDemoCtrl as $ctrl" class="modal-demo">
         <script type="text/ng-template" id="myModalContent.html">
             <div class="modal-header">
@@ -133,5 +149,37 @@
     <script src="js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
     <!-- Our own js file -->
     <script src="js/InfoGrappo.js"></script>
+    <script type="text/javascript">
+    // create an array with nodes
+    var nodes = new vis.DataSet([
+        {id: 1, label: 'Node 1'},
+        {id: 2, label: 'Node 2'},
+        {id: 3, label: 'Node 3'},
+        {id: 4, label: 'Node 4'},
+        {id: 5, label: 'Node 5'}
+    ]);
+
+    // create an array with edges
+    var edges = new vis.DataSet([
+        {from: 1, to: 3},
+        {from: 1, to: 2},
+        {from: 1, to: 2},
+        {from: 2, to: 4},
+        {from: 2, to: 5}
+    ]);
+
+    // create a network
+    var container = document.getElementById('mynetwork');
+
+    // provide the data in the vis format
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    var options = {};
+
+    // initialize your network!
+    var network = new vis.Network(container, data, options);
+</script>
   </body>
 </html>
