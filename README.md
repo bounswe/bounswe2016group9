@@ -1,4 +1,7 @@
 # bounswe2016group9
+
+<img src="https://raw.githubusercontent.com/bounswe/bounswe2016group9/master/logo/GeneralLogo.png" height="400" width="440">
+
 CmpE 451 Group 9 Project
 
 Here we share the fundamentals of our project. For more you can check [our wiki page](https://github.com/bounswe/bounswe2016group9/wiki) out.    
@@ -22,8 +25,3 @@ InfoGrappo is a crowdsourcing platform that merges the wisdom of the community. 
 +    [Serpil Kuzu] (Serpil Kuzu)
 +    [Uğur Taş](Uğur Taş)
 +    [Mert Even](Mert Even)
-
-
-
-
-
