@@ -31,27 +31,61 @@
     <link href="dist/vis.css" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
+      body {
+        background: aliceblue;
+      }
+
+      .navbar-header {
+        padding-left: 90px;
+      }
+
         #mynetwork {
             width: 600px;
             height: 400px;
             border: 1px solid lightgray;
         }
+         .left-navbar {
+           list-style-type: none;
+           margin: 0;
+           padding: 0;
+           width: 200px;
+           background-color: #f1f1f1;
+         }
+
+        .left-navbar li a {
+          display: block;
+          color: #000;
+          padding: 8px 16px;
+          text-decoration: none;
+        }
+
+        /* Change the link color on hover */
+        li a:hover {
+          background-color: #555;
+          color: white;
+        }
+
+
+      a {
+        color: white;
+      }
+        #main-nav-bar {
+          background-color: darkslategray;
+        }
+      .navbar-nav {
+        padding-top: 20px;
+      }
     </style>
 
   </head>
   <body>
     <nav class="navbar navbar-default">
-      <div class="container-fluid">
+      <div class="container-fluid"  id="main-nav-bar">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <!--<a class="navbar-brand" href="#">Info Grappo</a>-->
-          <img src="../logo/Horizontal.png" style="width:15%; height:auto">
+          <a class="navbar-brand" href="#" style="height: inherit">
+            <img alt="brand" src="../logo/Horizontal.png" style="width: 15%; height: auto">
+          </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -73,21 +107,22 @@
                 <button type="submit" class="btn btn-default">Submit</button>
               </form>
             </li>
-            <li class="navbar-right"><a href="#">Log Out</a></li>
-            <li class="navbar-right"><a href="#">Settings</a></li>
-            <li class="navbar-right"><a href="#">Notification</a></li>
-            <li class="navbar-right"><a href="#">Profile</a></li>
+            <li class="navbar-right"><a href="#" style="color: #97B0F8">Log Out</a></li>
+            <li class="navbar-right"><a href="#" style="color: white">Settings</a></li>
+            <li class="navbar-right"><a href="#" style="color: white">Notification</a></li>
+            <li class="navbar-right"><a href="#" style="color: white;">Profile</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
     <div class="container">
+      <ul class="left-navbar">
+        <li><a href="manipulation.html">What's Going On</a></li>
+        <li><a href="#news">Add relation</a></li>
+        <li><a href="#contact">Create Topic</a></li>
+      </ul>
       <h1>Hello, world!</h1>
       <h2>Hello, world!</h2>
-      <h2>Hello, world!</h2>
-      <h2>Hello, world!</h2>
-      <h3>Hello, world!</h3>
-      <h3>Hello, world!</h3>
       <h3>Hello, world!</h3>
       <i class="fa fa-camera-retro fa-5x"></i> fa-5x
        <div id="mynetwork"></div>
