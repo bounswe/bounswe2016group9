@@ -29,54 +29,6 @@
 
     <script type="text/javascript" src="dist/vis.js"></script>
     <link href="dist/vis.css" rel="stylesheet" type="text/css" />
-
-    <style type="text/css">
-      body {
-        background: aliceblue;
-      }
-
-      .navbar-header {
-        padding-left: 90px;
-      }
-
-        #mynetwork {
-            width: 1000px;
-            height: 400px;
-            border: 1px solid lightgray;
-        }
-         .left-navbar {
-           list-style-type: none;
-           margin: 0;
-           padding: 0;
-           width: 200px;
-           background-color: #f1f1f1;
-         }
-
-        .left-navbar li a {
-          display: block;
-          color: #000;
-          padding: 8px 16px;
-          text-decoration: none;
-        }
-
-        /* Change the link color on hover */
-        li a:hover {
-          background-color: #555;
-          color: white;
-        }
-
-
-      a {
-        color: white;
-      }
-        #main-nav-bar {
-          background-color: darkslategray;
-        }
-      .navbar-nav {
-        padding-top: 20px;
-      }
-    </style>
-
   </head>
   <body>
     <nav class="navbar navbar-default">
@@ -117,64 +69,51 @@
     </nav>
 
     <div class="row">
-        <div class="col-md-2 col-lg-2">
+        <div class="col-md-2 col-lg-2" ng-controller="ModalDemoCtrl as $ctrl">
+            <!--  Create Topic Modal -->
+            <script type="text/ng-template" id="createTopic.html">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modal-title">Create Topic</h3>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <span>Topic Name</span>
+                    <input type="text" class="form-control" placeholder="Topic Name">
+                    <span>Tag</span>
+                    <input type="text" class="form-control" placeholder="Tags">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+                    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                </div>
+            </script>
+            <!--  Add Relation Modal  -->
+            <script type="text/ng-template" id="addRelation.html">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modal-title">Add Relation</h3>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <span>Topic Name</span>
+                    <input type="text" class="form-control" placeholder="Topic Name">
+                    <span>Topic Name</span>
+                    <input type="text" class="form-control" placeholder="Topic Name">
+                    <span>Relation Name</span>
+                    <input type="text" class="form-control" placeholder="Relation Name">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+                    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                </div>
+            </script>
             <ul class="left-navbar">
                 <li><a href="manipulation.html">What's Going On</a></li>
-                <li><a href="#news">Add relation</a></li>
-                <li><a href="#contact">Create Topic</a></li>
+                <li><a href="#news" ng-click="$ctrl.openAddRelation()">Add relation</a></li>
+                <li><a href="#contact" ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
             </ul>
         </div>
         <div class="col-md-10 col-lg-10">
             <div id="mynetwork"></div>    
         </div>
     </div>
-
-   
-
-    <!--div ng-controller="ModalDemoCtrl as $ctrl" class="modal-demo">
-        <script type="text/ng-template" id="myModalContent.html">
-            <div class="modal-header">
-                <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
-            </div>
-            <div class="modal-body" id="modal-body">
-                <ul>
-                    <li ng-repeat="item in $ctrl.items">
-                        <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
-                    </li>
-                </ul>
-                Selected: <b>{{ $ctrl.selected.item }}</b>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
-                <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-            </div>
-        </script>
-        <script type="text/ng-template" id="stackedModal.html">
-            <div class="modal-header">
-                <h3 class="modal-title" id="modal-title-{{name}}">The {{name}} modal!</h3>
-            </div>
-            <div class="modal-body" id="modal-body-{{name}}">
-                Having multiple modals open at once is probably bad UX but it's technically possible.
-            </div>
-        </script>
-
-        <button type="button" class="btn btn-default" ng-click="$ctrl.open()">Open me!</button>
-        <button type="button" class="btn btn-default" ng-click="$ctrl.open('lg')">Large modal</button>
-        <button type="button" class="btn btn-default" ng-click="$ctrl.open('sm')">Small modal</button>
-        <button type="button" 
-            class="btn btn-default" 
-            ng-click="$ctrl.open('sm', '.modal-parent')">
-                Modal appended to a custom parent
-        </button>
-        <button type="button" class="btn btn-default" ng-click="$ctrl.toggleAnimation()">Toggle Animation ({{ $ctrl.animationsEnabled }})</button>
-        <button type="button" class="btn btn-default" ng-click="$ctrl.openComponentModal()">Open a component modal!</button>
-        <button type="button" class="btn btn-default" ng-click="$ctrl.openMultipleModals()">
-            Open multiple modals at once 
-        </button>
-        <div ng-show="$ctrl.selected">Selection from a modal: {{ $ctrl.selected }}</div>
-        <div class="modal-parent">
-        </div>
-    </div-->
 
     <!-- Angular file(necessary for UI-Bootstrap's Angular plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
