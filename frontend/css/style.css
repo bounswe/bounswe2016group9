@@ -42,3 +42,9 @@ a {
 .navbar-nav {
   padding-top: 20px;
 }
+
+.generalBorder{
+  border:1px solid #000;
+  margin-top:5px;
+  margin-bottom: 5px;
+}
