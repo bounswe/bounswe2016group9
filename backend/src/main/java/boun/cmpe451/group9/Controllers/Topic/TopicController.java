@@ -53,7 +53,7 @@ public class TopicController {
         if(topicService.checkTopicExistsById(topic.getEntityId())) {
             topicService.addTopic(topic);
 
-            Link selfLink = linkTo(Topic.class).slash(0).withSelfRel();
+            Link selfLink = linkTo(Topic.class).slash(topic.getEntityId()).withSelfRel();
             topic.add(selfLink);
 
             return new ResponseEntity<>(topic, HttpStatus.CREATED);

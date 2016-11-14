@@ -39,4 +39,21 @@ public class RelationDAOImpl implements RelationDAO {
         Session session = sessionFactory.getCurrentSession();
         session.delete(getRelationById(id));
     }
+
+    @Override
+    public boolean checkIfRelationExistsById(long id) {
+        return getRelationById(id) != null;
+    }
+
+    @Override
+    public boolean checkIfRelationExistsByTopicIds(long from, long to) {
+        Session session = sessionFactory.getCurrentSession();
+
+        int size = session.createSQLQuery("SELECT rel FROM relation WHERE (rel.fromTopic.id = :fromId) AND (rel.toTopic.id = :toId)")
+                .addEntity(Relation.class)
+                .setParameter("fromId", from)
+                .setParameter("toId", to).list().size();
+
+        return size > 0;
+    }
 }

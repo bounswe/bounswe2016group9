@@ -1,6 +1,9 @@
 package boun.cmpe451.group9.DAO.FollowRel;
 
 import boun.cmpe451.group9.Models.DB.FollowRel;
+import boun.cmpe451.group9.Models.DB.User;
+
+import java.util.List;
 
 /**
  * Database access methods for the table "FOLLOW_REL"
@@ -31,4 +34,8 @@ public interface FollowRelDAO {
      * @param id the id of the row which will be deleted
      */
     void removeFollowRelById(long id);
+
+    List<User> getfollowingById(long id);
+
+    List<User> getfollowerById(long id);
 }

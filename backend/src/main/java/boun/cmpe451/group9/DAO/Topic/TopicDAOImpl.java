@@ -53,7 +53,7 @@ public class TopicDAOImpl implements TopicDAO {
     public List<Topic> getTopicsByUserId(long id) {
         Session session = sessionFactory.getCurrentSession();
 
-        return (List<Topic>) session.createSQLQuery("SELECT topic.* FROM user JOIN topic ON user.ID = topic.user_id WHERE user.id = :id")
+        return (List<Topic>) session.createSQLQuery("SELECT t FROM user u JOIN topic t ON u.ID = t.user_id WHERE u.id = :id")
                 .addEntity(Topic.class)
                 .setParameter("id", id)
                 .list();

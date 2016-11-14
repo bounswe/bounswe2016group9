@@ -11,24 +11,28 @@ public interface RelationDAO {
      * Adds a new row in the table "RELATION"
      * @param relation the obj representation of the row
      */
-    public void addRelation(Relation relation);
+    void addRelation(Relation relation);
 
     /**
      * Retrieves the row with the given id from the table "RELATION"
      * @param id the id of the row
      * @return the obj representation of the row
      */
-    public Relation getRelationById(long id);
+    Relation getRelationById(long id);
 
     /**
      * Updates the row in the table "RELATION"
      * @param relation the obj representation of the updated row
      */
-    public void updateRelation(Relation relation);
+    void updateRelation(Relation relation);
 
     /**
      * Deletes the row with the given id from the table "RELATION"
      * @param id the id of the removed row
      */
-    public void removeRelationById(long id);
+    void removeRelationById(long id);
+
+    boolean checkIfRelationExistsById(long id);
+
+    boolean checkIfRelationExistsByTopicIds(long from, long to);
 }

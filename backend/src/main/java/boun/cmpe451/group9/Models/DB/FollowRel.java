@@ -2,10 +2,7 @@ package boun.cmpe451.group9.Models.DB;
 
 import boun.cmpe451.group9.Models.Base;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * The object representation of the table "FOLLOW_REL"

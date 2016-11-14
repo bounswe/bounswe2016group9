@@ -3,14 +3,8 @@ package boun.cmpe451.group9.Models.DB;
 import boun.cmpe451.group9.Models.Base;
 import com.sun.org.apache.xpath.internal.operations.String;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 
 /**
@@ -21,16 +15,8 @@ import javax.validation.constraints.Size;
 public class Post extends Base {
 
     @NotNull
-    @Column(name="CONTENT")
+    @Column(name = "CONTENT")
     private String content;
-
-    @NotNull
-    @Column(name="CREATOR_ID")
-    private long creatorID;
-
-    @NotNull
-    @Column(name="TOPIC_ID")
-    private long topicID;
 
     @Column(name = "VOTE_COUNT")
     private int voteCount;
@@ -38,11 +24,49 @@ public class Post extends Base {
     @Column(name="LOCATION_ID")
     private int locationID;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private User createdUser;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Topic topic;
 
+    public String getContent() {
+        return content;
+    }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public int getLocationID() {
+        return locationID;
+    }
+
+    public void setLocationID(int locationID) {
+        this.locationID = locationID;
+    }
+
+    public User getCreatedUser() {
+        return createdUser;
+    }
+
+    public void setCreatedUser(User createdUser) {
+        this.createdUser = createdUser;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
 }

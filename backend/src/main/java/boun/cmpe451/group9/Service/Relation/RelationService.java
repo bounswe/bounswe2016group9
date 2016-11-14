@@ -32,4 +32,8 @@ public interface RelationService {
      * @param id the id of the deleted resource
      */
     void removeRelation(long id);
+
+    boolean checkIfRelationExistsById(long id);
+
+    boolean checkIfRelationExistsByTopicIds(long from, long to);
 }

@@ -36,4 +36,14 @@ public class RelationServiceImpl implements RelationService {
     public void removeRelation(long id) {
         relationDAO.removeRelationById(id);
     }
+
+    @Override
+    public boolean checkIfRelationExistsById(long id) {
+        return relationDAO.checkIfRelationExistsById(id);
+    }
+
+    @Override
+    public boolean checkIfRelationExistsByTopicIds(long from, long to) {
+        return relationDAO.checkIfRelationExistsByTopicIds(from, to);
+    }
 }

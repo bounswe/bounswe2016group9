@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Created by seha on 12.11.2016.
  */
+@Repository
 public class PostDAOImpl implements PostDAO {
 
     private SessionFactory sessionFactory;
@@ -46,18 +47,21 @@ public class PostDAOImpl implements PostDAO {
 
     @Override
     public List<Post> getPostByUserId(long userID) {
-
+        Session session = sessionFactory.getCurrentSession();
     
-        return null;
-    }
-
-    @Override
-    public List<Post> getPostByPostId(long postID) {
-        return null;
+        return (List<Post>) session.createSQLQuery("SELECT post FROM post WHERE post.user_id = :id")
+                .addEntity(Post.class)
+                .setParameter("id", userID)
+                .list();
     }
 
     @Override
     public List<Post> getPostByLocation(int locationID) {
         return null;
+    }
+
+    @Override
+    public boolean checkIfPostExistsById(long id) {
+        return getPostById(id) != null;
     }
 }
