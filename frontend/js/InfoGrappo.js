@@ -76,8 +76,8 @@ angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($uibMo
       }
     });
 
-    modalInstance.result.then(function (selectedItem) {
-      $ctrl.selected = selectedItem;
+    modalInstance.result.then(function (result) {
+      console.log(result);
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
@@ -102,8 +102,8 @@ angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($uibMo
       }
     });
 
-    modalInstance.result.then(function (selectedItem) {
-      $ctrl.selected = selectedItem;
+    modalInstance.result.then(function (result) {
+      console.log(result);
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
@@ -140,6 +140,26 @@ angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($u
       topicName1:$scope.topicName1,
       topicName2:$scope.topicName2,
       relationName:$scope.relationName
+    };
+    $uibModalInstance.close(result);
+  };
+
+  $ctrl.okCreatePost = function () {
+    console.log($scope.postHeader);
+    console.log($scope.postContent);
+    console.log($scope.postTags);
+    var result = {
+      postHeader:$scope.postHeader,
+      postContent:$scope.postContent,
+      postTags:$scope.postTags
+    };
+    $uibModalInstance.close(result);
+  };
+
+  $ctrl.okCreateComment = function () {
+    console.log($scope.comment);
+    var result = {
+      comment:$scope.comment
     };
     $uibModalInstance.close(result);
   };

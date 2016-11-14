@@ -68,8 +68,8 @@
       </div><!-- /.container-fluid -->
     </nav>
 
-    <div class="row">
-        <div class="col-md-2 col-lg-2" ng-controller="ModalDemoCtrl as $ctrl">
+    <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
+        <div class="col-md-2 col-lg-2">
             <!--  Create Topic Modal -->
             <script type="text/ng-template" id="createTopic.html">
                 <div class="modal-header">
@@ -105,13 +105,16 @@
                 </div>
             </script>
             <ul class="left-navbar">
-                <li><a href="manipulation.html">What's Going On</a></li>
+                <li><a ng-click="show = !show">What's Going On</a></li>
                 <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
                 <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
             </ul>
         </div>
-        <div class="col-md-10 col-lg-10">
+        <div class="col-md-10 col-lg-10" ng-show="show">
             <div id="mynetwork"></div>    
+        </div>
+        <div class="col-md-10 col-lg-10" ng-show="!show">
+            <h1>HOME</h1>   
         </div>
     </div>
 
