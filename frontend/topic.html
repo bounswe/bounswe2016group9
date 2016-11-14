@@ -81,7 +81,7 @@
                     <input type="text" class="form-control" placeholder="Tags">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateTopic()">OK</button>
                     <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
                 </div>
             </script>
@@ -99,7 +99,7 @@
                     <input type="text" class="form-control" placeholder="Relation Name">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okAddRelation()">OK</button>
                     <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
                 </div>
             </script>
@@ -110,14 +110,14 @@
                 </div>
                 <div class="modal-body" id="modal-body">
                     <span>Header</span>
-                    <input type="text" class="form-control" placeholder="Post Header">
+                    <input type="text" class="form-control" placeholder="Post Header" ng-model="postHeader">
                     <span>Content</span>
-                    <input type="text" class="form-control" placeholder="Content">
+                    <input type="text" class="form-control" placeholder="Content" ng-model="postContent">
                     <span>Tags</span>
-                    <input type="text" class="form-control" placeholder="Tags">
+                    <input type="text" class="form-control" placeholder="Tags" ng-model="postTags">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreatePost()">OK</button>
                     <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
                 </div>
             </script>
@@ -128,10 +128,10 @@
                 </div>
                 <div class="modal-body" id="modal-body">
                     <span>Add Comment</span>
-                    <input type="text" class="form-control" placeholder="Post Header">
+                    <input type="text" class="form-control" placeholder="Comment" ng-model="comment">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateComment()">OK</button>
                     <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
                 </div>
             </script>
@@ -164,7 +164,23 @@
 				</div>
     		</div>
     		<div class="row">
-    			<div class="col-md-11 col-md-offset-1 generalBorder">
+                <div class="col-md-1">
+                    <ul class="rating">
+                        <li>
+                            <a href=><i class="fa fa-thumbs-up"></i></a> 
+                        </li>
+                        <li>
+                            <span>15</span>
+                        </li>
+                        <li>
+                            <a href=><i class="fa fa-thumbs-down"></i></a> 
+                        </li>
+                        <li>
+                            <a href=><i class="fa fa-star"></i></a> 
+                        </li>
+                    </ul>
+                </div>
+    			<div class="col-md-11 generalBorder">
     				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
     			</div>
     			<div class="col-md-10 col-md-offset-2 generalBorder">

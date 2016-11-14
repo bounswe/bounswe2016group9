@@ -68,8 +68,8 @@
       </div><!-- /.container-fluid -->
     </nav>
 
-    <div class="row">
-        <div class="col-md-2 col-lg-2" ng-controller="ModalDemoCtrl as $ctrl">
+    <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
+        <div class="col-md-2 col-lg-2">
             <!--  Create Topic Modal -->
             <script type="text/ng-template" id="createTopic.html">
                 <div class="modal-header">
@@ -77,12 +77,12 @@
                 </div>
                 <div class="modal-body" id="modal-body">
                     <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name">
+                    <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName">
                     <span>Tag</span>
-                    <input type="text" class="form-control" placeholder="Tags">
+                    <input type="text" class="form-control" placeholder="Tags" ng-model="topicTags">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateTopic()">OK</button>
                     <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
                 </div>
             </script>
@@ -93,25 +93,28 @@
                 </div>
                 <div class="modal-body" id="modal-body">
                     <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name">
+                    <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName1">
                     <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name">
+                    <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName2">
                     <span>Relation Name</span>
-                    <input type="text" class="form-control" placeholder="Relation Name">
+                    <input type="text" class="form-control" placeholder="Relation Name" ng-model="relationName">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okAddRelation()">OK</button>
                     <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
                 </div>
             </script>
             <ul class="left-navbar">
-                <li><a href="manipulation.html">What's Going On</a></li>
+                <li><a ng-click="show = !show">What's Going On</a></li>
                 <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
                 <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
             </ul>
         </div>
-        <div class="col-md-10 col-lg-10">
+        <div class="col-md-10 col-lg-10" ng-show="show">
             <div id="mynetwork"></div>    
+        </div>
+        <div class="col-md-10 col-lg-10" ng-show="!show">
+            <h1>HOME</h1>   
         </div>
     </div>
 
