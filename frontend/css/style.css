@@ -1,0 +1,68 @@
+body {
+  background: aliceblue;
+}
+
+.navbar-header {
+  padding-left: 90px;
+}
+
+#mynetwork {
+  width: 1000px;
+  height: 400px;
+  border: 1px solid lightgray;
+}
+.left-navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #f1f1f1;
+}
+
+.left-navbar li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* Change the link color on hover */
+.left-navbar li a:hover {
+  background-color: #555;
+  color: white;
+}
+
+#main-nav-bar {
+  background-color: darkslategray;
+}
+.navbar-nav {
+  padding-top: 20px;
+}
+
+.generalBorder{
+  margin-top:5px;
+  margin-bottom: 5px;
+  min-height: 80px;
+}
+
+.rating{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.rating li a {
+  display: block;
+  color: #000;
+  text-decoration: none;
+  text-align: center;
+}
+
+.rating span{
+  display: block;
+  color: #000;
+  text-decoration: none;
+  text-align: center;
+}

@@ -1,35 +1,27 @@
 # bounswe2016group9
+
+<img src="https://raw.githubusercontent.com/bounswe/bounswe2016group9/master/logo/GeneralLogo.png" height="400" width="440">
+
 CmpE 451 Group 9 Project
 
-Details about the project will be given here. For now you can check [our wiki page](https://github.com/bounswe/bounswe2016group9/wiki) out.
+Here we share the fundamentals of our project. For more you can check [our wiki page](https://github.com/bounswe/bounswe2016group9/wiki) out.    
 
+InfoGrappo is a crowdsourcing platform that merges the wisdom of the community. The most interesting point of project is imaginary or realistic relations between topics that could be a word or a couple of words. Both the relations and topics are driven by the users of our community. They create topics, share their ideas about topics or share cognition of relations between topics. 
 # InfoGrappo 
-
-
-## Project Model   
-+    [Test Plan] (https://github.com/bounswe/bounswe2016group9/wiki/TestPlan)
-+    [Tutorial for Programming Enviroment] (https://github.com/bounswe/bounswe2016group9/wiki/Setup%20Tutorial)
++    [Project Description] (https://github.com/bounswe/bounswe2016group9/wiki/Project%20Description)   
++    [Requirements] (https://github.com/bounswe/bounswe2016group9/wiki/Requirements)  
 +    [Mockups](https://github.com/bounswe/bounswe2016group9/wiki/Mockups)
-+    You can look up our peer reviews  at [here] (https://github.com/bounswe/bounswe2016group9/issues?utf8=%E2%9C%93&q=peer)
-+    [Use Cases and Use Case Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Use%20Cases)    
-+    [Sequence Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Sequence-Diagram)    
-+    [Class Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Class%20Diagram)     
-+    [Activity Diagram] (https://github.com/bounswe/bounswe2016group9/wiki/Activity-Diagram)         
++    [Test Plan](https://github.com/bounswe/bounswe2016group9/wiki/TestPlan)
 
++    [CMPE 352] (https://github.com/bounswe/bounswe2016group9/wiki/Cmpe352All)
 
-## Initial Plan    
-+    [Communication Plan] (https://github.com/bounswe/bounswe2016group9/wiki/Communication%20Plan)    
-+    [Requirements] (https://github.com/bounswe/bounswe2016group9/wiki/Requirements)     
-+    [Responsibility Assignment Matrix](https://github.com/bounswe/bounswe2016group9/wiki/Responsibility%20Assignment%20Matrix)
-+    [Project Plan](https://github.com/bounswe/bounswe2016group9/blob/master/InfoGrappo.pod?raw=true)      
-
-## Project Definition
-+    [Project Description] (https://github.com/bounswe/bounswe2016group9/wiki/Project%20Description)    
-+    [Domain Analysis] (https://github.com/bounswe/bounswe2016group9/wiki/Domain%20Analysis)    
-+    [Themes/Features] (https://github.com/bounswe/bounswe2016group9/wiki/Themes)     
-+    [Personas] (https://github.com/bounswe/bounswe2016group9/wiki/Personas)    
-+    [User Stories] (https://github.com/bounswe/bounswe2016group9/wiki/User%20Stories)     
-
-
-
-
+## Team Members
++    [Mehmet Doğan](Mehmet Doğan)
++    [Işıl Kurt](Işıl Kurt)
++    [Ömer Faruk Tayfur] (Ömer Faruk Tayfur)
++    [Abdulmenaf Kasap] (Abdulmenaf Kasap)
++    [Seha Yiğit Güryol] (Seha Yiğit)
++    [Haluk Aydın] (Haluk Aydın)
++    [Serpil Kuzu] (Serpil Kuzu)
++    [Uğur Taş](Uğur Taş)
++    [Mert Even](Mert Even)
