@@ -28,14 +28,11 @@ body {
 }
 
 /* Change the link color on hover */
-li a:hover {
+.left-navbar li a:hover {
   background-color: #555;
   color: white;
 }
 
-a {
-  color: white;
-}
 #main-nav-bar {
   background-color: darkslategray;
 }
@@ -47,4 +44,26 @@ a {
   border:1px solid #000;
   margin-top:5px;
   margin-bottom: 5px;
+  min-height: 80px;
+}
+
+.rating{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.rating li a {
+  display: block;
+  color: #000;
+  text-decoration: none;
+  text-align: center;
+}
+
+.rating span{
+  display: block;
+  color: #000;
+  text-decoration: none;
+  text-align: center;
 }
