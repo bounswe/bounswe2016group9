@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="ui.bootstrap.demo">
+<html lang="en" ng-app="InfoGrappoWeb">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -141,10 +141,11 @@
                 <li><a href="#contact" ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
             </ul>
         </div>
-    	<div class="col-md-8">
+        <!--  Content  -->
+    	<div class="col-md-8" ng-controller="TopicPageCtrl">
     		<div class="row">
     			<div class="col-md-10">
-    				<h1>Topic Name</h1>
+    				<h1>{{topic.name}}</h1>
     			</div>
     			<div class="col-md-2" ng-controller="ModalDemoCtrl as $ctrl">
     				<button type="button" class="btn btn-primary" ng-click="$ctrl.openCreatePost()">Create Post</button>
@@ -163,7 +164,8 @@
 					</div>
 				</div>
     		</div>
-    		<div class="row">
+            <!--  Post  -->
+    		<div class="row" ng-repeat="post in posts">
                 <div class="col-md-1">
                     <ul class="rating">
                         <li>
@@ -181,8 +183,9 @@
                     </ul>
                 </div>
     			<div class="col-md-11 generalBorder">
-    				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+    				<span>{{post.postContent}}</span>
     			</div>
+                <!--  Comment  -->
                 <div class="col-md-1 col-md-offset-1">
                     <ul class="rating">
                         <li>
@@ -199,6 +202,7 @@
     			<div class="col-md-10 generalBorder">
     				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
     			</div>
+                <!--  Comment  -->
                 <div class="col-md-1 col-md-offset-1">
                     <ul class="rating">
                         <li>
@@ -215,6 +219,7 @@
     			<div class="col-md-10 generalBorder">
     				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
     			</div>
+                <!--  Comment  -->
                 <div class="col-md-1 col-md-offset-1">
                     <ul class="rating">
                         <li>
@@ -231,6 +236,7 @@
     			<div class="col-md-10 generalBorder">
     				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
     			</div>
+                <!--  Add Comment Button  -->
     			<div class="col-md-2 col-md-offset-2"  ng-controller="ModalDemoCtrl as $ctrl">
     				<button type="button" class="btn btn-primary" ng-click="$ctrl.openCreateComment()">Add Comment</button>
     			</div>
