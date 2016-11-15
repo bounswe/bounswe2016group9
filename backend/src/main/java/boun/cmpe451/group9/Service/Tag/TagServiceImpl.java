@@ -29,6 +29,11 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    public Tag getTagByName(String name) {
+        return tagDAO.getTagByName(name);
+    }
+
+    @Override
     public void updateTag(Tag tag) {
         tagDAO.updateTag(tag);
     }
@@ -36,5 +41,10 @@ public class TagServiceImpl implements TagService {
     @Override
     public void removeTag(long id) {
         tagDAO.removeTagById(id);
+    }
+
+    @Override
+    public boolean checkIfTagExistsByName(String name) {
+        return tagDAO.checkIfTagExistsByName(name);
     }
 }

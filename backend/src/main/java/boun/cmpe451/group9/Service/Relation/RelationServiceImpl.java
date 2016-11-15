@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class RelationServiceImpl implements RelationService {
@@ -25,6 +27,11 @@ public class RelationServiceImpl implements RelationService {
     @Override
     public Relation getRelationById(long id) {
         return relationDAO.getRelationById(id);
+    }
+
+    @Override
+    public List<Relation> getRelationFromTopicByTopicId(long id) {
+        return relationDAO.getallRelationFromTopicByTopicId(id);
     }
 
     @Override

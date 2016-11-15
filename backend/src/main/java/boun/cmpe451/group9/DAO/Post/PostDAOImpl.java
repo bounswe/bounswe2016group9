@@ -49,7 +49,7 @@ public class PostDAOImpl implements PostDAO {
     public List<Post> getPostByUserId(long userID) {
         Session session = sessionFactory.getCurrentSession();
     
-        return (List<Post>) session.createSQLQuery("SELECT post FROM post WHERE post.user_id = :id")
+        return (List<Post>) session.createSQLQuery("SELECT * FROM post p WHERE p.user_id = :id")
                 .addEntity(Post.class)
                 .setParameter("id", userID)
                 .list();

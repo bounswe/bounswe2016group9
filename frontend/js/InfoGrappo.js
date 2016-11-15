@@ -1,5 +1,5 @@
-angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($uibModal, $log, $document, $scope) {
+angular.module('InfoGrappoWeb', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal, $log, $document, $scope) {
   var $ctrl = this;
   $ctrl.items = ['item1', 'item2', 'item3'];
 
@@ -117,7 +117,7 @@ angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($uibMo
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
 // It is not the same as the $uibModal service used above.
 
-angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope) {
+angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope) {
   var $ctrl = this;
   $ctrl.items = items;
   $ctrl.selected = $scope.topicName;
@@ -169,7 +169,7 @@ angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($u
   };
 });
 
-angular.module('ui.bootstrap.demo').controller('SearchCtrl', function ($scope, $log) {
+angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log) {
 
     $scope.dataset = [
         'Apple',
@@ -192,4 +192,128 @@ angular.module('ui.bootstrap.demo').controller('SearchCtrl', function ($scope, $
         // TODO
     }
 
+});
+
+angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topics, Posts, Comments){
+  $scope.topic = Topics.get(0);
+  $scope.posts=Posts.all();
+  $scope.comments=Comments.all();
+  console.log($scope.posts);
+});
+
+angular.module('InfoGrappoWeb').factory('Topics', function() {
+  // Might use a resource here that returns a JSON array
+
+  // Some fake testing data
+  var topics = [{
+    id: 0,
+    name: 'Amerika',
+    posts: "0 2"
+  }, {
+    id: 1,
+    name: 'Max Lynx'
+  }, {
+    id: 2,
+    name: 'Adam Bradleyson'
+  }, {
+    id: 3,
+    name: 'Perry Governor'
+  }, {
+    id: 4,
+    name: 'Mike Harrington'
+  }];
+
+  return {
+    all: function() {
+      return topics;
+    },
+    remove: function(topic) {
+      topics.splice(topics.indexOf(topic), 1);
+    },
+    get: function(topicID) {
+      for (var i = 0; i < topics.length; i++) {
+        if (topics[i].id === parseInt(topicID)) {
+          return topics[i];
+        }
+      }
+      return null;
+    }
+  };
+});
+
+angular.module('InfoGrappoWeb').factory('Posts', function(){
+
+  var posts = [{
+    postID:0,
+    postLikes:45,
+    postHeader:"header",
+    postContent: "Lorem lorem lorem",
+    postTags: "post.tag"
+  },{
+    postID:1,
+    postLikes:117,
+    postHeader:"header",
+    postContent: "Post2 buralar dolu",
+    postTags: "post2.tag"
+  },{
+    postID:2,
+    postLikes:22,
+    postHeader:"header",
+    postContent: "buralar dolu asds buralar dolu asds buralar dolu asdsburalar dolu asds buralar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asds",
+    postTags: "post2.tag"
+  }];
+
+  return {
+    all: function() {
+      return posts;
+    },
+    remove: function(post) {
+      posts.splice(posts.indexOf(post), 1);
+    },
+    get: function(postID) {
+      for (var i = 0; i < posts.length; i++) {
+        if (posts[i].id === parseInt(postID)) {
+          return posts[i];
+        }
+      }
+      return null;
+    }
+  };
+});
+
+angular.module('InfoGrappoWeb').factory('Comments', function(){
+
+  var comment = [{
+    commentID:0,
+    commentLikes:45,
+    commentContent: "Lorem lorem lorem",
+    commentTags: "post.tag"
+  },{
+    commentID:1,
+    commentLikes:117,
+    commentContent: "Post2 buralar dolu",
+    commentTags: "post2.tag"
+  },{
+    commentID:2,
+    commentLikes:22,
+    commentContent: "buralar dolu asds buralar dolu asds buralar dolu asdsburalar dolu asds buralar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asds",
+    commentTags: "post2.tag"
+  }];
+
+  return {
+    all: function() {
+      return comment;
+    },
+    remove: function(comment) {
+      comment.splice(comment.indexOf(comment), 1);
+    },
+    get: function(commentID) {
+      for (var i = 0; i < comment.length; i++) {
+        if (comment[i].id === parseInt(commentID)) {
+          return comment[i];
+        }
+      }
+      return null;
+    }
+  };
 });

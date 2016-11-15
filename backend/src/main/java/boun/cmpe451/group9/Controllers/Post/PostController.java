@@ -26,7 +26,7 @@ public class PostController {
         if(postService.checkIfPostExists(id)){
             Post post = postService.getPostById(id);
 
-            Link selfLink = linkTo(Post.class).slash(id).withSelfRel();
+            Link selfLink = linkTo(PostController.class).slash(id).withSelfRel();
             post.add(selfLink);
 
             return new ResponseEntity<>(post, HttpStatus.OK);
@@ -39,7 +39,7 @@ public class PostController {
     public ResponseEntity<Post> addPost(@RequestBody Post post){
         postService.addPost(post);
 
-        Link selfLink = linkTo(Post.class).slash(post.getEntityId()).withSelfRel();
+        Link selfLink = linkTo(PostController.class).slash(post.getEntityId()).withSelfRel();
         post.add(selfLink);
 
         return new ResponseEntity<>(post, HttpStatus.CREATED);
@@ -51,7 +51,7 @@ public class PostController {
             post.setEntityId(id);
             postService.updatePost(post);
 
-            Link selfLink = linkTo(Post.class).slash(id).withSelfRel();
+            Link selfLink = linkTo(PostController.class).slash(id).withSelfRel();
             post.add(selfLink);
 
             return new ResponseEntity<>(post, HttpStatus.OK);

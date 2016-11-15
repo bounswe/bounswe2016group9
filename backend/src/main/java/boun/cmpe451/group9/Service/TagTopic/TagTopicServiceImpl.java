@@ -23,6 +23,11 @@ public class TagTopicServiceImpl implements TagTopicService {
     }
 
     @Override
+    public void addTagTopicWithSave(TagTopic tagTopic) {
+        tagTopicDAO.addTagTopicWithSave(tagTopic);
+    }
+
+    @Override
     public TagTopic getTagTopicById(long id) {
         return tagTopicDAO.getTagTopicById(id);
     }

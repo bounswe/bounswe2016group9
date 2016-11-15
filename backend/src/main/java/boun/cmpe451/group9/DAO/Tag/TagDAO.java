@@ -11,7 +11,11 @@ public interface TagDAO {
 
     Tag getTagById(long id);
 
+    Tag getTagByName(String name);
+
     void updateTag(Tag tag);
 
     void removeTagById(long id);
+
+    boolean checkIfTagExistsByName(String name);
 }

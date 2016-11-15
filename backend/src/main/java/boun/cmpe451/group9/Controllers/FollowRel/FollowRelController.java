@@ -1,5 +1,6 @@
 package boun.cmpe451.group9.Controllers.FollowRel;
 
+import boun.cmpe451.group9.Controllers.User.UserController;
 import boun.cmpe451.group9.Models.DB.User;
 import boun.cmpe451.group9.Service.FollowRel.FollowRelService;
 import boun.cmpe451.group9.Service.User.UserService;
@@ -38,7 +39,7 @@ public class FollowRelController {
             List<User> users = followRelService.getFollowingByUserId(id);
 
             for(User user : users){
-                user.add(linkTo(User.class).slash(user.getEntityId()).withSelfRel());
+                user.add(linkTo(UserController.class).slash(user.getEntityId()).withSelfRel());
             }
 
             return new ResponseEntity<>(users, HttpStatus.OK);
@@ -53,7 +54,7 @@ public class FollowRelController {
             List<User> users = followRelService.getFollowerByUserId(id);
 
             for(User user : users){
-                user.add(linkTo(User.class).slash(user.getEntityId()).withSelfRel());
+                user.add(linkTo(UserController.class).slash(user.getEntityId()).withSelfRel());
             }
 
             return new ResponseEntity<>(users, HttpStatus.OK);

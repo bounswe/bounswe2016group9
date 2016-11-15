@@ -53,7 +53,7 @@ public class TopicDAOImpl implements TopicDAO {
     public List<Topic> getTopicsByUserId(long id) {
         Session session = sessionFactory.getCurrentSession();
 
-        return (List<Topic>) session.createSQLQuery("SELECT t FROM user u JOIN topic t ON u.ID = t.user_id WHERE u.id = :id")
+        return (List<Topic>) session.createSQLQuery("SELECT t FROM user u JOIN topic t ON u.id = t.user_id WHERE u.id = :id")
                 .addEntity(Topic.class)
                 .setParameter("id", id)
                 .list();
@@ -67,5 +67,14 @@ public class TopicDAOImpl implements TopicDAO {
     @Override
     public boolean checkTopicExistsByName(String name) {
         return getTopicByName(name) != null;
+    }
+
+    @Override
+    public List<Topic> getAllTopics() {
+        Session session = sessionFactory.getCurrentSession();
+
+        return session.createSQLQuery("SELECT * FROM topic")
+                .addEntity(Topic.class)
+                .list();
     }
 }

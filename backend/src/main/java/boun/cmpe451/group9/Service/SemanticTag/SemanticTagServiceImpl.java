@@ -24,8 +24,18 @@ public class SemanticTagServiceImpl implements SemanticTagService {
     }
 
     @Override
+    public void addSTagWithSave(SemanticTag semanticTag) {
+        semanticTagDAO.addSTagWithSave(semanticTag);
+    }
+
+    @Override
     public SemanticTag getSTagById(long id) {
         return semanticTagDAO.getSTagById(id);
+    }
+
+    @Override
+    public SemanticTag getSTagByName(String name) {
+        return semanticTagDAO.getSTagByName(name);
     }
 
     @Override
@@ -36,5 +46,10 @@ public class SemanticTagServiceImpl implements SemanticTagService {
     @Override
     public void removeSTagById(long id) {
         semanticTagDAO.removeSTagById(id);
+    }
+
+    @Override
+    public boolean checkIfSTagExistsByName(String name) {
+        return semanticTagDAO.checkIfSTagExistsByName(name);
     }
 }
