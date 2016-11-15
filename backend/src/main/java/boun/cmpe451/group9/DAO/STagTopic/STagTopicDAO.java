@@ -9,6 +9,8 @@ public interface STagTopicDAO {
 
     void addSTagTopic(STagTopic sTagTopic);
 
+    void addSTagTopicWithSave(STagTopic sTagTopic);
+
     STagTopic getSTagTopicById(long id);
 
     void updateSTagTopic(STagTopic sTagTopic);

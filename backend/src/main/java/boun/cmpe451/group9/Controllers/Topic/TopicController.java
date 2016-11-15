@@ -92,7 +92,7 @@ public class TopicController {
         }
     }
 
-    @GetMapping("/test")
+    /*@GetMapping("/test")
     public ResponseEntity<SPARQLEntityResponse> testSparql() throws Exception {
         URL url = new URL(createUrlforSPARQLforMultEntities("Hannibal"));
 
@@ -101,7 +101,7 @@ public class TopicController {
         SPARQLEntityResponse entity = mapper.readValue(url, SPARQLEntityResponse.class);
 
         return new ResponseEntity<>(entity, HttpStatus.OK);
-    }
+    }*/
 
     @PostMapping("/request")
     public ResponseEntity<SPARQLEntityResponse> requestAddTopic(@RequestBody RequestTypeResource resource) throws Exception{
@@ -132,7 +132,7 @@ public class TopicController {
     }*/
 
     @PostMapping("/request/apply")
-    public ResponseEntity<Topic> reuqestAddTopicAfterSelection(@RequestBody DBPediaTopicLabel object) throws Exception{
+    public ResponseEntity<Topic> requestAddTopicAfterSelection(@RequestBody DBPediaTopicLabel object) throws Exception{
         Topic topic = object.getTopic();
         topicService.addTopic(topic);
 
@@ -153,15 +153,16 @@ public class TopicController {
             if(semanticTagService.checkIfSTagExistsByName(tag.getType())){
                 sTagTopic.setSemanticTag(semanticTagService.getSTagByName(tag.getType()));
             }else{
-                semanticTagService.addSTag(tag);
+                semanticTagService.addSTagWithSave(tag);
                 sTagTopic.setSemanticTag(tag);
             }
 
             sTagTopic.setTopic(topic);
-            sTagTopicService.addSTagTopic(sTagTopic);
+            sTagTopicService.addSTagTopicWithSave(sTagTopic);
         }
 
         List<Tag> tags = map.get(topic);
+        map.remove(topic);
 
         for(Tag tag : tags){
             if(tagService.checkIfTagExistsByName(tag.getName())){
@@ -173,7 +174,7 @@ public class TopicController {
             TagTopic tagTopic = new TagTopic();
             tagTopic.setTag(tag);
             tagTopic.setTopic(topic);
-            tagTopicService.addTagTopic(tagTopic);
+            tagTopicService.addTagTopicWithSave(tagTopic);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

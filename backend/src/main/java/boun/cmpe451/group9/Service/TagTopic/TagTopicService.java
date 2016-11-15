@@ -7,6 +7,8 @@ public interface TagTopicService {
 
     void addTagTopic(TagTopic tagTopic);
 
+    void addTagTopicWithSave(TagTopic tagTopic);
+
     TagTopic getTagTopicById(long id);
 
     void updateTagTopic(TagTopic tagTopic);

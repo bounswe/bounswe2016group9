@@ -7,6 +7,8 @@ public interface SemanticTagService {
 
     void addSTag(SemanticTag semanticTag);
 
+    void addSTagWithSave(SemanticTag semanticTag);
+
     SemanticTag getSTagById(long id);
 
     SemanticTag getSTagByName(String name);

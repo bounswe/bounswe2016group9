@@ -25,6 +25,13 @@ public class TagTopicDAOImpl implements TagTopicDAO {
     }
 
     @Override
+    public void addTagTopicWithSave(TagTopic tagTopic) {
+        Session session = sessionFactory.getCurrentSession();
+
+        session.save(tagTopic);
+    }
+
+    @Override
     public TagTopic getTagTopicById(long id) {
         Session session = sessionFactory.getCurrentSession();
 

@@ -24,6 +24,13 @@ public class SemanticTagDAOImpl implements SemanticTagDAO {
     }
 
     @Override
+    public void addSTagWithSave(SemanticTag semanticTag) {
+        Session session = sessionFactory.getCurrentSession();
+
+        session.save(semanticTag);
+    }
+
+    @Override
     public SemanticTag getSTagById(long id) {
         Session session = sessionFactory.getCurrentSession();
 
