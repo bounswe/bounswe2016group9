@@ -17,7 +17,7 @@ public class BackendApplication {
 		return new WebMvcConfigurerAdapter() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/API/*").allowedOrigins("http://localhost:9000");
+				registry.addMapping("/").allowedOrigins("http://52.67.44.90:8080");
 			}
 		};
 	}
@@ -26,9 +26,6 @@ public class BackendApplication {
     public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf){
         return hemf.getSessionFactory();
     }
-
-
-
 
 
 	public static void main(String[] args) {

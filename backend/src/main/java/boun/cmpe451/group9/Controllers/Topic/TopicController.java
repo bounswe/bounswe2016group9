@@ -92,16 +92,16 @@ public class TopicController {
         }
     }
 
-    /*@GetMapping("/test")
+    @GetMapping("/test")
     public ResponseEntity<SPARQLEntityResponse> testSparql() throws Exception {
-        URL url = new URL(createUrlforSPARQLforMultEntities("Hannibal"));
+        URL url = new URL(createUrlforSPARQLforMultEntities("Venus"));
 
         ObjectMapper mapper = new ObjectMapper();
 
         SPARQLEntityResponse entity = mapper.readValue(url, SPARQLEntityResponse.class);
 
         return new ResponseEntity<>(entity, HttpStatus.OK);
-    }*/
+    }
 
     @PostMapping("/request")
     public ResponseEntity<SPARQLEntityResponse> requestAddTopic(@RequestBody RequestTypeResource resource) throws Exception{
