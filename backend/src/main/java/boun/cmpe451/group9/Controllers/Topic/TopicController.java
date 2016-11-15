@@ -256,7 +256,13 @@ public class TopicController {
     @GetMapping("{id}/relationsFrom")
     public ResponseEntity<List<Relation>> getAllRelationsFromTopic(@PathVariable("id") long id){
         if(topicService.checkTopicExistsById(id)){
-            return new ResponseEntity<>(relationService.getRelationFromTopicByTopicId(id), HttpStatus.OK);
+            List<Relation> relations = relationService.getRelationFromTopicByTopicId(id);
+
+            for(Relation relation : relations){
+                relation.add(linkTo(RelationController.class).slash(relation.getEntityId()).withSelfRel());
+            }
+
+            return new ResponseEntity<>(relations, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

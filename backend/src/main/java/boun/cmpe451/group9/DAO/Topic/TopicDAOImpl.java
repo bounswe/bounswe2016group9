@@ -73,6 +73,8 @@ public class TopicDAOImpl implements TopicDAO {
     public List<Topic> getAllTopics() {
         Session session = sessionFactory.getCurrentSession();
 
-        return session.createSQLQuery("SELECT * FROM TOPIC").list();
+        return session.createSQLQuery("SELECT * FROM topic")
+                .addEntity(Topic.class)
+                .list();
     }
 }
