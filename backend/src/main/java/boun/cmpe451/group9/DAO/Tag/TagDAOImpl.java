@@ -31,6 +31,16 @@ public class TagDAOImpl implements TagDAO {
     }
 
     @Override
+    public Tag getTagByName(String name) {
+        Session session = sessionFactory.getCurrentSession();
+
+        return (Tag) session.createSQLQuery("SELECT * FROM TAG t WHERE t.name = :name")
+                .addEntity(Tag.class)
+                .setParameter("name", name)
+                .uniqueResult();
+    }
+
+    @Override
     public void updateTag(Tag tag) {
         Session session = sessionFactory.getCurrentSession();
 
@@ -42,5 +52,10 @@ public class TagDAOImpl implements TagDAO {
         Session session = sessionFactory.getCurrentSession();
 
         session.delete(getTagById(id));
+    }
+
+    @Override
+    public boolean checkIfTagExistsByName(String name) {
+        return getTagByName(name) != null;
     }
 }

@@ -31,6 +31,16 @@ public class SemanticTagDAOImpl implements SemanticTagDAO {
     }
 
     @Override
+    public SemanticTag getSTagByName(String name) {
+        Session session = sessionFactory.getCurrentSession();
+
+        return (SemanticTag) session.createSQLQuery("SELECT * FROM SEMANTIC_TAG t WHERE t.type = :name")
+                .addEntity(SemanticTag.class)
+                .setParameter("name", name)
+                .uniqueResult();
+    }
+
+    @Override
     public void updateSTag(SemanticTag tag) {
         Session session = sessionFactory.getCurrentSession();
 
@@ -42,5 +52,10 @@ public class SemanticTagDAOImpl implements SemanticTagDAO {
         Session session = sessionFactory.getCurrentSession();
 
         session.delete(getSTagById(id));
+    }
+
+    @Override
+    public boolean checkIfSTagExistsByName(String name) {
+        return getSTagByName(name) != null;
     }
 }

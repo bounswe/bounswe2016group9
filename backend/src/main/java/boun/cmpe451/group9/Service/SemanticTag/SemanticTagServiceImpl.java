@@ -29,6 +29,11 @@ public class SemanticTagServiceImpl implements SemanticTagService {
     }
 
     @Override
+    public SemanticTag getSTagByName(String name) {
+        return semanticTagDAO.getSTagByName(name);
+    }
+
+    @Override
     public void updateSTag(SemanticTag semanticTag) {
         semanticTagDAO.updateSTag(semanticTag);
     }
@@ -36,5 +41,10 @@ public class SemanticTagServiceImpl implements SemanticTagService {
     @Override
     public void removeSTagById(long id) {
         semanticTagDAO.removeSTagById(id);
+    }
+
+    @Override
+    public boolean checkIfSTagExistsByName(String name) {
+        return checkIfSTagExistsByName(name);
     }
 }

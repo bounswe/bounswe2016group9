@@ -11,7 +11,11 @@ public interface SemanticTagDAO {
 
     SemanticTag getSTagById(long id);
 
+    SemanticTag getSTagByName(String name);
+
     void updateSTag(SemanticTag tag);
 
     void removeSTagById(long id);
+
+    boolean checkIfSTagExistsByName(String name);
 }

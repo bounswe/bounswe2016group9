@@ -1,7 +1,13 @@
 package boun.cmpe451.group9.Controllers.Topic;
 
-import boun.cmpe451.group9.Models.DB.Topic;
+import boun.cmpe451.group9.Models.DB.*;
+import boun.cmpe451.group9.Models.Meta.DBPediaTopicLabel;
 import boun.cmpe451.group9.Models.Meta.SPARQLEntityResponse;
+import boun.cmpe451.group9.Models.Meta.SPARQLTypeResponse;
+import boun.cmpe451.group9.Service.STagTopic.STagTopicService;
+import boun.cmpe451.group9.Service.SemanticTag.SemanticTagService;
+import boun.cmpe451.group9.Service.Tag.TagService;
+import boun.cmpe451.group9.Service.TagTopic.TagTopicService;
 import boun.cmpe451.group9.Service.Topic.TopicService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
@@ -23,11 +32,37 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class TopicController {
 
     private TopicService topicService;
+    private TagService tagService;
+    private TagTopicService tagTopicService;
+    private SemanticTagService semanticTagService;
+    private STagTopicService sTagTopicService;
 
     @Autowired
     public void setTopicService(TopicService topicService){
         this.topicService = topicService;
     }
+
+    @Autowired
+    public void setTagService(TagService tagService){
+        this.tagService = tagService;
+    }
+
+    @Autowired
+    public void setTagTopicService(TagTopicService tagTopicService){
+        this.tagTopicService = tagTopicService;
+    }
+
+    @Autowired
+    public void setSemanticTagService(SemanticTagService semanticTagService){
+        this.semanticTagService = semanticTagService;
+    }
+
+    @Autowired
+    public void setsTagTopicService(STagTopicService sTagTopicService){
+        this.sTagTopicService = sTagTopicService;
+    }
+
+    private Map<Topic,List<Tag>> map = new HashMap<>();
 
     /**
      * Returns a response for the request "GET /topics/{id}"
@@ -59,10 +94,66 @@ public class TopicController {
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
-    /*@PostMapping
-    public ResponseEntity<Topic> requestAddTopic(@RequestBody Topic topic){
+    @GetMapping("/request")
+    public ResponseEntity<SPARQLEntityResponse> requestAddTopic(@RequestBody Topic topic, @RequestBody List<Tag> tags) throws Exception{
+        URL url = new URL(createUrlforSPARQLforMultEntities(topic.getName()));
 
-    }*/
+        ObjectMapper mapper = new ObjectMapper();
+
+        SPARQLEntityResponse response = mapper.readValue(url, SPARQLEntityResponse.class);
+
+        map.put(topic,tags);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/request")
+    public ResponseEntity<Topic> reuqestAddTopicAfterSelection(@RequestBody DBPediaTopicLabel object) throws Exception{
+        Topic topic = object.getTopic();
+        URL url = new URL(createUrlforSPARQLforMultTypes(object.getLabel()));
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        SPARQLTypeResponse response = mapper.readValue(url, SPARQLTypeResponse.class);
+
+        List<SPARQLTypeResponse.Results.Types> types = response.getResults().getBindings();
+
+        for(SPARQLTypeResponse.Results.Types type : types){
+            SemanticTag tag = new SemanticTag();
+            STagTopic sTagTopic = new STagTopic();
+
+            tag.setType(type.getLabel().getValue());
+
+            if(semanticTagService.checkIfSTagExistsByName(tag.getType())){
+                sTagTopic.setSemanticTag(semanticTagService.getSTagByName(tag.getType()));
+            }else{
+                semanticTagService.addSTag(tag);
+                sTagTopic.setSemanticTag(tag);
+            }
+
+            sTagTopic.setTopic(topic);
+            sTagTopicService.addSTagTopic(sTagTopic);
+        }
+
+        List<Tag> tags = map.get(topic);
+
+        for(Tag tag : tags){
+            if(tagService.checkIfTagExistsByName(tag.getName())){
+                tag = tagService.getTagByName(tag.getName());
+            }else{
+                tagService.addTag(tag);
+            }
+
+            TagTopic tagTopic = new TagTopic();
+            tagTopic.setTag(tag);
+            tagTopic.setTopic(topic);
+            tagTopicService.addTagTopic(tagTopic);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
     /**
      * Returns a response for the request "POST /topics"

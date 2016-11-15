@@ -9,7 +9,11 @@ public interface TagService {
 
     Tag getTagById(long id);
 
+    Tag getTagByName(String name);
+
     void updateTag(Tag tag);
 
     void removeTag(long id);
+
+    boolean checkIfTagExistsByName(String name);
 }
