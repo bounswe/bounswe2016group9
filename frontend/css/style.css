@@ -66,6 +66,7 @@ body {
   text-decoration: none;
   text-align: center;
 }
+
 #searchBox {
   background-color: white;
   text-align: left;
@@ -76,4 +77,11 @@ body {
 
 .search-elements{
   color: midnightblue;
+  margin: 0;
+  padding: 5px 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size:14px;
+  border:1px solid #0076a3; border-right:0px;
+  border-top-left-radius: 5px 5px;
+  border-bottom-left-radius: 5px 5px;
 }
