@@ -48,6 +48,7 @@ public class PostController {
     @PutMapping("{id}")
     public ResponseEntity<Post> updatePost(@PathVariable("id") long id,@RequestBody Post post){
         if(postService.checkIfPostExists(id)){
+            post.setEntityId(id);
             postService.updatePost(post);
 
             Link selfLink = linkTo(Post.class).slash(id).withSelfRel();
