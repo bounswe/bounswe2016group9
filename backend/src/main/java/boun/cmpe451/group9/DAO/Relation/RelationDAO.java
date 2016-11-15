@@ -2,6 +2,8 @@ package boun.cmpe451.group9.DAO.Relation;
 
 import boun.cmpe451.group9.Models.DB.Relation;
 
+import java.util.List;
+
 /**
  * Database access methods for the table "RELATION"
  */
@@ -19,6 +21,8 @@ public interface RelationDAO {
      * @return the obj representation of the row
      */
     Relation getRelationById(long id);
+
+    List<Relation> getallRelationFromTopicByTopicId(long id);
 
     /**
      * Updates the row in the table "RELATION"

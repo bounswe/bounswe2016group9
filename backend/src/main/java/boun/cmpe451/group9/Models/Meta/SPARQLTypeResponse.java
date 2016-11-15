@@ -86,26 +86,25 @@ public class SPARQLTypeResponse {
         }
 
         public static class Types{
-            private Label label;
+            private Type types;
 
             public Types(){
 
             }
 
-            public Label getLabel() {
-                return label;
+            public Type getTypes() {
+                return types;
             }
 
-            public void setLabel(Label label) {
-                this.label = label;
+            public void setTypes(Type types) {
+                this.types = types;
             }
 
-            @JsonIgnoreProperties(ignoreUnknown = true)
-            public static class Label{
+            public static class Type{
                 private String type;
                 private String value;
 
-                public Label() {
+                public Type() {
                 }
 
                 public String getType() {

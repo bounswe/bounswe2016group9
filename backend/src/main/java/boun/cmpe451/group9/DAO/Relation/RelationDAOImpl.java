@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class RelationDAOImpl implements RelationDAO {
 
@@ -29,6 +31,16 @@ public class RelationDAOImpl implements RelationDAO {
     }
 
     @Override
+    public List<Relation> getallRelationFromTopicByTopicId(long id) {
+        Session session = sessionFactory.getCurrentSession();
+
+        return session.createSQLQuery("SELECT r.* FROM relation r JOIN topic t ON (t.id = r.from_topic_id) AND (t.id = :id)")
+                .addEntity(Relation.class)
+                .setParameter("id", id)
+                .list();
+    }
+
+    @Override
     public void updateRelation(Relation relation) {
         Session session = sessionFactory.getCurrentSession();
         session.merge(relation);
@@ -49,7 +61,7 @@ public class RelationDAOImpl implements RelationDAO {
     public boolean checkIfRelationExistsByTopicIds(long from, long to) {
         Session session = sessionFactory.getCurrentSession();
 
-        int size = session.createSQLQuery("SELECT rel FROM relation WHERE (rel.fromTopic.id = :fromId) AND (rel.toTopic.id = :toId)")
+        int size = session.createSQLQuery("SELECT * FROM relation rel WHERE (rel.from_topic_id = :fromId) AND (rel.to_topic_id = :toId)")
                 .addEntity(Relation.class)
                 .setParameter("fromId", from)
                 .setParameter("toId", to).list().size();

@@ -26,7 +26,7 @@ public class RelationController {
         if(relationService.checkIfRelationExistsById(id)){
             Relation relation = relationService.getRelationById(id);
 
-            Link selfLink = linkTo(Relation.class).slash(id).withSelfRel();
+            Link selfLink = linkTo(RelationController.class).slash(id).withSelfRel();
             relation.add(selfLink);
 
             return new ResponseEntity<>(relation, HttpStatus.OK);
@@ -37,10 +37,10 @@ public class RelationController {
 
     @PostMapping
     public ResponseEntity<Relation> addRelation(@RequestBody Relation relation){
-        if(relationService.checkIfRelationExistsByTopicIds(relation.getFromTopic().getEntityId(), relation.getToTopic().getEntityId())){
+        if(!relationService.checkIfRelationExistsByTopicIds(relation.getFromTopic().getEntityId(), relation.getToTopic().getEntityId())){
             relationService.addRelation(relation);
 
-            Link selfLink = linkTo(Relation.class).slash(relation.getEntityId()).withSelfRel();
+            Link selfLink = linkTo(RelationController.class).slash(relation.getEntityId()).withSelfRel();
             relation.add(selfLink);
 
             return new ResponseEntity<>(relation, HttpStatus.CREATED);
@@ -55,7 +55,7 @@ public class RelationController {
             relation.setEntityId(id);
             relationService.updateRelation(relation);
 
-            Link selfLink = linkTo(Relation.class).slash(id).withSelfRel();
+            Link selfLink = linkTo(RelationController.class).slash(id).withSelfRel();
             relation.add(selfLink);
 
             return new ResponseEntity<>(relation, HttpStatus.OK);

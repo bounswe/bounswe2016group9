@@ -3,6 +3,8 @@ package boun.cmpe451.group9.Service.Relation;
 
 import boun.cmpe451.group9.Models.DB.Relation;
 
+import java.util.List;
+
 /**
  * Service methods for the resource "Relation"
  */
@@ -20,6 +22,8 @@ public interface RelationService {
      * @return the retrieved resource
      */
     Relation getRelationById(long id);
+
+    List<Relation> getRelationFromTopicByTopicId(long id);
 
     /**
      * Updates the resource "Relation"

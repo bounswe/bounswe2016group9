@@ -45,6 +45,6 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public boolean checkIfTagExistsByName(String name) {
-        return checkIfTagExistsByName(name);
+        return tagDAO.checkIfTagExistsByName(name);
     }
 }

@@ -47,4 +47,6 @@ public interface TopicService {
      * @return TRUE if the topic exists, FALSE if not
      */
     boolean checkTopicExistsById(long id);
+
+    List<Topic> getAllTopics();
 }

@@ -48,4 +48,9 @@ public class TopicServiceImpl implements TopicService {
     public boolean checkTopicExistsById(long id) {
         return topicDAO.checkTopicExistsById(id);
     }
+
+    @Override
+    public List<Topic> getAllTopics() {
+        return topicDAO.getAllTopics();
+    }
 }

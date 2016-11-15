@@ -34,7 +34,7 @@ public class TagDAOImpl implements TagDAO {
     public Tag getTagByName(String name) {
         Session session = sessionFactory.getCurrentSession();
 
-        return (Tag) session.createSQLQuery("SELECT * FROM TAG t WHERE t.name = :name")
+        return (Tag) session.createSQLQuery("SELECT * FROM tag t WHERE t.name = :name")
                 .addEntity(Tag.class)
                 .setParameter("name", name)
                 .uniqueResult();

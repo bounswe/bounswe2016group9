@@ -34,7 +34,7 @@ public class SemanticTagDAOImpl implements SemanticTagDAO {
     public SemanticTag getSTagByName(String name) {
         Session session = sessionFactory.getCurrentSession();
 
-        return (SemanticTag) session.createSQLQuery("SELECT * FROM SEMANTIC_TAG t WHERE t.type = :name")
+        return (SemanticTag) session.createSQLQuery("SELECT * FROM semantic_tag t WHERE t.type = :name")
                 .addEntity(SemanticTag.class)
                 .setParameter("name", name)
                 .uniqueResult();

@@ -45,6 +45,6 @@ public class SemanticTagServiceImpl implements SemanticTagService {
 
     @Override
     public boolean checkIfSTagExistsByName(String name) {
-        return checkIfSTagExistsByName(name);
+        return semanticTagDAO.checkIfSTagExistsByName(name);
     }
 }
