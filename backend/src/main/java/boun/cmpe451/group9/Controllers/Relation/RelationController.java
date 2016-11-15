@@ -47,13 +47,12 @@ public class RelationController {
         }else{
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-
-
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Relation> updateRelation(@PathVariable("id") long id, @RequestBody Relation relation){
         if(relationService.checkIfRelationExistsById(id)){
+            relation.setEntityId(id);
             relationService.updateRelation(relation);
 
             Link selfLink = linkTo(Relation.class).slash(id).withSelfRel();

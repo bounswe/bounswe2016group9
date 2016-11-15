@@ -27,6 +27,10 @@ public class BackendApplication {
         return hemf.getSessionFactory();
     }
 
+
+
+
+
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
 	}
