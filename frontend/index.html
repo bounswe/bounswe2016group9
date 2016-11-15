@@ -55,9 +55,8 @@
                 <form class="navbar-form searchForm" method="get" action="" ng-controller="SearchCtrl">
                     <div class="form-group">
                         <input class="form-control searchTerm" ng-model="searchText" placeholder="Enter words" autocomplete="off"/>
-
                     </div>
-                    <input type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search()"/>
+                    <button type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search()">Search</button>
                     <ul id="searchBox" ng-if="searchText !== '' && searchText !== undefined" ng-repeat="word in dataset | filter: searchText">
                         <a class="search-elements" href="manipulation.html">{{word}}</a>
                     </ul>
