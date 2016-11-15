@@ -52,12 +52,15 @@
         <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
           <ul class="nav navbar-nav">
             <li>
-              <form class="navbar-form">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-              </form>
+                <form class="navbar-form searchForm" method="get" action="" ng-controller="SearchCtrl">
+                    <div class="form-group">
+                        <input class="form-control searchTerm" ng-model="searchText" placeholder="Enter words" autocomplete="off"/>
+                    </div>
+                    <button type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search()">Search</button>
+                    <ul id="searchBox" ng-if="searchText !== '' && searchText !== undefined" ng-repeat="word in dataset | filter: searchText">
+                        <a class="search-elements" href="manipulation.html">{{word}}</a>
+                    </ul>
+                </form>
             </li>
             <li class="navbar-right"><a href="#" style="color: #97B0F8">Log Out</a></li>
             <li class="navbar-right"><a href="#" style="color: white">Settings</a></li>
@@ -78,6 +81,7 @@
                 <div class="modal-body" id="modal-body">
                     <span>Topic Name</span>
                     <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName">
+                    <hr class="dl-horizontal"/>
                     <span>Tag</span>
                     <input type="text" class="form-control" placeholder="Tags" ng-model="topicTags">
                 </div>
@@ -94,8 +98,10 @@
                 <div class="modal-body" id="modal-body">
                     <span>Topic Name</span>
                     <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName1">
+                    <hr class="dl-horizontal"/>
                     <span>Topic Name</span>
                     <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName2">
+                    <hr class="dl-horizontal"/>
                     <span>Relation Name</span>
                     <input type="text" class="form-control" placeholder="Relation Name" ng-model="relationName">
                 </div>
@@ -115,6 +121,36 @@
         </div>
         <div class="col-md-10 col-lg-10" ng-show="!show">
             <h1>HOME</h1>   
+            <div>
+                <p><i class="fa fa-dot-circle-o"></i>
+                <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
+                commented on 
+                <i style="color:blue; text-decoration: underline;">Dawn of Justice ...</i>, 
+                 Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. (18:47)
+                </p>
+
+                <p><i class="fa fa-dot-circle-o"></i>
+                <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
+                created a post under
+                <i style="color:blue; text-decoration: underline;">Dawn of Justice</i> topic, 
+                <i style="text-decoration: underline;">Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </i> (18:42)
+                </p>
+
+                <p><i class="fa fa-dot-circle-o"></i>
+                <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
+                add a relation called
+                <i style="color:blue; text-decoration: underline;">Dawn of Justice</i> between
+                <i style="text-decoration: underline;">Lorem ipsum dolor sit amet</i> and 
+                <i style="text-decoration: underline;">Lorem ipsum dolor</i> (15:47).
+                </p>
+
+                <p><i class="fa fa-dot-circle-o"></i>
+                <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
+                created a topic: 
+                <i style="color:blue; text-decoration: underline;">Dawn of Justice</i> 
+                (September 14, 15:47).
+                </p>
+            </div>
         </div>
     </div>
 
@@ -127,6 +163,7 @@
     <script src="js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
     <!-- Our own js file -->
     <script src="js/InfoGrappo.js"></script>
+    <script src="js/SearchCtrl.js"></script>
     <script type="text/javascript">
         // create an array with nodes
         var nodes = new vis.DataSet([
