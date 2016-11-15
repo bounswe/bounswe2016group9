@@ -67,133 +67,150 @@
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
-    <div class="row">
-    	<div class="col-md-2" ng-controller="ModalDemoCtrl as $ctrl">
-    		<!--  Create Topic Modal -->
-            <script type="text/ng-template" id="createTopic.html">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="modal-title">Create Topic</h3>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name">
-                    <span>Tag</span>
-                    <input type="text" class="form-control" placeholder="Tags">
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateTopic()">OK</button>
-                    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                </div>
-            </script>
-            <!--  Add Relation Modal  -->
-            <script type="text/ng-template" id="addRelation.html">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="modal-title">Add Relation</h3>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name">
-                    <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name">
-                    <span>Relation Name</span>
-                    <input type="text" class="form-control" placeholder="Relation Name">
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okAddRelation()">OK</button>
-                    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                </div>
-            </script>
-            <!--  Create Post  -->
-            <script type="text/ng-template" id="createPost.html">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="modal-title">Create Post</h3>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    <span>Header</span>
-                    <input type="text" class="form-control" placeholder="Post Header" ng-model="postHeader">
-                    <span>Content</span>
-                    <input type="text" class="form-control" placeholder="Content" ng-model="postContent">
-                    <span>Tags</span>
-                    <input type="text" class="form-control" placeholder="Tags" ng-model="postTags">
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreatePost()">OK</button>
-                    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                </div>
-            </script>
-            <!--  Create Comment  -->
-            <script type="text/ng-template" id="createComment.html">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="modal-title">Create Comment</h3>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    <span>Add Comment</span>
-                    <input type="text" class="form-control" placeholder="Comment" ng-model="comment">
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateComment()">OK</button>
-                    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                </div>
-            </script>
-            <ul class="left-navbar">
-                <li><a href="">What's Going On</a></li>
-                <li><a href="" ng-click="$ctrl.openAddRelation()">Add relation</a></li>
-                <li><a href="" ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
-            </ul>
-        </div>
-        <!--  Content  -->
-    	<div class="col-md-8" ng-controller="TopicPageCtrl">
-    		<div class="row">
-    			<div class="col-md-10">
-    				<h1>{{topic.name}}</h1>
-    			</div>
-    			<div class="col-md-2" ng-controller="ModalDemoCtrl as $ctrl">
-    				<button type="button" class="btn btn-primary" ng-click="$ctrl.openCreatePost()">Create Post</button>
-    			</div>
-    		</div>
-    		<div class="row">
-    			<div class="btn-group btn-group-justified" role="group" aria-label="...">
-					<div class="btn-group" role="group">
-					    <button type="button" class="btn btn-default">Trending</button>
-					</div>
-					<div class="btn-group" role="group">
-				        <button type="button" class="btn btn-default">Newsest</button>
-					</div>
-					<div class="btn-group" role="group">
-			            <button type="button" class="btn btn-default">Rated</button>
-					</div>
-				</div>
-    		</div>
-            <!--  Post  -->
-    		<div class="row" ng-repeat="post in posts">
-                <div class="col-md-1">
-                    <ul class="rating">
-                        <li>
-                            <a href=><i class="fa fa-thumbs-up"></i></a> 
-                        </li>
-                        <li>
-                            <span>{{post.postLikes}}</span>
-                        </li>
-                        <li>
-                            <a href=><i class="fa fa-thumbs-down"></i></a> 
-                        </li>
-                        <li>
-                            <a href=><i class="fa fa-star"></i></a> 
-                        </li>
-                    </ul>
-                </div>
-    			<div class="col-md-11 generalBorder">
-    				<span>{{post.postContent}}</span>
-    			</div>
-                <!--  Comment  -->
-                <div ng-repeat="comment in comments">
+    <div class="container-fluid" style="padding-left: 0">
+        <div class="row">
+        	<div class="col-md-2" ng-controller="ModalDemoCtrl as $ctrl">
+        		<!--  Create Topic Modal -->
+                <script type="text/ng-template" id="createTopic.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="modal-title">Create Topic</h3>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <span>Topic Name</span>
+                        <input type="text" class="form-control" placeholder="Topic Name">
+                        <span>Tag</span>
+                        <input type="text" class="form-control" placeholder="Tags">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateTopic()">OK</button>
+                        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                    </div>
+                </script>
+                <!--  Add Relation Modal  -->
+                <script type="text/ng-template" id="addRelation.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="modal-title">Add Relation</h3>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <span>Topic Name</span>
+                        <input type="text" class="form-control" placeholder="Topic Name">
+                        <span>Topic Name</span>
+                        <input type="text" class="form-control" placeholder="Topic Name">
+                        <span>Relation Name</span>
+                        <input type="text" class="form-control" placeholder="Relation Name">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" ng-click="$ctrl.okAddRelation()">OK</button>
+                        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                    </div>
+                </script>
+                <!--  Create Post  -->
+                <script type="text/ng-template" id="createPost.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="modal-title">Create Post</h3>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <span>Post</span>
+                        <textarea class="form-control" rows="6" placeholder="Post" id="Post" ng-model="postContent"></textarea>
+                        <span>Tags</span>
+                        <input type="text" class="form-control" placeholder="Tags" ng-model="postTags">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreatePost()">OK</button>
+                        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                    </div>
+                </script>
+                <!--  Create Comment  -->
+                <script type="text/ng-template" id="createComment.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="modal-title">Create Comment</h3>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <span>Add Comment</span>
+                        <textarea class="form-control" rows="6" placeholder="Comment" id="Comment" ng-model="comment"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateComment()">OK</button>
+                        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                    </div>
+                </script>
+                <ul class="left-navbar">
+                    <li><a href="">What's Going On</a></li>
+                    <li><a href="" ng-click="$ctrl.openAddRelation()">Add relation</a></li>
+                    <li><a href="" ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
+                </ul>
+            </div>
+            <!--  Content  -->
+        	<div class="col-md-8" ng-controller="TopicPageCtrl">
+        		<div class="row">
+        			<div class="col-md-10">
+        				<h1>{{topic.name}}</h1>
+        			</div>
+        			<div class="col-md-2" ng-controller="ModalDemoCtrl as $ctrl">
+        				<button type="button" class="btn btn-primary" ng-click="$ctrl.openCreatePost()">Create Post</button>
+        			</div>
+        		</div>
+        		<div class="row">
+        			<div class="btn-group btn-group-justified" role="group" aria-label="...">
+    					<div class="btn-group" role="group">
+    					    <button type="button" class="btn btn-default">Trending</button>
+    					</div>
+    					<div class="btn-group" role="group">
+    				        <button type="button" class="btn btn-default">Newsest</button>
+    					</div>
+    					<div class="btn-group" role="group">
+    			            <button type="button" class="btn btn-default">Rated</button>
+    					</div>
+    				</div>
+        		</div>
+                <!--  Post  -->
+        		<div class="row" ng-repeat="post in posts">
+                    <div class="col-md-1">
+                        <ul class="rating">
+                            <li>
+                                <a href=><i class="fa fa-thumbs-up"></i></a> 
+                            </li>
+                            <li>
+                                <span>{{post.postLikes}}</span>
+                            </li>
+                            <li>
+                                <a href=><i class="fa fa-thumbs-down"></i></a> 
+                            </li>
+                            <li>
+                                <a href=><i class="fa fa-star"></i></a> 
+                            </li>
+                        </ul>
+                    </div>
+        			<div class="col-md-11 generalBorder">
+        				<span>{{post.postContent}}</span>
+        			</div>
+                    <!--  Comment  -->
+                    <div ng-repeat="comment in comments">
+                        <div class="col-md-1 col-md-offset-1">
+                            <ul class="rating">
+                                <li>
+                                    <a href=><i class="fa fa-thumbs-up"></i></a> 
+                                </li>
+                                <li>
+                                    <span>{{comment.commentLikes}}</span>
+                                </li>
+                                <li>
+                                    <a href=><i class="fa fa-thumbs-down"></i></a> 
+                                </li>
+                            </ul>
+                        </div>
+            			<div class="col-md-10 generalBorder">
+            				<span>{{comment.commentContent}}</span>
+            			</div>
+                    </div>
+                    <!--  Comment  >
                     <div class="col-md-1 col-md-offset-1">
                         <ul class="rating">
                             <li>
                                 <a href=><i class="fa fa-thumbs-up"></i></a> 
                             </li>
                             <li>
-                                <span>{{comment.commentLikes}}</span>
+                                <span>15</span>
                             </li>
                             <li>
                                 <a href=><i class="fa fa-thumbs-down"></i></a> 
@@ -201,118 +218,101 @@
                         </ul>
                     </div>
         			<div class="col-md-10 generalBorder">
-        				<span>{{comment.commentContent}}</span>
+        				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+        			</div-->
+                    <!--  Comment  >
+                    <div class="col-md-1 col-md-offset-1">
+                        <ul class="rating">
+                            <li>
+                                <a href=><i class="fa fa-thumbs-up"></i></a> 
+                            </li>
+                            <li>
+                                <span>15</span>
+                            </li>
+                            <li>
+                                <a href=><i class="fa fa-thumbs-down"></i></a> 
+                            </li>
+                        </ul>
+                    </div>
+        			<div class="col-md-10 generalBorder">
+        				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+        			</div-->
+                    <!--  Add Comment Button  -->
+        			<div class="col-md-2 col-md-offset-2"  ng-controller="ModalDemoCtrl as $ctrl">
+        				<button type="button" class="btn btn-primary" ng-click="$ctrl.openCreateComment()">Add Comment</button>
         			</div>
                 </div>
-                <!--  Comment  >
-                <div class="col-md-1 col-md-offset-1">
-                    <ul class="rating">
-                        <li>
-                            <a href=><i class="fa fa-thumbs-up"></i></a> 
-                        </li>
-                        <li>
-                            <span>15</span>
-                        </li>
-                        <li>
-                            <a href=><i class="fa fa-thumbs-down"></i></a> 
-                        </li>
-                    </ul>
-                </div>
-    			<div class="col-md-10 generalBorder">
-    				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-    			</div-->
-                <!--  Comment  >
-                <div class="col-md-1 col-md-offset-1">
-                    <ul class="rating">
-                        <li>
-                            <a href=><i class="fa fa-thumbs-up"></i></a> 
-                        </li>
-                        <li>
-                            <span>15</span>
-                        </li>
-                        <li>
-                            <a href=><i class="fa fa-thumbs-down"></i></a> 
-                        </li>
-                    </ul>
-                </div>
-    			<div class="col-md-10 generalBorder">
-    				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-    			</div-->
-                <!--  Add Comment Button  -->
-    			<div class="col-md-2 col-md-offset-2"  ng-controller="ModalDemoCtrl as $ctrl">
-    				<button type="button" class="btn btn-primary" ng-click="$ctrl.openCreateComment()">Add Comment</button>
-    			</div>
-            </div>
-            <!--div class="row">
-                <div class="col-md-1">
-                    <ul class="rating">
-                        <li>
-                            <a href=><i class="fa fa-thumbs-up"></i></a> 
-                        </li>
-                        <li>
-                            <span>15</span>
-                        </li>
-                        <li>
-                            <a href=><i class="fa fa-thumbs-down"></i></a> 
-                        </li>
-                        <li>
-                            <a href=><i class="fa fa-star"></i></a> 
-                        </li>
-                    </ul>
-                </div>
-    			<div class="col-md-11 generalBorder">
-    				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-    			</div>
-                <div class="col-md-1 col-md-offset-1">
-                    <ul class="rating">
-                        <li>
-                            <a href=><i class="fa fa-thumbs-up"></i></a> 
-                        </li>
-                        <li>
-                            <span>15</span>
-                        </li>
-                        <li>
-                            <a href=><i class="fa fa-thumbs-down"></i></a> 
-                        </li>
-                    </ul>
-                </div>
-    			<div class="col-md-10 generalBorder">
-    				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-    			</div>
-                <div class="col-md-1 col-md-offset-1">
-                    <ul class="rating">
-                        <li>
-                            <a href=><i class="fa fa-thumbs-up"></i></a> 
-                        </li>
-                        <li>
-                            <span>15</span>
-                        </li>
-                        <li>
-                            <a href=><i class="fa fa-thumbs-down"></i></a> 
-                        </li>
-                    </ul>
-                </div>
-    			<div class="col-md-10 generalBorder">
-    				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-    			</div>
-    			<div class="col-md-2 col-md-offset-2">
-    				<button type="button" class="btn btn-primary">Add Comment</button>
-    			</div>
-    		</div-->
+                <!--div class="row">
+                    <div class="col-md-1">
+                        <ul class="rating">
+                            <li>
+                                <a href=><i class="fa fa-thumbs-up"></i></a> 
+                            </li>
+                            <li>
+                                <span>15</span>
+                            </li>
+                            <li>
+                                <a href=><i class="fa fa-thumbs-down"></i></a> 
+                            </li>
+                            <li>
+                                <a href=><i class="fa fa-star"></i></a> 
+                            </li>
+                        </ul>
+                    </div>
+        			<div class="col-md-11 generalBorder">
+        				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+        			</div>
+                    <div class="col-md-1 col-md-offset-1">
+                        <ul class="rating">
+                            <li>
+                                <a href=><i class="fa fa-thumbs-up"></i></a> 
+                            </li>
+                            <li>
+                                <span>15</span>
+                            </li>
+                            <li>
+                                <a href=><i class="fa fa-thumbs-down"></i></a> 
+                            </li>
+                        </ul>
+                    </div>
+        			<div class="col-md-10 generalBorder">
+        				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+        			</div>
+                    <div class="col-md-1 col-md-offset-1">
+                        <ul class="rating">
+                            <li>
+                                <a href=><i class="fa fa-thumbs-up"></i></a> 
+                            </li>
+                            <li>
+                                <span>15</span>
+                            </li>
+                            <li>
+                                <a href=><i class="fa fa-thumbs-down"></i></a> 
+                            </li>
+                        </ul>
+                    </div>
+        			<div class="col-md-10 generalBorder">
+        				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+        			</div>
+        			<div class="col-md-2 col-md-offset-2">
+        				<button type="button" class="btn btn-primary">Add Comment</button>
+        			</div>
+        		</div-->
+        	</div>
+        	<div class="col-md-2">
+        		<div class="row">
+        			<div class="col-md-12">
+        				<h3>Related Posts</h3>
+        			</div>
+        		</div>
+        		<div class="row">
+        			<div class="col-md-12">
+        				<h3>Related Topics</h3>
+        			</div>
+        		</div>
+        	</div>
     	</div>
-    	<div class="col-md-2">
-    		<div class="row">
-    			<div class="col-md-12">
-    				<h3>Related Posts</h3>
-    			</div>
-    		</div>
-    		<div class="row">
-    			<div class="col-md-12">
-    				<h3>Related Topics</h3>
-    			</div>
-    		</div>
-    	</div>
-	</div>
+    </div>
     <!-- Angular file(necessary for UI-Bootstrap's Angular plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
