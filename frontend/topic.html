@@ -110,10 +110,8 @@
                         <h3 class="modal-title" id="modal-title">Create Post</h3>
                     </div>
                     <div class="modal-body" id="modal-body">
-                        <span>Header</span>
-                        <input type="text" class="form-control" placeholder="Post Header" ng-model="postHeader">
-                        <span>Content</span>
-                        <input type="text" class="form-control" placeholder="Content" ng-model="postContent">
+                        <span>Post</span>
+                        <textarea class="form-control" rows="6" placeholder="Post" id="Post" ng-model="postContent"></textarea>
                         <span>Tags</span>
                         <input type="text" class="form-control" placeholder="Tags" ng-model="postTags">
                     </div>
@@ -129,7 +127,7 @@
                     </div>
                     <div class="modal-body" id="modal-body">
                         <span>Add Comment</span>
-                        <input type="text" class="form-control" placeholder="Comment" ng-model="comment">
+                        <textarea class="form-control" rows="6" placeholder="Comment" id="Comment" ng-model="comment"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateComment()">OK</button>
