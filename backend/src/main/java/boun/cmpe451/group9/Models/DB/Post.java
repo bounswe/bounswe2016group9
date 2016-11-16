@@ -2,20 +2,20 @@ package boun.cmpe451.group9.Models.DB;
 
 import boun.cmpe451.group9.Models.Base;
 import com.sun.org.apache.xpath.internal.operations.String;
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 
-/**
- * Created by seha on 12.11.2016.
- */
 @Entity
 @Table(name = "POST")
 public class Post extends Base {
 
-    @NotNull
     @Column(name = "CONTENT")
+    @Length(min = 3, max = 100)
     private String content;
 
     @Column(name = "VOTE_COUNT")
