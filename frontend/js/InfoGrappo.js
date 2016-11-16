@@ -244,7 +244,7 @@ angular.module('InfoGrappoWeb').factory('Topics', function($http) {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
-  var topics = [{
+  /*var topics = [{
     id: 0,
     name: 'Amerika',
     posts: "0 2"
@@ -260,7 +260,7 @@ angular.module('InfoGrappoWeb').factory('Topics', function($http) {
   }, {
     id: 4,
     name: 'Mike Harrington'
-  }];
+  }];*/
 
   return {
     all: function() {
@@ -299,7 +299,7 @@ angular.module('InfoGrappoWeb').factory('Posts', function(){
     postID:0,
     postLikes:45,
     postHeader:"header",
-    postContent: "Lorem lorem lorem",
+    postContent: "Post 1 gönderilen ilk post burada",
     postTags: "post.tag"
   },{
     postID:1,
@@ -311,7 +311,7 @@ angular.module('InfoGrappoWeb').factory('Posts', function(){
     postID:2,
     postLikes:22,
     postHeader:"header",
-    postContent: "buralar dolu asds buralar dolu asds buralar dolu asdsburalar dolu asds buralar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asds",
+    postContent: "Post 3 buralar dolu asds buralar dolu asds buralar dolu asdsburalar dolu asds buralar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asds",
     postTags: "post2.tag"
   }];
 
@@ -338,17 +338,17 @@ angular.module('InfoGrappoWeb').factory('Comments', function(){
   var comment = [{
     commentID:0,
     commentLikes:45,
-    commentContent: "Lorem lorem lorem",
+    commentContent: "Comment 1",
     commentTags: "post.tag"
   },{
     commentID:1,
     commentLikes:117,
-    commentContent: "Post2 buralar dolu",
+    commentContent: "Comment 2 buralar dolu",
     commentTags: "post2.tag"
   },{
     commentID:2,
     commentLikes:22,
-    commentContent: "buralar dolu asds buralar dolu asds buralar dolu asdsburalar dolu asds buralar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asds",
+    commentContent: " Comment 3 buralar dolu asds buralar dolu asds buralar dolu asdsburalar dolu asds buralar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asds",
     commentTags: "post2.tag"
   }];
 
