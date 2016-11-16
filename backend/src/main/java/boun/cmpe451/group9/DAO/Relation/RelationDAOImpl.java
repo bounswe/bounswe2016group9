@@ -73,10 +73,9 @@ public class RelationDAOImpl implements RelationDAO {
     @Override
     public String getRelationContent(long id){
         Session session = sessionFactory.getCurrentSession();
-
-          return session.createSQLQuery("SELECT r.content FROM relation r WHERE (r.id = :id)")
+        Relation relation = (Relation) session.createSQLQuery("SELECT r.* FROM relation r WHERE (r.id = :id)")
                 .addEntity(Relation.class)
-                .setParameter("id", id)
-                .list();
+                .setParameter("id", id);
+          return relation.getContent();
     }
 }

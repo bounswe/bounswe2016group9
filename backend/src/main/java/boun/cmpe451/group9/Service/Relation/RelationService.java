@@ -37,6 +37,8 @@ public interface RelationService {
      */
     void removeRelation(long id);
 
+
+
     boolean checkIfRelationExistsById(long id);
 
     boolean checkIfRelationExistsByTopicIds(long from, long to);
