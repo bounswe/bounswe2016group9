@@ -1,4 +1,38 @@
 angular.module('InfoGrappoWeb', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics){
+  Topics.all().then(function(response){
+    $scope.topics = response;
+    console.log($scope.topics.data);
+    // create an array with nodes
+    var nodes = [];
+    for (var i = 0; i<$scope.topics.data.length; i++) {
+      nodes.push({
+        id :$scope.topics.data[i].entityId,
+        label: $scope.topics.data[i].name
+      });
+    }
+
+    // create an array with edges
+    var edges = new vis.DataSet([
+        {from: 1, to: 3},
+        {from: 1, to: 2},
+        {from: 3, to: 2}
+    ]);
+
+    // create a network
+    var container = document.getElementById('mynetwork');
+
+    // provide the data in the vis format
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    var options = {};
+
+    // initialize your network!
+    var network = new vis.Network(container, data, options);
+  });  
+});
 angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal, $log, $document, $scope) {
   var $ctrl = this;
   $ctrl.items = ['item1', 'item2', 'item3'];
@@ -227,7 +261,16 @@ angular.module('InfoGrappoWeb').factory('Topics', function($http) {
 
   return {
     all: function() {
-      return topics;
+      return $http({
+        method: 'GET',
+        url: "http://52.67.44.90:8080/topics"
+      }).then(function successCallback(data) {
+        console.log(data);
+        return data;
+      }, function errorCallback(data) {
+        console.log("Lanet olasıca backend çalışmıyor!!!!");
+        return null;
+      });
     },
     remove: function(topic) {
       topics.splice(topics.indexOf(topic), 1);
@@ -237,12 +280,12 @@ angular.module('InfoGrappoWeb').factory('Topics', function($http) {
         method: 'GET',
         url: "http://52.67.44.90:8080/topics/"+topicID
       }).then(function successCallback(data) {
-          console.log(data);
-         return data;
-        }, function errorCallback(data) {
-          console.log("Lanet olasıca backend çalışmıyor!!!!");
-          return null;
-        });
+        console.log(data);
+        return data;
+      }, function errorCallback(data) {
+        console.log("Lanet olasıca backend çalışmıyor!!!!");
+        return null;
+      });
     }
   };
 });
