@@ -145,11 +145,9 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
   };
 
   $ctrl.okCreatePost = function () {
-    console.log($scope.postHeader);
     console.log($scope.postContent);
     console.log($scope.postTags);
     var result = {
-      postHeader:$scope.postHeader,
       postContent:$scope.postContent,
       postTags:$scope.postTags
     };

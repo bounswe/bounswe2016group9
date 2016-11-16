@@ -10,6 +10,11 @@
     <!-- Font file from cdn-->
     <!--script src="https://use.fontawesome.com/b11d304967.js"></script-->
     <!-- Font file from local-->
+
+    <!-- Dropdown menu js files -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
 
     <!-- Bootstrap -->
@@ -53,11 +58,15 @@
         <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
           <ul class="nav navbar-nav">
             <li>
-
                 <form class="navbar-form searchForm" method="get" action="search.html" ng-controller="SearchCtrl">
                     <div class="form-group">
-                        <input type="text" id="tfq" class="search-elements" name="q" size="21" maxlength="120" placeholder="Search our website">
-                        <button type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search()">Search</button>
+                      <input type="text" id="tfq" class="search-elements" name="q" size="21" maxlength="120" placeholder="Search our website">
+                      <select class="form-control" >
+                        <option value="normalsearch">Normal</option>
+                        <option value="relationSearch">Relation</option>
+                        <option value="dateSearch">Date</option>
+                      </select>
+                      <button type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search()">Search</button>
                     </div>
                 </form>
             </li>
@@ -67,6 +76,10 @@
             <li class="navbar-right"><a href="#" style="color: white">Notification</a></li>
             <li class="navbar-right"><a href="#" style="color: white;">Profile</a></li>
           </ul>
+          
+
+
+
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
@@ -123,31 +136,32 @@
               <h1>HOME</h1>   
               <div>
                   <p><i class="fa fa-dot-circle-o"></i>
-                  <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
                   commented on 
-                  <i style="color:blue; text-decoration: underline;">Dawn of Justice ...</i>, 
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice ...</a>
+                  , 
                    Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. (18:47)
                   </p>
 
                   <p><i class="fa fa-dot-circle-o"></i>
-                  <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
                   created a post under
-                  <i style="color:blue; text-decoration: underline;">Dawn of Justice</i> topic, 
-                  <i style="text-decoration: underline;">Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </i> (18:42)
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> topic, 
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </a> (18:42)
                   </p>
 
                   <p><i class="fa fa-dot-circle-o"></i>
-                  <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
                   add a relation called
-                  <i style="color:blue; text-decoration: underline;">Dawn of Justice</i> between
-                  <i style="text-decoration: underline;">Lorem ipsum dolor sit amet</i> and 
-                  <i style="text-decoration: underline;">Lorem ipsum dolor</i> (15:47).
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> between
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Lorem ipsum dolor sit amet</a> and 
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Lorem ipsum dolor</a> (15:47).
                   </p>
 
                   <p><i class="fa fa-dot-circle-o"></i>
-                  <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
                   created a topic: 
-                  <i style="color:blue; text-decoration: underline;">Dawn of Justice</i> 
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> 
                   (September 14, 15:47).
                   </p>
               </div>
