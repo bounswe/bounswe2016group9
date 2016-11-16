@@ -22,6 +22,13 @@ public interface RelationDAO {
      */
     Relation getRelationById(long id);
 
+    /**
+     * Retrieves the content of a relation with the given id from thee table "RELATION
+     * @param id the id of the row
+     * @return content string of the row
+     */
+    String getRelationContent(long id);
+
     List<Relation> getallRelationFromTopicByTopicId(long id);
 
     /**
@@ -50,4 +57,6 @@ public interface RelationDAO {
      * @return TRUE if exists, FALSE if not
      */
     boolean checkIfRelationExistsByTopicIds(long from, long to);
+
+
 }

@@ -23,6 +23,9 @@ public class Relation extends Base {
     @ManyToOne(cascade = CascadeType.ALL)
     private User createdUser;
 
+    @Column(name="CONTENT")
+    private String content;
+
     public Topic getFromTopic() {
         return fromTopic;
     }
@@ -54,4 +57,8 @@ public class Relation extends Base {
     public void setCreatedUser(User createdUser) {
         this.createdUser = createdUser;
     }
+
+    public String getContent() {  return content;    }
+
+    public void setContent(String content) {this.content = content;  }
 }

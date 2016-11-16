@@ -69,4 +69,14 @@ public class RelationDAOImpl implements RelationDAO {
 
         return relation != null;
     }
+
+    @Override
+    public String getRelationContent(long id){
+        Session session = sessionFactory.getCurrentSession();
+
+          return session.createSQLQuery("SELECT r.content FROM relation r WHERE (r.id = :id)")
+                .addEntity(Relation.class)
+                .setParameter("id", id)
+                .list();
+    }
 }
