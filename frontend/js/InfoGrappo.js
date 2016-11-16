@@ -151,19 +151,22 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
 // It is not the same as the $uibModal service used above.
 
-angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope) {
+angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope, $http) {
   var $ctrl = this;
   $ctrl.items = items;
   $ctrl.selected = $scope.topicName;
 
   $ctrl.okCreateTopic = function () {
-    console.log($scope.topicName);
-    console.log($scope.topicTags);
-    var result = {
-      topicName:$scope.topicName,
-      topicTags:$scope.topicTags
-    };
-    $uibModalInstance.close(result);
+    var parameter = {topic:{"name":$scope.topicName}, tags:[{"name":$scope.topicTags}]};
+    console.log(parameter);
+    $http.post("http://52.67.44.90:8080/topics", parameter).
+      success(function(data, status, headers, config) {
+        console.log(data);
+      }).
+      error(function(data, status, headers, config) {
+        console.log("olmadı be !!!");
+    });
+    $uibModalInstance.close("result");
   };
 
   $ctrl.okAddRelation = function () {
