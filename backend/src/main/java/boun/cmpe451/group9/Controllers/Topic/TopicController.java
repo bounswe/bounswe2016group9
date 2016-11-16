@@ -3,10 +3,7 @@ package boun.cmpe451.group9.Controllers.Topic;
 import boun.cmpe451.group9.Controllers.Relation.RelationController;
 import boun.cmpe451.group9.Controllers.Tag.TagController;
 import boun.cmpe451.group9.Models.DB.*;
-import boun.cmpe451.group9.Models.Meta.DBPediaTopicLabel;
-import boun.cmpe451.group9.Models.Meta.RequestTypeResource;
-import boun.cmpe451.group9.Models.Meta.SPARQLEntityResponse;
-import boun.cmpe451.group9.Models.Meta.SPARQLTypeResponse;
+import boun.cmpe451.group9.Models.Meta.*;
 import boun.cmpe451.group9.Service.Relation.RelationService;
 import boun.cmpe451.group9.Service.STagTopic.STagTopicService;
 import boun.cmpe451.group9.Service.SemanticTag.SemanticTagService;
@@ -191,21 +188,35 @@ public class TopicController {
 
     /**
      * Returns a response for the request "POST /topics"
-     * @param topic a new resource "Topic"
+     * @param topicTagResponse a new resource "Topic" and its "tag"s
      * @return CREATED if a new resource is successfully created, CONFLICT if the resource already exists
      */
     @PostMapping
-    public ResponseEntity<Topic> addTopic(@RequestBody Topic topic){
-        if(!topicService.checkTopicExistsById(topic.getEntityId())) {
-            topicService.addTopic(topic);
+    public ResponseEntity<Topic> addTopic(@RequestBody TopicTagResponse topicTagResponse){
+        Topic topic = topicTagResponse.getTopic();
+        List<Tag> tags = topicTagResponse.getTags();
 
-            Link selfLink = linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel();
-            topic.add(selfLink);
+        topicService.addTopic(topic);
 
-            return new ResponseEntity<>(topic, HttpStatus.CREATED);
-        }else {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        Link selfLink = linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel();
+        topic.add(selfLink);
+
+        for(Tag tag : tags){
+            long id;
+
+            if(tagService.checkIfTagExistsByName(tag.getName())){
+                id = tagService.getTagByName(tag.getName()).getEntityId();
+            }else {
+                tagService.addTag(tag);
+                TagTopic tagTopic = new TagTopic();
+                tagTopic.setTag(tag);tagTopic.setTopic(topic);
+                tagTopicService.addTagTopicWithSave(tagTopic);
+                id =  tag.getEntityId();
+            }
+            topic.add(linkTo(TagController.class).slash(id).withRel("tag"));
         }
+
+        return new ResponseEntity<>(topic, HttpStatus.CREATED);
     }
 
     /**
