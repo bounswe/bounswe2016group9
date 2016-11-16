@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">InfoGrappo</string>
+    <string name="title_activity_navigation_drawer">InfoGrappo</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="grappi">Grappi</string>
+    <string name="create_topic">Create Topic</string>
+    <string name="add_relation">Add Relation</string>
+    <string name="notification">Notification</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="logout">Logout</string>
+    <string name="profile">Profile</string>
 </resources>
