@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @Transactional
@@ -46,5 +48,15 @@ public class TagServiceImpl implements TagService {
     @Override
     public boolean checkIfTagExistsByName(String name) {
         return tagDAO.checkIfTagExistsByName(name);
+    }
+
+    @Override
+    public boolean checkIfTagExistsById(long id) {
+        return tagDAO.checkIfTagExistsById(id);
+    }
+
+    @Override
+    public List<Tag> getTagsByTopicId(long id) {
+        return tagDAO.getTagsByTopicId(id);
     }
 }

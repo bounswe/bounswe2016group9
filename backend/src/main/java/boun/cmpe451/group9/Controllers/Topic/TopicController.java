@@ -1,6 +1,7 @@
 package boun.cmpe451.group9.Controllers.Topic;
 
 import boun.cmpe451.group9.Controllers.Relation.RelationController;
+import boun.cmpe451.group9.Controllers.Tag.TagController;
 import boun.cmpe451.group9.Models.DB.*;
 import boun.cmpe451.group9.Models.Meta.DBPediaTopicLabel;
 import boun.cmpe451.group9.Models.Meta.RequestTypeResource;
@@ -85,6 +86,12 @@ public class TopicController {
 
             Link selfLink = linkTo(TopicController.class).slash(id).withSelfRel();
             topic.add(selfLink);
+
+            List<Tag> tags = tagService.getTagsByTopicId(topic.getEntityId());
+
+            for(Tag tag : tags){
+                topic.add(linkTo(TagController.class).slash(tag.getEntityId()).withRel("tag"));
+            }
 
             return new ResponseEntity<>(topic, HttpStatus.OK);
         }else{

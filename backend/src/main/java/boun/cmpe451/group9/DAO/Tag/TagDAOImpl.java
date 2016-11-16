@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class TagDAOImpl implements TagDAO {
 
@@ -57,5 +59,20 @@ public class TagDAOImpl implements TagDAO {
     @Override
     public boolean checkIfTagExistsByName(String name) {
         return getTagByName(name) != null;
+    }
+
+    @Override
+    public boolean checkIfTagExistsById(long id) {
+        return getTagById(id) != null;
+    }
+
+    @Override
+    public List<Tag> getTagsByTopicId(long id) {
+        Session session = sessionFactory.getCurrentSession();
+
+        return session.createSQLQuery("SELECT t FROM tag t JOIN tag_topic top ON (t.id = top.tag_id) AND (top.topic_id = :id)")
+                .addEntity(Tag.class)
+                .setParameter("id", id)
+                .list();
     }
 }
