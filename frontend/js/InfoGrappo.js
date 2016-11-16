@@ -145,11 +145,9 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
   };
 
   $ctrl.okCreatePost = function () {
-    console.log($scope.postHeader);
     console.log($scope.postContent);
     console.log($scope.postTags);
     var result = {
-      postHeader:$scope.postHeader,
       postContent:$scope.postContent,
       postTags:$scope.postTags
     };
@@ -195,13 +193,17 @@ angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log)
 });
 
 angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topics, Posts, Comments){
-  $scope.topic = Topics.get(0);
+  //$scope.topic =Topics.get(1);
+  Topics.get(1).then(function(response){
+    console.log("topic");
+    $scope.topic = response.data;
+    console.log($scope.topic);
+  });
   $scope.posts=Posts.all();
   $scope.comments=Comments.all();
-  console.log($scope.posts);
 });
 
-angular.module('InfoGrappoWeb').factory('Topics', function() {
+angular.module('InfoGrappoWeb').factory('Topics', function($http) {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
@@ -231,12 +233,16 @@ angular.module('InfoGrappoWeb').factory('Topics', function() {
       topics.splice(topics.indexOf(topic), 1);
     },
     get: function(topicID) {
-      for (var i = 0; i < topics.length; i++) {
-        if (topics[i].id === parseInt(topicID)) {
-          return topics[i];
-        }
-      }
-      return null;
+      return $http({
+        method: 'GET',
+        url: "http://52.67.44.90:8080/topics/"+topicID
+      }).then(function successCallback(data) {
+          console.log(data);
+         return data;
+        }, function errorCallback(data) {
+          console.log("Lanet olasıca backend çalışmıyor!!!!");
+          return null;
+        });
     }
   };
 });
