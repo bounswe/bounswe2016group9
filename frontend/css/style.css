@@ -7,8 +7,8 @@ body {
 }
 
 #mynetwork {
-  width: 1000px;
-  height: 400px;
+  /*width: 1000px;*/
+  height: 800px;
   border: 1px solid lightgray;
 }
 .left-navbar {
