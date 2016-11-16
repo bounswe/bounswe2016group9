@@ -47,7 +47,7 @@ public class FollowRelDAOImpl implements FollowRelDAO {
     public List<User> getfollowingById(long id) {
         Session session = sessionFactory.getCurrentSession();
 
-        return session.createSQLQuery("SELECT r.following_id FROM relation r JOIN user u ON (u.id = :id) AND (u.id = r.follower_id)")
+        return session.createSQLQuery("SELECT r.following_id FROM relation r JOIN user u ON (u.id = r.follower_id) WHERE (u.id = :id)")
                 .addEntity(User.class)
                 .setParameter("id", id)
                 .list();
@@ -57,7 +57,7 @@ public class FollowRelDAOImpl implements FollowRelDAO {
     public List<User> getfollowerById(long id) {
         Session session = sessionFactory.getCurrentSession();
 
-        return  session.createSQLQuery("SELECT r.follower_id FROM relation r JOIN user u ON (u.id = :id) AND (u.id = r.following_id)")
+        return  session.createSQLQuery("SELECT r.follower_id FROM relation r JOIN user u ON (u.id = r.following_id) WHERE (u.id = :id)")
                 .addEntity(User.class)
                 .setParameter("id", id)
                 .list();

@@ -34,7 +34,7 @@ public class RelationDAOImpl implements RelationDAO {
     public List<Relation> getallRelationFromTopicByTopicId(long id) {
         Session session = sessionFactory.getCurrentSession();
 
-        return session.createSQLQuery("SELECT r.* FROM relation r JOIN topic t ON (t.id = r.from_topic_id) AND (t.id = :id)")
+        return session.createSQLQuery("SELECT r.* FROM relation r JOIN topic t ON (t.id = r.from_topic_id) WHERE (t.id = :id)")
                 .addEntity(Relation.class)
                 .setParameter("id", id)
                 .list();

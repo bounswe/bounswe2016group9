@@ -87,7 +87,7 @@ public class TopicController {
             Link selfLink = linkTo(TopicController.class).slash(id).withSelfRel();
             topic.add(selfLink);
 
-            List<Tag> tags = tagService.getTagsByTopicId(topic.getEntityId());
+            List<Tag> tags = tagService.getTagsByTopicId(id);
 
             for(Tag tag : tags){
                 topic.add(linkTo(TagController.class).slash(tag.getEntityId()).withRel("tag"));

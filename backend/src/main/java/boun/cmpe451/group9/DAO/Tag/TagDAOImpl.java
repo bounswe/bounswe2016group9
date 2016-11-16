@@ -70,7 +70,7 @@ public class TagDAOImpl implements TagDAO {
     public List<Tag> getTagsByTopicId(long id) {
         Session session = sessionFactory.getCurrentSession();
 
-        return session.createSQLQuery("SELECT t FROM tag t JOIN tag_topic top ON (t.id = top.tag_id) AND (top.topic_id = :id)")
+        return session.createSQLQuery("SELECT t.* FROM tag t JOIN tag_topic top ON (t.id = top.tag_id) WHERE (top.topic_id = :id)")
                 .addEntity(Tag.class)
                 .setParameter("id", id)
                 .list();
