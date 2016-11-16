@@ -61,11 +61,12 @@ public class RelationDAOImpl implements RelationDAO {
     public boolean checkIfRelationExistsByTopicIds(long from, long to) {
         Session session = sessionFactory.getCurrentSession();
 
-        int size = session.createSQLQuery("SELECT * FROM relation rel WHERE (rel.from_topic_id = :fromId) AND (rel.to_topic_id = :toId)")
+        Relation relation = (Relation) session.createSQLQuery("SELECT rel.* FROM relation rel WHERE (rel.from_topic_id = :fromId) AND (rel.to_topic_id = :toId)")
                 .addEntity(Relation.class)
                 .setParameter("fromId", from)
-                .setParameter("toId", to).list().size();
+                .setParameter("toId", to)
+                .uniqueResult();
 
-        return size > 0;
+        return relation != null;
     }
 }
