@@ -96,6 +96,11 @@ public class TopicController {
         }
     }
 
+    /**
+     * Test controller for checking DBPedia connection
+     * @return json; semantic tags about "Venus"
+     * @throws Exception IOException
+     */
     @GetMapping("/test")
     public ResponseEntity<SPARQLEntityResponse> testSparql() throws Exception {
         URL url = new URL(createUrlforSPARQLforMultEntities("Venus"));
@@ -107,40 +112,35 @@ public class TopicController {
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
-    @PostMapping("/request")
-    public ResponseEntity<SPARQLEntityResponse> requestAddTopic(@RequestBody RequestTypeResource resource) throws Exception{
-        Topic topic = resource.getTopic();
-        List<Tag> tags = resource.getTags();
-
-        URL url = new URL(createUrlforSPARQLforMultEntities(topic.getName()));
+    /**
+     * Pulls semantic tags from DBPedia by using topic name for user to pick among them
+     * @param topic topic name user wants to add
+     * @return json; semantic tags about "topic"
+     * @throws Exception IOException
+     */
+    @GetMapping("/semantic")
+    public ResponseEntity<SPARQLEntityResponse> requestSemanticForAddTopic(@RequestParam("topic") String topic) throws Exception{
+        URL url = new URL(createUrlforSPARQLforMultEntities(topic));
 
         ObjectMapper mapper = new ObjectMapper();
 
         SPARQLEntityResponse response = mapper.readValue(url, SPARQLEntityResponse.class);
 
-        map.put(topic,tags);
-
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /*@PostMapping("/request/apply/test")
-    public ResponseEntity<SPARQLTypeResponse> testResponse(@RequestBody DBPediaTopicLabel object) throws Exception{
-        Topic topic = object.getTopic();
-        URL url = new URL(createUrlforSPARQLforMultTypes(object.getLabel()));
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        SPARQLTypeResponse response = mapper.readValue(url, SPARQLTypeResponse.class);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }*/
-
-    @PostMapping("/request/apply")
-    public ResponseEntity<Topic> requestAddTopicAfterSelection(@RequestBody DBPediaTopicLabel object) throws Exception{
-        Topic topic = object.getTopic();
+    /**
+     * Add selected semantic tags and given topic with tags to DB
+     * @param topicTagResponse topic+tag+s.tags
+     * @return topic just created
+     * @throws Exception IOException
+     */
+    @PostMapping("/semantic")
+    public ResponseEntity<Topic> requestAddTopicAfterSemantic(@RequestBody TopicTagResponse topicTagResponse) throws Exception{
+        Topic topic = topicTagResponse.getTopic();
         topicService.addTopic(topic);
 
-        URL url = new URL(createUrlforSPARQLforMultTypes(object.getLabel()));
+        URL url = new URL(createUrlforSPARQLforMultTypes(topicTagResponse.getLabel()));
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -255,6 +255,10 @@ public class TopicController {
         }
     }
 
+    /**
+     * Returns all topics
+     * @return list of all topics
+     */
     @GetMapping
     public ResponseEntity<List<Topic>> getAllTopics(){
         List<Topic> topics = topicService.getAllTopics();
@@ -272,6 +276,11 @@ public class TopicController {
         return new ResponseEntity<>(topics, HttpStatus.OK);
     }
 
+    /**
+     * Get all relations that come from the topic
+     * @param id topic id relations came from
+     * @return list of relations
+     */
     @GetMapping("{id}/relationsFrom")
     public ResponseEntity<List<Relation>> getAllRelationsFromTopic(@PathVariable("id") long id){
         if(topicService.checkTopicExistsById(id)){
@@ -287,6 +296,12 @@ public class TopicController {
         }
     }
 
+    /**
+     * Creates url for getting entities from DBPedia
+     * @param entity topic name whose DBPedia entities we want to get
+     * @return all DBPedia entities for given topic
+     * @throws Exception IOException
+     */
     private String createUrlforSPARQLforMultEntities(String entity) throws Exception{
         String url = "http://dbpedia.org/sparql?default-graph-uri=";
         String encode = "http://dbpedia.org&query=PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
@@ -314,6 +329,12 @@ public class TopicController {
         return url+encode+"&output=json";
     }
 
+    /**
+     * Creates url for getting s.tags from DBPedia
+     * @param label the name of entity whose s.tags we want
+     * @return all s.tags for "entity"
+     * @throws Exception IOException
+     */
     private String createUrlforSPARQLforMultTypes(String label) throws Exception{
         String url = "http://dbpedia.org/sparql?default-graph-uri=";
         String encode = "http://dbpedia.org&query=PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +

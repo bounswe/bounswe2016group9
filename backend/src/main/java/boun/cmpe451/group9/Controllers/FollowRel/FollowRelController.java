@@ -33,6 +33,11 @@ public class FollowRelController {
         this.userService = userService;
     }
 
+    /**
+     * Returns all users that user "id" follows
+     * @param id user "id"
+     * @return all users that user "id" follows
+     */
     @GetMapping("following")
     public ResponseEntity<List<User>> getFollowingsById(@PathVariable("id") long id){
         if(userService.checkUserExists(id)){
@@ -48,6 +53,11 @@ public class FollowRelController {
         }
     }
 
+    /**
+     * Returns all users that follow user "id"
+     * @param id user "id"
+     * @return all users that follow user "id"
+     */
     @GetMapping("follower")
     public ResponseEntity<List<User>> getFollowerById(@PathVariable("id") long id){
         if(userService.checkUserExists(id)){

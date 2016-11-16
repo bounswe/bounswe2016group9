@@ -51,5 +51,10 @@ public interface PostDAO {
      */
     List<Post> getPostByLocation(int locationID);
 
+    /**
+     * Checks if post "id" exists
+     * @param id post "id"
+     * @return TRUE if post "id" exists, FALSE if not
+     */
     boolean checkIfPostExistsById(long id);
 }

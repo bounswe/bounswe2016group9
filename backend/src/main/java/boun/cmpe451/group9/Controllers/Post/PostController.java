@@ -21,6 +21,11 @@ public class PostController {
         this.postService = postService;
     }
 
+    /**
+     * Retrieves post "id"
+     * @param id id of the post
+     * @return post "id"
+     */
     @GetMapping("{id}")
     public ResponseEntity<Post> getPostById(@PathVariable("id") long id){
         if(postService.checkIfPostExists(id)){
@@ -35,6 +40,11 @@ public class PostController {
         }
     }
 
+    /**
+     * Adds new post
+     * @param post post we want to add
+     * @return post we just added
+     */
     @PostMapping
     public ResponseEntity<Post> addPost(@RequestBody Post post){
         postService.addPost(post);
@@ -45,6 +55,12 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.CREATED);
     }
 
+    /**
+     * Updates post "id"
+     * @param id id of the post
+     * @param post updated post
+     * @return post we just updated
+     */
     @PutMapping("{id}")
     public ResponseEntity<Post> updatePost(@PathVariable("id") long id,@RequestBody Post post){
         if(postService.checkIfPostExists(id)){
@@ -60,6 +76,11 @@ public class PostController {
         }
     }
 
+    /**
+     * Deletes post "id"
+     * @param id id of the post
+     * @return NO_CONTENT if post is found and deleted, NOT_FOUND if post is not found
+     */
     @DeleteMapping("{id}")
     public ResponseEntity<Post> deletePost(@PathVariable("id") long id){
         if(postService.checkIfPostExists(id)){

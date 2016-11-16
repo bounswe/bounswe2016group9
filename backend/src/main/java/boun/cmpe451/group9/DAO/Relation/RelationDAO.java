@@ -36,7 +36,18 @@ public interface RelationDAO {
      */
     void removeRelationById(long id);
 
+    /**
+     * Checks if the row with the given "id" exists in the table "RELATION"
+     * @param id id of the relation
+     * @return TRUE if exists, FALSE if not
+     */
     boolean checkIfRelationExistsById(long id);
 
+    /**
+     * Checks if a relation exists from "from" to "to"
+     * @param from topic the relations come from
+     * @param to topic the relation goes to
+     * @return TRUE if exists, FALSE if not
+     */
     boolean checkIfRelationExistsByTopicIds(long from, long to);
 }

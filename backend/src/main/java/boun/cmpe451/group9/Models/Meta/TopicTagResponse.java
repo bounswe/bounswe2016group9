@@ -11,6 +11,7 @@ import java.util.List;
 public class TopicTagResponse {
     private Topic topic;
     private List<Tag> tags;
+    private String label;
 
     TopicTagResponse(){
 
@@ -30,5 +31,13 @@ public class TopicTagResponse {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

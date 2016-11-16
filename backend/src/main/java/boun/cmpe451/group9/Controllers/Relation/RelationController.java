@@ -21,6 +21,11 @@ public class RelationController {
         this.relationService = relationService;
     }
 
+    /**
+     * Retrieves the relation "id"
+     * @param id id of the relation
+     * @return relation "id"
+     */
     @GetMapping("{id}")
     public ResponseEntity<Relation> getRelation(@PathVariable("id") long id){
         if(relationService.checkIfRelationExistsById(id)){
@@ -35,6 +40,11 @@ public class RelationController {
         }
     }
 
+    /**
+     * Adds a new relation
+     * @param relation relation we want to add
+     * @return relation we just added
+     */
     @PostMapping
     public ResponseEntity<Relation> addRelation(@RequestBody Relation relation){
         if(!relationService.checkIfRelationExistsByTopicIds(relation.getFromTopic().getEntityId(), relation.getToTopic().getEntityId())){
@@ -49,6 +59,12 @@ public class RelationController {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @param relation
+     * @return
+     */
     @PutMapping("{id}")
     public ResponseEntity<Relation> updateRelation(@PathVariable("id") long id, @RequestBody Relation relation){
         if(relationService.checkIfRelationExistsById(id)){

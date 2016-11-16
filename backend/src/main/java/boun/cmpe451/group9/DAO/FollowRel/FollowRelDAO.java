@@ -35,7 +35,17 @@ public interface FollowRelDAO {
      */
     void removeFollowRelById(long id);
 
+    /**
+     * Get all users that user "id" follows
+     * @param id user "id"
+     * @return all users that user "id" follows
+     */
     List<User> getfollowingById(long id);
 
+    /**
+     * Get all users that follow user "id"
+     * @param id user "id"
+     * @return all users that follow user "id"
+     */
     List<User> getfollowerById(long id);
 }

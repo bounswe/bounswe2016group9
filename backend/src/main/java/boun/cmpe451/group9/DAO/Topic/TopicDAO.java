@@ -62,5 +62,9 @@ public interface TopicDAO {
      */
     boolean checkTopicExistsByName(String name);
 
+    /**
+     * Retieves all rows in the table "TOPIC"
+     * @return all rows
+     */
     List<Topic> getAllTopics();
 }
