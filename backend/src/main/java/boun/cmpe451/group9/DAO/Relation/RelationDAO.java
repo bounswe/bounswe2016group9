@@ -10,6 +10,13 @@ import java.util.List;
  */
 public interface RelationDAO extends BaseDAO<Relation>{
 
+    /**
+     * Retrieves the content of a relation with the given id from thee table "RELATION
+     * @param id the id of the row
+     * @return content string of the row
+     */
+    String getRelationContent(long id);
+
     List<Relation> getallRelationFromTopicByTopicId(long id);
 
     List<Relation> getAllRelationsToTopicByTopicId(long id);
@@ -21,4 +28,6 @@ public interface RelationDAO extends BaseDAO<Relation>{
      * @return TRUE if exists, FALSE if not
      */
     boolean checkIfRelationExistsByTopicIds(long from, long to);
+
+
 }

@@ -36,4 +36,13 @@ public class RelationDAOImpl extends BaseDAOImpl<Relation> implements RelationDA
                 .setParameter("toId", to)
                 .uniqueResult() != null;
     }
+
+    @Override
+    public String getRelationContent(long id){
+        Session session = sessionFactory.getCurrentSession();
+        Relation relation = (Relation) session.createSQLQuery("SELECT r.* FROM relation r WHERE (r.id = :id)")
+                .addEntity(Relation.class)
+                .setParameter("id", id);
+          return relation.getContent();
+    }
 }

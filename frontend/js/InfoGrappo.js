@@ -1,4 +1,41 @@
 angular.module('InfoGrappoWeb', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics){
+  $scope.sendTopic = function(toTopicID){
+    Topics.sendTopic(toTopicID);
+    console.log(Topics.getTopic());
+  }
+  Topics.all().then(function(response){
+    $scope.topics = response;
+    console.log($scope.topics.data);
+    // create an array with nodes
+    var nodes = [];
+    var edges = [];
+    for (var i = 0; i<$scope.topics.data.length; i++) {
+      nodes.push({
+        id :$scope.topics.data[i].entityId,
+        label: $scope.topics.data[i].name
+      });
+      Topics.getRelation($scope.topics.data[i].entityId).then(function(response){
+        for (var j = 0; j < response.data.length; j++) {
+          edges.push({from: response.data[j].fromTopic.entityId,to:response.data[j].toTopic.entityId});
+        }
+
+      // create a network
+      var container = document.getElementById('mynetwork');
+
+      // provide the data in the vis format
+      var data = {
+          nodes: nodes,
+          edges: edges
+      };
+      var options = {};
+
+      // initialize your network!
+      var network = new vis.Network(container, data, options);
+      });
+    }
+  });  
+});
 angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal, $log, $document, $scope) {
   var $ctrl = this;
   $ctrl.items = ['item1', 'item2', 'item3'];
@@ -117,19 +154,22 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
 // It is not the same as the $uibModal service used above.
 
-angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope) {
+angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope, $http) {
   var $ctrl = this;
   $ctrl.items = items;
   $ctrl.selected = $scope.topicName;
 
   $ctrl.okCreateTopic = function () {
-    console.log($scope.topicName);
-    console.log($scope.topicTags);
-    var result = {
-      topicName:$scope.topicName,
-      topicTags:$scope.topicTags
-    };
-    $uibModalInstance.close(result);
+    var parameter = {topic:{"name":$scope.topicName}, tags:[{"name":$scope.topicTags}]};
+    console.log(parameter);
+    $http.post("http://52.67.44.90:8080/topics", parameter).
+      success(function(data, status, headers, config) {
+        console.log(data);
+      }).
+      error(function(data, status, headers, config) {
+        console.log("olmadı be !!!");
+    });
+    $uibModalInstance.close("result");
   };
 
   $ctrl.okAddRelation = function () {
@@ -194,55 +234,82 @@ angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log)
 
 angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topics, Posts, Comments){
   //$scope.topic =Topics.get(1);
-  Topics.get(1).then(function(response){
-    console.log("topic");
+  console.log(Topics.getTopic());
+  Topics.get(Topics.getTopic()).then(function(response){
     $scope.topic = response.data;
-    console.log($scope.topic);
   });
+  var relations = [];
+  Topics.getRelation(Topics.getTopic()).then(function(response){
+    console.log("response2");
+    for (var i = 0; i < response.data.length; i++) {
+      relations.push(response.data[i].toTopic);
+    }
+    $scope.relations=relations;
+  })
+  $scope.go = function(topicID){
+    Topics.get(topicID).then(function(response){
+      $scope.topic = response.data;
+    });
+    var relations = [];
+    Topics.getRelation(topicID).then(function(response){
+      console.log("response2");
+      for (var i = 0; i < response.data.length; i++) {
+        relations.push(response.data[i].toTopic);
+      }
+      $scope.relations=relations;
+    })
+  };
   $scope.posts=Posts.all();
   $scope.comments=Comments.all();
 });
 
 angular.module('InfoGrappoWeb').factory('Topics', function($http) {
   // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var topics = [{
-    id: 0,
-    name: 'Amerika',
-    posts: "0 2"
-  }, {
-    id: 1,
-    name: 'Max Lynx'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson'
-  }, {
-    id: 3,
-    name: 'Perry Governor'
-  }, {
-    id: 4,
-    name: 'Mike Harrington'
-  }];
-
+  var toTopic = 1;
   return {
     all: function() {
-      return topics;
+      return $http({
+        method: 'GET',
+        url: "http://52.67.44.90:8080/topics"
+      }).then(function successCallback(data) {
+        console.log(data);
+        return data;
+      }, function errorCallback(data) {
+        console.log("Lanet olasıca backend çalışmıyor!!!!");
+        return null;
+      });
     },
     remove: function(topic) {
       topics.splice(topics.indexOf(topic), 1);
+    },
+    sendTopic:function(toTopic2) {
+      toTopic = toTopic2;
+    },
+    getTopic:function(){
+      return toTopic;
     },
     get: function(topicID) {
       return $http({
         method: 'GET',
         url: "http://52.67.44.90:8080/topics/"+topicID
       }).then(function successCallback(data) {
-          console.log(data);
-         return data;
-        }, function errorCallback(data) {
-          console.log("Lanet olasıca backend çalışmıyor!!!!");
-          return null;
-        });
+        console.log(data);
+        return data;
+      }, function errorCallback(data) {
+        console.log("Lanet olasıca backend çalışmıyor!!!!");
+        return null;
+      });
+    },
+    getRelation: function(topicID) {
+      return $http({
+        method: 'GET',
+        url: "http://52.67.44.90:8080/topics/"+topicID+"/relationsFrom"
+      }).then(function successCallback(data) {
+        return data;
+      }, function errorCallback(data) {
+        console.log("Lanet olasıca backend çalışmıyor!!!!");
+        return null;
+      });
     }
   };
 });
@@ -253,7 +320,7 @@ angular.module('InfoGrappoWeb').factory('Posts', function(){
     postID:0,
     postLikes:45,
     postHeader:"header",
-    postContent: "Lorem lorem lorem",
+    postContent: "Post 1 gönderilen ilk post burada",
     postTags: "post.tag"
   },{
     postID:1,
@@ -265,7 +332,7 @@ angular.module('InfoGrappoWeb').factory('Posts', function(){
     postID:2,
     postLikes:22,
     postHeader:"header",
-    postContent: "buralar dolu asds buralar dolu asds buralar dolu asdsburalar dolu asds buralar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asds",
+    postContent: "Post 3 buralar dolu asds buralar dolu asds buralar dolu asdsburalar dolu asds buralar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asds",
     postTags: "post2.tag"
   }];
 
@@ -292,17 +359,17 @@ angular.module('InfoGrappoWeb').factory('Comments', function(){
   var comment = [{
     commentID:0,
     commentLikes:45,
-    commentContent: "Lorem lorem lorem",
+    commentContent: "Comment 1",
     commentTags: "post.tag"
   },{
     commentID:1,
     commentLikes:117,
-    commentContent: "Post2 buralar dolu",
+    commentContent: "Comment 2 buralar dolu",
     commentTags: "post2.tag"
   },{
     commentID:2,
     commentLikes:22,
-    commentContent: "buralar dolu asds buralar dolu asds buralar dolu asdsburalar dolu asds buralar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asds",
+    commentContent: " Comment 3 buralar dolu asds buralar dolu asds buralar dolu asdsburalar dolu asds buralar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asdsburalar dolu asds",
     commentTags: "post2.tag"
   }];
 

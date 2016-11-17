@@ -3,12 +3,12 @@ body {
 }
 
 .navbar-header {
-  padding-left: 90px;
+  padding-left: 3%;
 }
 
 #mynetwork {
-  width: 1000px;
-  height: 400px;
+  /*width: 1000px;*/
+  height: 800px;
   border: 1px solid lightgray;
 }
 .left-navbar {
@@ -84,4 +84,13 @@ body {
   border:1px solid #0076a3; border-right:0px;
   border-top-left-radius: 5px 5px;
   border-bottom-left-radius: 5px 5px;
+}
+
+        
+.navbar-brand {
+    float: left;
+    height: 50px;
+    padding: 3px 3px;
+    font-size: 18px;
+    line-height: 20px;
 }

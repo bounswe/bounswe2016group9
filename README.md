@@ -12,7 +12,9 @@ InfoGrappo is a crowdsourcing platform that merges the wisdom of the community. 
 +    [Requirements] (https://github.com/bounswe/bounswe2016group9/wiki/Requirements)  
 +    [Mockups] (https://github.com/bounswe/bounswe2016group9/wiki/Mockups)   
 +    [Test Plan] (https://github.com/bounswe/bounswe2016group9/wiki/TestPlan)   
++    [Project Plan] (https://github.com/bounswe/bounswe2016group9/wiki/Project-Plan)
 +    [CMPE 352] (https://github.com/bounswe/bounswe2016group9/wiki/Cmpe352All)
+
 
 ## Team Members
 +    [Mehmet Doğan] (Mehmet Doğan)
