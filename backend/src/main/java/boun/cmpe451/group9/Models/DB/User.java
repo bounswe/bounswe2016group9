@@ -33,10 +33,7 @@ public class User extends Base {
     @Length(min = 3, max = 20)
     private String surname;
 
-    @NotNull
     @Column(name = "AGE")
-    @Min(value = 15)
-    @Max(value = 100)
     private int age;
 
     @NotBlank

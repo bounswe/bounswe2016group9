@@ -2,20 +2,11 @@ package boun.cmpe451.group9.Service.SemanticTag;
 
 
 import boun.cmpe451.group9.Models.DB.SemanticTag;
+import boun.cmpe451.group9.Service.BaseService;
 
-public interface SemanticTagService {
-
-    void addSTag(SemanticTag semanticTag);
-
-    void addSTagWithSave(SemanticTag semanticTag);
-
-    SemanticTag getSTagById(long id);
+public interface SemanticTagService extends BaseService<SemanticTag> {
 
     SemanticTag getSTagByName(String name);
 
-    void updateSTag(SemanticTag semanticTag);
-
-    void removeSTagById(long id);
-
-    boolean checkIfSTagExistsByName(String name);
+    boolean checkExistenceByName(String name);
 }

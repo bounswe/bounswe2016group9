@@ -1,54 +1,24 @@
 package boun.cmpe451.group9.DAO.STagTopic;
 
+import boun.cmpe451.group9.DAO.BaseDAOImpl;
 import boun.cmpe451.group9.Models.DB.STagTopic;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import boun.cmpe451.group9.Models.DB.SemanticTag;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 
+
+@SuppressWarnings("unchecked")
 @Repository
-public class STagTopicDAOImpl implements STagTopicDAO {
-
-    private SessionFactory sessionFactory;
-
-    @Autowired
-    public void setSessionFactory(SessionFactory sessionFactory){
-        this.sessionFactory = sessionFactory;
-    }
-
+public class STagTopicDAOImpl extends BaseDAOImpl<STagTopic> implements STagTopicDAO {
     @Override
-    public void addSTagTopic(STagTopic sTagTopic) {
-        Session session = sessionFactory.getCurrentSession();
-
-        session.persist(sTagTopic);
-    }
-
-    @Override
-    public void addSTagTopicWithSave(STagTopic sTagTopic) {
-        Session session = sessionFactory.getCurrentSession();
-
-        session.save(sTagTopic);
-    }
-
-    @Override
-    public STagTopic getSTagTopicById(long id) {
-        Session session = sessionFactory.getCurrentSession();
-
-        return session.get(STagTopic.class, id);
-    }
-
-    @Override
-    public void updateSTagTopic(STagTopic sTagTopic) {
-        Session session = sessionFactory.getCurrentSession();
-
-        session.merge(sTagTopic);
-    }
-
-    @Override
-    public void removeSTagTopicById(long id) {
-        Session session = sessionFactory.getCurrentSession();
-
-        session.delete(getSTagTopicById(id));
+    public List<SemanticTag> getSTagByTopicId(long id) {
+        return this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT t.* FROM semantictag_topic stag " +
+                        "JOIN semantic_tag t " +
+                        "ON stag.semantic_tag_id = t.id " +
+                        "WHERE stag.topic_id = :id").addEntity(SemanticTag.class)
+                .setParameter("id", id)
+                .list();
     }
 }

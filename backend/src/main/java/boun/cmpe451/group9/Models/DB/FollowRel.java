@@ -7,6 +7,7 @@ import javax.persistence.*;
 /**
  * The object representation of the table "FOLLOW_REL"
  */
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "FOLLOW_REL")
 public class FollowRel extends Base {

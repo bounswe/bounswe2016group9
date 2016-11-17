@@ -2,16 +2,19 @@ package boun.cmpe451.group9.Models.DB;
 
 import boun.cmpe451.group9.Models.Base;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 
 /**
  * The object representation of the table "TOPIC"
  */
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "TOPIC")
 public class Topic extends Base {
 
+    @NotBlank
     @Column(name = "NAME")
     @Length(min = 2, max = 50)
     private String name;

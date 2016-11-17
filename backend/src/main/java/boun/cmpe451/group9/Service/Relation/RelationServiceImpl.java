@@ -2,6 +2,7 @@ package boun.cmpe451.group9.Service.Relation;
 
 import boun.cmpe451.group9.DAO.Relation.RelationDAO;
 import boun.cmpe451.group9.Models.DB.Relation;
+import boun.cmpe451.group9.Service.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
-public class RelationServiceImpl implements RelationService {
+@Transactional(readOnly = true)
+public class RelationServiceImpl extends BaseServiceImpl<Relation> implements RelationService {
 
     private RelationDAO relationDAO;
 
@@ -20,33 +21,13 @@ public class RelationServiceImpl implements RelationService {
     }
 
     @Override
-    public void addRelation(Relation relation) {
-        relationDAO.addRelation(relation);
-    }
-
-    @Override
-    public Relation getRelationById(long id) {
-        return relationDAO.getRelationById(id);
-    }
-
-    @Override
     public List<Relation> getRelationFromTopicByTopicId(long id) {
         return relationDAO.getallRelationFromTopicByTopicId(id);
     }
 
     @Override
-    public void updateRelation(Relation relation) {
-        relationDAO.updateRelation(relation);
-    }
-
-    @Override
-    public void removeRelation(long id) {
-        relationDAO.removeRelationById(id);
-    }
-
-    @Override
-    public boolean checkIfRelationExistsById(long id) {
-        return relationDAO.checkIfRelationExistsById(id);
+    public List<Relation> getAllRelationsToTopicByTopicId(long id) {
+        return relationDAO.getAllRelationsToTopicByTopicId(id);
     }
 
     @Override

@@ -1,17 +1,13 @@
 package boun.cmpe451.group9.Service.STagTopic;
 
 import boun.cmpe451.group9.Models.DB.STagTopic;
+import boun.cmpe451.group9.Models.DB.SemanticTag;
+import boun.cmpe451.group9.Service.BaseService;
+
+import java.util.List;
 
 
-public interface STagTopicService {
+public interface STagTopicService extends BaseService<STagTopic> {
 
-    void addSTagTopic(STagTopic sTagTopic);
-
-    void addSTagTopicWithSave(STagTopic sTagTopic);
-
-    STagTopic getSTagTopicById(long id);
-
-    void updateSTagTopic(STagTopic sTagTopic);
-
-    void removeSTagTopicById(long id);
+    List<SemanticTag> getSTagsByTopicId(long id);
 }

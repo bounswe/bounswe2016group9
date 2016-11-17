@@ -1,9 +1,12 @@
 package boun.cmpe451.group9.Controllers.Topic;
 
 import boun.cmpe451.group9.Controllers.Relation.RelationController;
+import boun.cmpe451.group9.Controllers.SemanticTag.SemanticTagController;
 import boun.cmpe451.group9.Controllers.Tag.TagController;
 import boun.cmpe451.group9.Models.DB.*;
-import boun.cmpe451.group9.Models.Meta.*;
+import boun.cmpe451.group9.Models.Meta.SPARQLEntityResponse;
+import boun.cmpe451.group9.Models.Meta.SPARQLTypeResponse;
+import boun.cmpe451.group9.Models.Meta.TopicTagResponse;
 import boun.cmpe451.group9.Service.Relation.RelationService;
 import boun.cmpe451.group9.Service.STagTopic.STagTopicService;
 import boun.cmpe451.group9.Service.SemanticTag.SemanticTagService;
@@ -12,22 +15,20 @@ import boun.cmpe451.group9.Service.TagTopic.TagTopicService;
 import boun.cmpe451.group9.Service.Topic.TopicService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
  * The controller for the resource "Topic"
  */
+@SuppressWarnings("MVCPathVariableInspection")
 @RestController
 @RequestMapping(value = "/topics")
 public class TopicController {
@@ -69,8 +70,6 @@ public class TopicController {
         this.relationService = relationService;
     }
 
-    private Map<Topic,List<Tag>> map = new HashMap<>();
-
     /**
      * Returns a response for the request "GET /topics/{id}"
      * @param id the id of the resource "Topic"
@@ -78,17 +77,8 @@ public class TopicController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Topic> getTopic(@PathVariable("id") long id){
-        if(topicService.checkTopicExistsById(id)){
-            Topic topic = topicService.getTopicById(id);
-
-            Link selfLink = linkTo(TopicController.class).slash(id).withSelfRel();
-            topic.add(selfLink);
-
-            List<Tag> tags = tagService.getTagsByTopicId(id);
-
-            for(Tag tag : tags){
-                topic.add(linkTo(TagController.class).slash(tag.getEntityId()).withRel("tag"));
-            }
+        if(topicService.checkIfEntityExistsById(id)){
+            Topic topic = addLinkToTopic(topicService.getById(id));
 
             return new ResponseEntity<>(topic, HttpStatus.OK);
         }else{
@@ -102,8 +92,8 @@ public class TopicController {
      * @throws Exception IOException
      */
     @GetMapping("/test")
-    public ResponseEntity<SPARQLEntityResponse> testSparql() throws Exception {
-        URL url = new URL(createUrlforSPARQLforMultEntities("Venus"));
+    public ResponseEntity<SPARQLEntityResponse> testSPARQL() throws Exception {
+        URL url = new URL(createUrlForSPARQLMultiEntities("Venus"));
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -120,7 +110,7 @@ public class TopicController {
      */
     @GetMapping("/semantic")
     public ResponseEntity<SPARQLEntityResponse> requestSemanticForAddTopic(@RequestParam("topic") String topic) throws Exception{
-        URL url = new URL(createUrlforSPARQLforMultEntities(topic));
+        URL url = new URL(createUrlForSPARQLMultiEntities(topic));
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -138,14 +128,13 @@ public class TopicController {
     @PostMapping("/semantic")
     public ResponseEntity<Topic> requestAddTopicAfterSemantic(@RequestBody TopicTagResponse topicTagResponse) throws Exception{
         Topic topic = topicTagResponse.getTopic();
-        topicService.addTopic(topic);
+        List<Tag> tags = topicTagResponse.getTags();
 
-        URL url = new URL(createUrlforSPARQLforMultTypes(topicTagResponse.getLabel()));
+        topicService.save(topic);
 
+        URL url = new URL(createUrlForSPARQLMultiTypes(topicTagResponse.getLabel()));
         ObjectMapper mapper = new ObjectMapper();
-
         SPARQLTypeResponse response = mapper.readValue(url, SPARQLTypeResponse.class);
-
         List<SPARQLTypeResponse.Results.Types> types = response.getResults().getBindings();
 
         for(SPARQLTypeResponse.Results.Types type : types){
@@ -154,34 +143,32 @@ public class TopicController {
 
             tag.setType(type.getTypes().getValue());
 
-            if(semanticTagService.checkIfSTagExistsByName(tag.getType())){
+            if(semanticTagService.checkExistenceByName(tag.getType())){
                 sTagTopic.setSemanticTag(semanticTagService.getSTagByName(tag.getType()));
             }else{
-                semanticTagService.addSTagWithSave(tag);
+                semanticTagService.save(tag);
                 sTagTopic.setSemanticTag(tag);
             }
 
             sTagTopic.setTopic(topic);
-            sTagTopicService.addSTagTopicWithSave(sTagTopic);
+            sTagTopicService.save(sTagTopic);
         }
-
-        List<Tag> tags = map.get(topic);
-        map.remove(topic);
 
         for(Tag tag : tags){
             if(tagService.checkIfTagExistsByName(tag.getName())){
                 tag = tagService.getTagByName(tag.getName());
             }else{
-                tagService.addTag(tag);
+                tagService.save(tag);
             }
 
             TagTopic tagTopic = new TagTopic();
             tagTopic.setTag(tag);
             tagTopic.setTopic(topic);
-            tagTopicService.addTagTopicWithSave(tagTopic);
+            tagTopicService.save(tagTopic);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        topic = addLinkToTopic(topic);
+        return new ResponseEntity<>(topic, HttpStatus.OK);
     }
 
 
@@ -196,26 +183,19 @@ public class TopicController {
         Topic topic = topicTagResponse.getTopic();
         List<Tag> tags = topicTagResponse.getTags();
 
-        topicService.addTopic(topic);
-
-        Link selfLink = linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel();
-        topic.add(selfLink);
+        topicService.save(topic);
 
         for(Tag tag : tags){
-            long id;
-
-            if(tagService.checkIfTagExistsByName(tag.getName())){
-                id = tagService.getTagByName(tag.getName()).getEntityId();
-            }else {
-                tagService.addTag(tag);
-                TagTopic tagTopic = new TagTopic();
-                tagTopic.setTag(tag);tagTopic.setTopic(topic);
-                tagTopicService.addTagTopicWithSave(tagTopic);
-                id =  tag.getEntityId();
+            if(!tagService.checkIfTagExistsByName(tag.getName())){
+                tagService.save(tag);
             }
-            topic.add(linkTo(TagController.class).slash(id).withRel("tag"));
+
+            TagTopic tagTopic = new TagTopic();
+            tagTopic.setTag(tag);tagTopic.setTopic(topic);
+            tagTopicService.save(tagTopic);
         }
 
+        topic = addLinkToTopic(topic);
         return new ResponseEntity<>(topic, HttpStatus.CREATED);
     }
 
@@ -227,12 +207,11 @@ public class TopicController {
      */
     @PutMapping("{id}")
     public ResponseEntity<Topic> updateTopic(@PathVariable("id") long id, @RequestBody Topic topic){
-        if(topicService.checkTopicExistsById(id)){
+        if(topicService.checkIfEntityExistsById(id)){
             topic.setEntityId(id);
-            topicService.updateTopic(topic);
+            topicService.save(topic);
 
-            Link selfLink = linkTo(TopicController.class).slash(id).withSelfRel();
-            topic.add(selfLink);
+            topic = addLinkToTopic(topic);
 
             return new ResponseEntity<>(topic, HttpStatus.OK);
         }else{
@@ -247,8 +226,8 @@ public class TopicController {
      */
     @DeleteMapping("{id}")
     public ResponseEntity<Topic> deleteTopic(@PathVariable("id") long id){
-        if(topicService.checkTopicExistsById(id)) {
-            topicService.removeTopic(id);
+        if(topicService.checkIfEntityExistsById(id)) {
+            topicService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -261,19 +240,15 @@ public class TopicController {
      */
     @GetMapping
     public ResponseEntity<List<Topic>> getAllTopics(){
-        List<Topic> topics = topicService.getAllTopics();
+        List<Topic> topics = topicService.findAll();
 
-        for(Topic topic : topics){
-            topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel());
-            List<Relation> relations = relationService.getRelationFromTopicByTopicId(topic.getEntityId());
+        if(!topics.isEmpty()){
+            topics.forEach(TopicController::addLinkToTopic);
 
-            if(relations.size() > 0){
-                topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("relationsFrom").withRel("relationsFrom"));
-            }
-
+            return new ResponseEntity<>(topics, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<>(topics, HttpStatus.OK);
     }
 
     /**
@@ -283,17 +258,68 @@ public class TopicController {
      */
     @GetMapping("{id}/relationsFrom")
     public ResponseEntity<List<Relation>> getAllRelationsFromTopic(@PathVariable("id") long id){
-        if(topicService.checkTopicExistsById(id)){
+        if(topicService.checkIfEntityExistsById(id)){
             List<Relation> relations = relationService.getRelationFromTopicByTopicId(id);
 
-            for(Relation relation : relations){
-                relation.add(linkTo(RelationController.class).slash(relation.getEntityId()).withSelfRel());
-            }
+            if(!relations.isEmpty()){
+                relations.forEach(RelationController::addLinksToRelation);
 
-            return new ResponseEntity<>(relations, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(relations, HttpStatus.OK);
+            }
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("{id}/relationsTo")
+    public ResponseEntity<List<Relation>> getAllRelationsToTopic(@PathVariable("id") long id){
+        if(topicService.checkIfEntityExistsById(id)){
+            List<Relation> relations = relationService.getAllRelationsToTopicByTopicId(id);
+
+            if(!relations.isEmpty()){
+                relations.forEach(RelationController::addLinksToRelation);
+
+                return new ResponseEntity<>(relations, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("{id}/tags")
+    public ResponseEntity<List<Tag>> getAllTagsByTopicId(@PathVariable("id") long id){
+        if(topicService.checkIfEntityExistsById(id)){
+            List<Tag> tags = tagService.getTagsByTopicId(id);
+
+            if(!tags.isEmpty()){
+                tags.forEach(TagController::addLinksToTag);
+
+                return new ResponseEntity<>(tags, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("{id}/semanticTags")
+    public ResponseEntity<List<SemanticTag>> getAllSTagsByTopicId(@PathVariable("id") long id){
+        if(topicService.checkIfEntityExistsById(id)){
+            List<SemanticTag> semanticTags = sTagTopicService.getSTagsByTopicId(id);
+
+            if(!semanticTags.isEmpty()){
+                semanticTags.forEach(SemanticTagController::addLinksToSTag);
+
+                return new ResponseEntity<>(semanticTags, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    public static Topic addLinkToTopic(Topic topic){
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel());
+        topic.add(linkTo(TopicController.class).slash("tags").withRel("tags"));
+        topic.add(linkTo(TopicController.class).slash("semanticTags").withRel("semanticTags"));
+        topic.add(linkTo(TopicController.class).slash("fromTopics").withRel("relationsFromTopics"));
+        topic.add(linkTo(TopicController.class).slash("toTopics").withRel("relationsToTopics"));
+
+        return topic;
     }
 
     /**
@@ -302,7 +328,7 @@ public class TopicController {
      * @return all DBPedia entities for given topic
      * @throws Exception IOException
      */
-    private String createUrlforSPARQLforMultEntities(String entity) throws Exception{
+    private String createUrlForSPARQLMultiEntities(String entity) throws Exception{
         String url = "http://dbpedia.org/sparql?default-graph-uri=";
         String encode = "http://dbpedia.org&query=PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
                 "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
@@ -335,7 +361,7 @@ public class TopicController {
      * @return all s.tags for "entity"
      * @throws Exception IOException
      */
-    private String createUrlforSPARQLforMultTypes(String label) throws Exception{
+    private String createUrlForSPARQLMultiTypes(String label) throws Exception{
         String url = "http://dbpedia.org/sparql?default-graph-uri=";
         String encode = "http://dbpedia.org&query=PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
                 "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +

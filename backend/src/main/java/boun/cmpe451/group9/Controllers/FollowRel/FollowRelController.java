@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-
 @RestController
 @RequestMapping("users/{id}")
 public class FollowRelController {
@@ -40,12 +38,10 @@ public class FollowRelController {
      */
     @GetMapping("following")
     public ResponseEntity<List<User>> getFollowingsById(@PathVariable("id") long id){
-        if(userService.checkUserExists(id)){
+        if(userService.checkIfEntityExistsById(id)){
             List<User> users = followRelService.getFollowingByUserId(id);
 
-            for(User user : users){
-                user.add(linkTo(UserController.class).slash(user.getEntityId()).withSelfRel());
-            }
+            users.forEach(UserController::addLinkToUser);
 
             return new ResponseEntity<>(users, HttpStatus.OK);
         }else{
@@ -60,12 +56,10 @@ public class FollowRelController {
      */
     @GetMapping("follower")
     public ResponseEntity<List<User>> getFollowerById(@PathVariable("id") long id){
-        if(userService.checkUserExists(id)){
+        if(userService.checkIfEntityExistsById(id)){
             List<User> users = followRelService.getFollowerByUserId(id);
 
-            for(User user : users){
-                user.add(linkTo(UserController.class).slash(user.getEntityId()).withSelfRel());
-            }
+            users.forEach(UserController::addLinkToUser);
 
             return new ResponseEntity<>(users, HttpStatus.OK);
         }else{

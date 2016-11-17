@@ -7,10 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * Created by mert on 15.11.2016.
- */
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "SEMANTICTAG_TOPIC")
 public class STagTopic extends Base {

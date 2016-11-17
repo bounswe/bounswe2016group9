@@ -7,6 +7,7 @@ import javax.persistence.*;
 /**
  * The object representation of the table "RELATION"
  */
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "RELATION")
 public class Relation extends Base {

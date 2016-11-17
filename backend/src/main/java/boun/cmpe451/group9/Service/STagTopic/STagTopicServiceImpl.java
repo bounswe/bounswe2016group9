@@ -2,13 +2,15 @@ package boun.cmpe451.group9.Service.STagTopic;
 
 import boun.cmpe451.group9.DAO.STagTopic.STagTopicDAO;
 import boun.cmpe451.group9.Models.DB.STagTopic;
+import boun.cmpe451.group9.Models.DB.SemanticTag;
+import boun.cmpe451.group9.Service.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
-@Transactional
-public class STagTopicServiceImpl implements STagTopicService {
+public class STagTopicServiceImpl extends BaseServiceImpl<STagTopic> implements STagTopicService {
 
     private STagTopicDAO sTagTopicDAO;
 
@@ -18,27 +20,7 @@ public class STagTopicServiceImpl implements STagTopicService {
     }
 
     @Override
-    public void addSTagTopic(STagTopic sTagTopic) {
-        sTagTopicDAO.addSTagTopic(sTagTopic);
-    }
-
-    @Override
-    public void addSTagTopicWithSave(STagTopic sTagTopic) {
-        sTagTopicDAO.addSTagTopicWithSave(sTagTopic);
-    }
-
-    @Override
-    public STagTopic getSTagTopicById(long id) {
-        return sTagTopicDAO.getSTagTopicById(id);
-    }
-
-    @Override
-    public void updateSTagTopic(STagTopic sTagTopic) {
-        sTagTopicDAO.updateSTagTopic(sTagTopic);
-    }
-
-    @Override
-    public void removeSTagTopicById(long id) {
-        sTagTopicDAO.removeSTagTopicById(id);
+    public List<SemanticTag> getSTagsByTopicId(long id) {
+        return sTagTopicDAO.getSTagByTopicId(id);
     }
 }

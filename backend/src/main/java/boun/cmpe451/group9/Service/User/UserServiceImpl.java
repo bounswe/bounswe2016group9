@@ -2,15 +2,14 @@ package boun.cmpe451.group9.Service.User;
 
 import boun.cmpe451.group9.DAO.User.UserDAO;
 import boun.cmpe451.group9.Models.DB.User;
+import boun.cmpe451.group9.Service.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
-@Transactional
-public class UserServiceImpl implements UserService {
+@Transactional(readOnly = true)
+public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
 
     private UserDAO userDAO;
 
@@ -20,38 +19,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(User u) {
-        userDAO.addUser(u);
-    }
-
-    @Override
-    public User getUserById(long id) {
-        return userDAO.getUserById(id);
-    }
-
-    @Override
     public User getUserByUsername(String username) {
         return userDAO.getUserByUsername(username);
-    }
-
-    @Override
-    public void updateUser(User u) {
-        userDAO.updateUser(u);
-    }
-
-    @Override
-    public void removeUser(long id) {
-        userDAO.removeUser(id);
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return userDAO.getAllUsers();
-    }
-
-    @Override
-    public boolean checkUserExists(long id) {
-        return userDAO.checkUserExists(id);
     }
 
     @Override

@@ -10,10 +10,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "POST")
 public class Post extends Base {
 
+    @NotBlank
     @Column(name = "CONTENT")
     @Length(min = 3, max = 100)
     private String content;

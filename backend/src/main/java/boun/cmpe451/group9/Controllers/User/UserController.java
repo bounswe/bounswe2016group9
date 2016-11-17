@@ -6,7 +6,6 @@ import boun.cmpe451.group9.Models.DB.User;
 import boun.cmpe451.group9.Service.Topic.TopicService;
 import boun.cmpe451.group9.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +17,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 /**
  * The controller for the resource "User"
  */
+@SuppressWarnings("MVCPathVariableInspection")
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
@@ -42,11 +42,8 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") long id){
 
-        if(userService.checkUserExists(id)) {
-            User user = userService.getUserById(id);
-
-            Link selfLink = linkTo(UserController.class).slash(user.getEntityId()).withSelfRel();
-            user.add(selfLink);
+        if(userService.checkIfEntityExistsById(id)) {
+            User user = addLinkToUser(userService.getById(id));
 
             return new ResponseEntity<>(user, HttpStatus.OK);
         }else{
@@ -63,12 +60,11 @@ public class UserController {
     @PutMapping("{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user){
 
-        if(userService.checkUserExists(id)){
+        if(userService.checkIfEntityExistsById(id)){
             user.setEntityId(id);
-            userService.updateUser(user);
+            userService.save(user);
 
-            Link selfLink = linkTo(UserController.class).slash(id).withSelfRel();
-            user.add(selfLink);
+            user = addLinkToUser(user);
 
             return new ResponseEntity<>(user, HttpStatus.OK);
         }else{
@@ -84,11 +80,9 @@ public class UserController {
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user){
         if(!userService.checkUserExistsByUsername(user.getUsername())){
-            userService.addUser(user);
+            userService.save(user);
 
-            Link selfLink = linkTo(UserController.class).slash(userService.getUserByUsername(user.getUsername()).getEntityId())
-                    .withSelfRel();
-            user.add(selfLink);
+            user = addLinkToUser(user);
 
             return new ResponseEntity<>(user, HttpStatus.CREATED);
         }else{
@@ -103,8 +97,8 @@ public class UserController {
      */
     @DeleteMapping("{id}")
     public ResponseEntity<User> deleteUser(@PathVariable("id") long id){
-        if(userService.checkUserExists(id)) {
-            userService.removeUser(id);
+        if(userService.checkIfEntityExistsById(id)) {
+            userService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -118,13 +112,10 @@ public class UserController {
      */
     @GetMapping("{id}/topics")
     public ResponseEntity<List<Topic>> getTopicsByUserId(@PathVariable("id") long id){
-        if(userService.checkUserExists(id)) {
+        if(userService.checkIfEntityExistsById(id)) {
 
             List<Topic> topics = topicService.getTopicsByUserId(id);
-            for (Topic topic : topics) {
-                Link selfLink = linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel();
-                topic.add(selfLink);
-            }
+            topics.forEach(TopicController::addLinkToTopic);
 
             return new ResponseEntity<>(topics, HttpStatus.OK);
         }else{
@@ -138,17 +129,20 @@ public class UserController {
      */
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers(){
-        List<User> allUsers = userService.getAllUsers();
+        List<User> allUsers = userService.findAll();
 
-        for(User user: allUsers){
-            Link selfLink = linkTo(UserController.class).slash(user.getEntityId()).withSelfRel();
-            user.add(selfLink);
-            if(topicService.getTopicsByUserId(user.getEntityId()).size() > 0){
-                Link topicsLink = linkTo(UserController.class).slash(user.getEntityId()).slash("topics").withRel("allTopics");
-                user.add(topicsLink);
-            }
+        if(!allUsers.isEmpty()){
+            allUsers.forEach(UserController::addLinkToUser);
+
+            return new ResponseEntity<>(allUsers, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
 
-        return new ResponseEntity<>(allUsers, HttpStatus.OK);
+    public static User addLinkToUser(User user){
+        user.add(linkTo(UserController.class).slash(user.getEntityId()).withSelfRel());
+        user.add(linkTo(UserController.class).slash(user.getEntityId()).slash("topics").withRel("topics"));
+        return user;
     }
 }

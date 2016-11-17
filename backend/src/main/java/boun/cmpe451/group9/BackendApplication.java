@@ -22,11 +22,11 @@ public class BackendApplication {
 		};
 	}
 
-	@Bean(destroyMethod = "")
+	@SuppressWarnings({"ContextJavaBeanUnresolvedMethodsInspection", "SpringJavaAutowiringInspection"})
+    @Bean(destroyMethod = "")
     public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf){
         return hemf.getSessionFactory();
     }
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);

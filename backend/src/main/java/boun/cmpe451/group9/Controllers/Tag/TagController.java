@@ -7,8 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
+@SuppressWarnings("MVCPathVariableInspection")
 @RestController
 @RequestMapping("/tags")
 public class TagController {
@@ -27,10 +30,8 @@ public class TagController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Tag> getTagById(@PathVariable("id") long id){
-        if(tagService.checkIfTagExistsById(id)){
-
-            Tag tag = tagService.getTagById(id);
-            tag.add(linkTo(TagController.class).slash(id).withSelfRel());
+        if(tagService.checkIfEntityExistsById(id)){
+            Tag tag = addLinksToTag(tagService.getById(id));
 
             return new ResponseEntity<>(tag, HttpStatus.OK);
         }else{
@@ -46,8 +47,9 @@ public class TagController {
     @PostMapping
     public ResponseEntity<Tag> addTag(@RequestBody Tag tag){
         if(!tagService.checkIfTagExistsByName(tag.getName())){
-            tagService.addTag(tag);
-            tag.add(linkTo(TagController.class).slash(tag.getEntityId()).withSelfRel());
+            tagService.save(tag);
+
+            tag = addLinksToTag(tag);
 
             return new ResponseEntity<>(tag, HttpStatus.CREATED);
         }else{
@@ -63,11 +65,11 @@ public class TagController {
      */
     @PutMapping("{id}")
     public ResponseEntity<Tag> updateTag(@PathVariable("id") long id, @RequestBody Tag tag){
-        if(tagService.checkIfTagExistsById(id)){
+        if(tagService.checkIfEntityExistsById(id)){
             tag.setEntityId(id);
-            tagService.updateTag(tag);
+            tagService.save(tag);
 
-            tag.add(linkTo(TagController.class).slash(id).withSelfRel());
+            tag = addLinksToTag(tag);
 
             return new ResponseEntity<>(tag, HttpStatus.OK);
         }else{
@@ -82,8 +84,8 @@ public class TagController {
      */
     @DeleteMapping("{id}")
     public ResponseEntity<Tag> deleteTagById(@PathVariable("id") long id){
-        if(tagService.checkIfTagExistsById(id)){
-            tagService.removeTag(id);
+        if(tagService.checkIfEntityExistsById(id)){
+            tagService.deleteById(id);
 
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else{
@@ -91,4 +93,21 @@ public class TagController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<List<Tag>> getAllTags(){
+        List<Tag> tags = tagService.findAll();
+
+        if(tags.size() > 0) {
+            tags.forEach(TagController::addLinksToTag);
+
+            return new ResponseEntity<>(tags, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public static Tag addLinksToTag(Tag tag){
+        tag.add(linkTo(TagController.class).slash(tag.getEntityId()).withSelfRel());
+        return tag;
+    }
 }

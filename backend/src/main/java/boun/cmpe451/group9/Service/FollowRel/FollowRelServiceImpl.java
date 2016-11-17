@@ -4,6 +4,7 @@ package boun.cmpe451.group9.Service.FollowRel;
 import boun.cmpe451.group9.DAO.FollowRel.FollowRelDAO;
 import boun.cmpe451.group9.Models.DB.FollowRel;
 import boun.cmpe451.group9.Models.DB.User;
+import boun.cmpe451.group9.Service.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
-public class FollowRelServiceImpl implements FollowRelService {
+@Transactional(readOnly = true)
+public class FollowRelServiceImpl extends BaseServiceImpl<FollowRel> implements FollowRelService {
 
     private FollowRelDAO followRelDAO;
 
@@ -22,32 +23,12 @@ public class FollowRelServiceImpl implements FollowRelService {
     }
 
     @Override
-    public void addFollowRel(FollowRel followRel) {
-        followRelDAO.addFollowRel(followRel);
-    }
-
-    @Override
-    public FollowRel getFollowRelById(long id) {
-        return followRelDAO.getFollowRelById(id);
-    }
-
-    @Override
-    public void updateFollowRel(FollowRel followRel) {
-        followRelDAO.updateFollowRel(followRel);
-    }
-
-    @Override
-    public void removeFollowRelById(long id) {
-        followRelDAO.removeFollowRelById(id);
-    }
-
-    @Override
     public List<User> getFollowingByUserId(long id) {
-        return followRelDAO.getfollowingById(id);
+        return followRelDAO.getFollowingById(id);
     }
 
     @Override
     public List<User> getFollowerByUserId(long id) {
-        return followRelDAO.getfollowerById(id);
+        return followRelDAO.getFollowerById(id);
     }
 }

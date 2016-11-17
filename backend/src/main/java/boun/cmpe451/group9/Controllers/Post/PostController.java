@@ -3,13 +3,15 @@ package boun.cmpe451.group9.Controllers.Post;
 import boun.cmpe451.group9.Models.DB.Post;
 import boun.cmpe451.group9.Service.Post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
+@SuppressWarnings("MVCPathVariableInspection")
 @RestController
 @RequestMapping("/posts")
 public class PostController {
@@ -28,11 +30,8 @@ public class PostController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Post> getPostById(@PathVariable("id") long id){
-        if(postService.checkIfPostExists(id)){
-            Post post = postService.getPostById(id);
-
-            Link selfLink = linkTo(PostController.class).slash(id).withSelfRel();
-            post.add(selfLink);
+        if(postService.checkIfEntityExistsById(id)){
+            Post post = addLinksToPost(postService.getById(id));
 
             return new ResponseEntity<>(post, HttpStatus.OK);
         }else{
@@ -47,10 +46,9 @@ public class PostController {
      */
     @PostMapping
     public ResponseEntity<Post> addPost(@RequestBody Post post){
-        postService.addPost(post);
+        postService.save(post);
 
-        Link selfLink = linkTo(PostController.class).slash(post.getEntityId()).withSelfRel();
-        post.add(selfLink);
+        post = addLinksToPost(post);
 
         return new ResponseEntity<>(post, HttpStatus.CREATED);
     }
@@ -63,12 +61,11 @@ public class PostController {
      */
     @PutMapping("{id}")
     public ResponseEntity<Post> updatePost(@PathVariable("id") long id,@RequestBody Post post){
-        if(postService.checkIfPostExists(id)){
+        if(postService.checkIfEntityExistsById(id)){
             post.setEntityId(id);
-            postService.updatePost(post);
+            postService.save(post);
 
-            Link selfLink = linkTo(PostController.class).slash(id).withSelfRel();
-            post.add(selfLink);
+            post = addLinksToPost(post);
 
             return new ResponseEntity<>(post, HttpStatus.OK);
         }else{
@@ -83,12 +80,30 @@ public class PostController {
      */
     @DeleteMapping("{id}")
     public ResponseEntity<Post> deletePost(@PathVariable("id") long id){
-        if(postService.checkIfPostExists(id)){
-            postService.removePostById(id);
+        if(postService.checkIfEntityExistsById(id)){
+            postService.deleteById(id);
 
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Post>> getAllPosts(){
+        List<Post> posts = postService.findAll();
+
+        if(posts.isEmpty()){
+            posts.forEach(this::addLinksToPost);
+
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    private Post addLinksToPost(Post post){
+        post.add(linkTo(PostController.class).slash(post.getEntityId()).withSelfRel());
+        return post;
     }
 }
