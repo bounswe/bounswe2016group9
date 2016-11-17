@@ -301,7 +301,7 @@
         			</div>
         		</div-->
         	</div>
-        	<div class="col-md-2">
+        	<div class="col-md-2" ng-controller="TopicPageCtrl">
         		<div class="row">
         			<div class="col-md-12">
         				<h3>Related Posts</h3>
@@ -310,6 +310,11 @@
         		<div class="row">
         			<div class="col-md-12">
         				<h3>Related Topics</h3>
+                        <ul>
+                            <li ng-repeat="relation in relations">
+                                {{relation.name}}
+                            </li>
+                        </ul>
         			</div>
         		</div>
         	</div>
