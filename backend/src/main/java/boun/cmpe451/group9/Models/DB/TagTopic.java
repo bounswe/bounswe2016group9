@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "TAG_TOPIC")
 public class TagTopic extends Base {

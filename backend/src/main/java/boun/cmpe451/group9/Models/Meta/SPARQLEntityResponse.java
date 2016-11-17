@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class SPARQLEntityResponse {
 
     private Head head;

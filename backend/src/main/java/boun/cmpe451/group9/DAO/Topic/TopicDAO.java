@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Database access methods for the table "TOPIC"
  */
+@SuppressWarnings("unused")
 public interface TopicDAO extends BaseDAO<Topic> {
 
     /**

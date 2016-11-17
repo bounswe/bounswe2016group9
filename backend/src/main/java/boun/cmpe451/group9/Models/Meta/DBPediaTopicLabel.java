@@ -2,6 +2,7 @@ package boun.cmpe451.group9.Models.Meta;
 
 import boun.cmpe451.group9.Models.DB.Topic;
 
+@SuppressWarnings("unused")
 public class DBPediaTopicLabel {
     private Topic topic;
     private String label;

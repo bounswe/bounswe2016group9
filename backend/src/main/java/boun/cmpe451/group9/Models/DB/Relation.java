@@ -1,6 +1,7 @@
 package boun.cmpe451.group9.Models.DB;
 
 import boun.cmpe451.group9.Models.Base;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 
@@ -24,6 +25,7 @@ public class Relation extends Base {
     @ManyToOne(cascade = CascadeType.ALL)
     private User createdUser;
 
+    @NotBlank
     @Column(name="CONTENT")
     private String content;
 

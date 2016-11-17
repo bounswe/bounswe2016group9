@@ -4,8 +4,6 @@ import boun.cmpe451.group9.DAO.BaseDAOImpl;
 import boun.cmpe451.group9.Models.DB.SemanticTag;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public class SemanticTagDAOImpl extends BaseDAOImpl<SemanticTag> implements SemanticTagDAO {
     @Override

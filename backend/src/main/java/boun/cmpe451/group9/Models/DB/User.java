@@ -9,13 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /**
  * The object representation of the table "USER"
  */
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "USER")
 public class User extends Base {

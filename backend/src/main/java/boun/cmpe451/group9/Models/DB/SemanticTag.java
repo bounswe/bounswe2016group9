@@ -7,9 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-/**
- * Created by mert on 15.11.2016.
- */
 @Entity
 @Table(name = "SEMANTIC_TAG")
 public class SemanticTag extends Base {

@@ -1,7 +1,6 @@
 package boun.cmpe451.group9.Controllers.Relation;
 
 import boun.cmpe451.group9.Models.DB.Relation;
-import boun.cmpe451.group9.Models.DB.Tag;
 import boun.cmpe451.group9.Service.Relation.RelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -2,12 +2,10 @@ package boun.cmpe451.group9.Models.DB;
 
 import boun.cmpe451.group9.Models.Base;
 import com.sun.org.apache.xpath.internal.operations.String;
-import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 
 @SuppressWarnings("unused")

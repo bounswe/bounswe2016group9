@@ -22,7 +22,7 @@ public class RelationServiceImpl extends BaseServiceImpl<Relation> implements Re
 
     @Override
     public List<Relation> getRelationFromTopicByTopicId(long id) {
-        return relationDAO.getallRelationFromTopicByTopicId(id);
+        return relationDAO.getAllRelationFromTopicByTopicId(id);
     }
 
     @Override

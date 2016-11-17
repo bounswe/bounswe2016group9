@@ -5,9 +5,8 @@ import boun.cmpe451.group9.Models.DB.Topic;
 
 import java.util.List;
 
-/**
- * Created by mert on 16.11.2016.
- */
+
+@SuppressWarnings("unused")
 public class TopicTagResponse {
     private Topic topic;
     private List<Tag> tags;

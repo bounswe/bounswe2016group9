@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public class RelationDAOImpl extends BaseDAOImpl<Relation> implements RelationDAO {
     @Override
-    public List<Relation> getallRelationFromTopicByTopicId(long id) {
+    public List<Relation> getAllRelationFromTopicByTopicId(long id) {
         return this.getSessionFactory().getCurrentSession()
                 .createSQLQuery("SELECT r.* FROM relation r JOIN topic t ON (t.id = r.from_topic_id) WHERE (t.id = :id)")
                 .addEntity(Relation.class)
@@ -35,14 +35,5 @@ public class RelationDAOImpl extends BaseDAOImpl<Relation> implements RelationDA
                 .setParameter("fromId", from)
                 .setParameter("toId", to)
                 .uniqueResult() != null;
-    }
-
-    @Override
-    public String getRelationContent(long id){
-        Session session = sessionFactory.getCurrentSession();
-        Relation relation = (Relation) session.createSQLQuery("SELECT r.* FROM relation r WHERE (r.id = :id)")
-                .addEntity(Relation.class)
-                .setParameter("id", id);
-          return relation.getContent();
     }
 }

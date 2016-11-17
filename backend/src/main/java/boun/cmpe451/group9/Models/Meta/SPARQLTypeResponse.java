@@ -1,10 +1,9 @@
 package boun.cmpe451.group9.Models.Meta;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.List;
 
 
+@SuppressWarnings("unused")
 public class SPARQLTypeResponse {
     private Head head;
     private Results results;
