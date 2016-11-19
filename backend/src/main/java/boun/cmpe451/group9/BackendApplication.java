@@ -17,12 +17,13 @@ public class BackendApplication {
 		return new WebMvcConfigurerAdapter() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/API/*").allowedOrigins("http://localhost:9000");
+				registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
 			}
 		};
 	}
 
-	@Bean(destroyMethod = "")
+	@SuppressWarnings({"ContextJavaBeanUnresolvedMethodsInspection", "SpringJavaAutowiringInspection"})
+    @Bean(destroyMethod = "")
     public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf){
         return hemf.getSessionFactory();
     }

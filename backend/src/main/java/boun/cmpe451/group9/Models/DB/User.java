@@ -4,20 +4,16 @@ import boun.cmpe451.group9.Models.Base;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * The object representation of the table "USER"
  */
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "USER")
 public class User extends Base {
@@ -35,10 +31,7 @@ public class User extends Base {
     @Length(min = 3, max = 20)
     private String surname;
 
-    @NotNull
     @Column(name = "AGE")
-    @Min(value = 15)
-    @Max(value = 100)
     private int age;
 
     @NotBlank

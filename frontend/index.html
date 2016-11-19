@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="ui.bootstrap.demo">
+<html lang="en" ng-app="InfoGrappoWeb">
   <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,6 +10,11 @@
     <!-- Font file from cdn-->
     <!--script src="https://use.fontawesome.com/b11d304967.js"></script-->
     <!-- Font file from local-->
+
+    <!-- Dropdown menu js files -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
 
     <!-- Bootstrap -->
@@ -30,15 +36,16 @@
     <script type="text/javascript" src="dist/vis.js"></script>
     <link href="dist/vis.css" rel="stylesheet" type="text/css" />
   </head>
-  <body>
+  <body ng-controller="HomeCtrl">
     <nav class="navbar navbar-default">
       <div class="container-fluid"  id="main-nav-bar">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <a class="navbar-brand" href="#" style="height: inherit">
-            <img alt="brand" src="../logo/Horizontal.png" style="width: 15%; height: auto">
+          <a class="navbar-brand" href="index.html" style="height: inherit">
+            <img alt="brand" src="../logo/Horizontal.png" height=70 >
           </a>
         </div>
+
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <!--div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -52,102 +59,123 @@
         <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
           <ul class="nav navbar-nav">
             <li>
-              <form class="navbar-form">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-              </form>
+                <form class="navbar-form searchForm" method="get" action="search.html" ng-controller="SearchCtrl">
+                    <div class="form-group">
+                      <input type="text" id="tfq" class="search-elements" name="q" size="21" maxlength="120" placeholder="Search our website">
+                      <select class="form-control" >
+                        <option value="normalsearch">Normal</option>
+                        <option value="relationSearch">Relation</option>
+                        <option value="dateSearch">Date</option>
+                      </select>
+                      <button type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search()">Search</button>
+                    </div>
+                </form>
             </li>
+
             <li class="navbar-right"><a href="#" style="color: #97B0F8">Log Out</a></li>
             <li class="navbar-right"><a href="#" style="color: white">Settings</a></li>
             <li class="navbar-right"><a href="#" style="color: white">Notification</a></li>
-            <li class="navbar-right"><a href="#" style="color: white;">Profile</a></li>
+            <li class="navbar-right"><a href="profilePage.html" style="color: white;">Profile</a></li>
           </ul>
+          
+
+
+
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
+    <div class="container-fluid"  style="padding-left: 0">
+      <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
+          <div class="col-md-2 col-lg-2">
+              <!--  Create Topic Modal -->
+              <script type="text/ng-template" id="createTopic.html">
+                  <div class="modal-header">
+                      <h3 class="modal-title" id="modal-title">Create Topic</h3>
+                  </div>
+                  <div class="modal-body" id="modal-body">
+                      <span>Topic Name</span>
+                      <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName">
+                      <hr class="dl-horizontal"/>
+                      <span>Tag</span>
+                      <input type="text" class="form-control" placeholder="Tags" ng-model="topicTags">
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateTopic()">OK</button>
+                      <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                  </div>
+              </script>
+              <!--  Add Relation Modal  -->
+              <script type="text/ng-template" id="addRelation.html">
+                  <div class="modal-header">
+                      <h3 class="modal-title" id="modal-title">Add Relation</h3>
+                  </div>
+                  <div class="modal-body" id="modal-body">
+                      <span>Topic Name</span>
+                      <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName1">
+                      <hr class="dl-horizontal"/>
+                      <span>Topic Name</span>
+                      <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName2">
+                      <hr class="dl-horizontal"/>
+                      <span>Relation Name</span>
+                      <input type="text" class="form-control" placeholder="Relation Name" ng-model="relationName">
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn btn-primary" type="button" ng-click="$ctrl.okAddRelation()">OK</button>
+                      <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                  </div>
+              </script>
+              <ul class="left-navbar">
+                  <li><a ng-click="show = !show">Grappi</a></li>
+                  <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
+                  <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
+              </ul>
+          </div>
+          <div class="col-md-10 col-lg-10" ng-show="show">
+              <div id="mynetwork"></div>    
+          </div>
+          <div class="col-md-10 col-lg-10" ng-show="!show">
+              <h1>HOME</h1>   
+              <div>
+                  <p><i class="fa fa-dot-circle-o"></i>
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
+                  created a topic: 
+                  <a href="topic.html" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Election 2016</a> 
+                  (November 14, 19:53).
+                  </p>
 
-    <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
-        <div class="col-md-2 col-lg-2">
-            <!--  Create Topic Modal -->
-            <script type="text/ng-template" id="createTopic.html">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="modal-title">Create Topic</h3>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName">
-                    <span>Tag</span>
-                    <input type="text" class="form-control" placeholder="Tags" ng-model="topicTags">
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateTopic()">OK</button>
-                    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                </div>
-            </script>
-            <!--  Add Relation Modal  -->
-            <script type="text/ng-template" id="addRelation.html">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="modal-title">Add Relation</h3>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName1">
-                    <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName2">
-                    <span>Relation Name</span>
-                    <input type="text" class="form-control" placeholder="Relation Name" ng-model="relationName">
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okAddRelation()">OK</button>
-                    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                </div>
-            </script>
-            <ul class="left-navbar">
-                <li><a ng-click="show = !show">What's Going On</a></li>
-                <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
-                <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
-            </ul>
-        </div>
-        <div class="col-md-10 col-lg-10" ng-show="show">
-            <div id="mynetwork"></div>    
-        </div>
-        <div class="col-md-10 col-lg-10" ng-show="!show">
-            <h1>HOME</h1>   
-            <div>
-                <p><i class="fa fa-dot-circle-o"></i>
-                <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
-                commented on 
-                <i style="color:blue; text-decoration: underline;">Dawn of Justice ...</i>, 
-                 Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. (18:47)
-                </p>
+                  <p><i class="fa fa-dot-circle-o"></i>
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
+                  commented on 
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice ...</a>
+                  , 
+                   Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. (18:47)
+                  </p>
 
-                <p><i class="fa fa-dot-circle-o"></i>
-                <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
-                created a post under
-                <i style="color:blue; text-decoration: underline;">Dawn of Justice</i> topic, 
-                <i style="text-decoration: underline;">Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </i> (18:42)
-                </p>
+                  <p><i class="fa fa-dot-circle-o"></i>
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
+                  created a post under
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> topic, 
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </a> (18:42)
+                  </p>
 
-                <p><i class="fa fa-dot-circle-o"></i>
-                <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
-                add a relation called
-                <i style="color:blue; text-decoration: underline;">Dawn of Justice</i> between
-                <i style="text-decoration: underline;">Lorem ipsum dolor sit amet</i> and 
-                <i style="text-decoration: underline;">Lorem ipsum dolor</i> (15:47).
-                </p>
+                  <p><i class="fa fa-dot-circle-o"></i>
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
+                  add a relation called
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> between
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Lorem ipsum dolor sit amet</a> and 
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Lorem ipsum dolor</a> (15:47).
+                  </p>
 
-                <p><i class="fa fa-dot-circle-o"></i>
-                <i style="color:blue; text-decoration: underline;">Emre Öztürk (pevey)</i>
-                created a topic: 
-                <i style="color:blue; text-decoration: underline;">Dawn of Justice</i> 
-                (September 14, 15:47).
-                </p>
-            </div>
-        </div>
+                  <p><i class="fa fa-dot-circle-o"></i>
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
+                  created a topic: 
+                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> 
+                  (September 14, 15:47).
+                  </p>
+              </div>
+          </div>
+      </div>
     </div>
-
     <!-- Angular file(necessary for UI-Bootstrap's Angular plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
@@ -157,37 +185,10 @@
     <script src="js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
     <!-- Our own js file -->
     <script src="js/InfoGrappo.js"></script>
-    <script type="text/javascript">
-        // create an array with nodes
-        var nodes = new vis.DataSet([
-            {id: 1, label: 'Node 1'},
-            {id: 2, label: 'Node 2'},
-            {id: 3, label: 'Node 3'},
-            {id: 4, label: 'Node 4'},
-            {id: 5, label: 'Node 5'}
-        ]);
-
-        // create an array with edges
-        var edges = new vis.DataSet([
-            {from: 1, to: 3},
-            {from: 1, to: 2},
-            {from: 1, to: 2},
-            {from: 2, to: 4},
-            {from: 2, to: 5}
-        ]);
-
-        // create a network
-        var container = document.getElementById('mynetwork');
-
-        // provide the data in the vis format
-        var data = {
-            nodes: nodes,
-            edges: edges
-        };
-        var options = {};
-
-        // initialize your network!
-        var network = new vis.Network(container, data, options);
-    </script>
   </body>
 </html>
+
+
+
+
+

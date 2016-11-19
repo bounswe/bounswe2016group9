@@ -1,12 +1,14 @@
 package boun.cmpe451.group9.Models.DB;
 
 import boun.cmpe451.group9.Models.Base;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 
 /**
  * The object representation of the table "RELATION"
  */
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "RELATION")
 public class Relation extends Base {
@@ -22,6 +24,10 @@ public class Relation extends Base {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private User createdUser;
+
+    @NotBlank
+    @Column(name="CONTENT")
+    private String content;
 
     public Topic getFromTopic() {
         return fromTopic;
@@ -54,4 +60,8 @@ public class Relation extends Base {
     public void setCreatedUser(User createdUser) {
         this.createdUser = createdUser;
     }
+
+    public String getContent() {  return content;    }
+
+    public void setContent(String content) {this.content = content;  }
 }

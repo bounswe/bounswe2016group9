@@ -12,6 +12,7 @@ import javax.persistence.Table;
 /**
  * The object representation of the table "IMAGE"
  */
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "IMAGE")
 public class Image extends Base {

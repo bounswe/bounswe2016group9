@@ -1,7 +1,7 @@
 package boun.cmpe451.group9.Controllers.Image;
 
-/**
- * Created by mert on 14.11.2016.
- */
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class ImageController {
 }

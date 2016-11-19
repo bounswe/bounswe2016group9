@@ -10,18 +10,19 @@ InfoGrappo is a crowdsourcing platform that merges the wisdom of the community. 
 # InfoGrappo 
 +    [Project Description] (https://github.com/bounswe/bounswe2016group9/wiki/Project%20Description)   
 +    [Requirements] (https://github.com/bounswe/bounswe2016group9/wiki/Requirements)  
-+    [Mockups](https://github.com/bounswe/bounswe2016group9/wiki/Mockups)
-+    [Test Plan](https://github.com/bounswe/bounswe2016group9/wiki/TestPlan)
-
++    [Mockups] (https://github.com/bounswe/bounswe2016group9/wiki/Mockups)   
++    [Test Plan] (https://github.com/bounswe/bounswe2016group9/wiki/TestPlan)   
++    [Project Plan] (https://github.com/bounswe/bounswe2016group9/wiki/Project-Plan)
 +    [CMPE 352] (https://github.com/bounswe/bounswe2016group9/wiki/Cmpe352All)
 
+
 ## Team Members
-+    [Mehmet Doğan](Mehmet Doğan)
-+    [Işıl Kurt](Işıl Kurt)
++    [Mehmet Doğan] (Mehmet Doğan)
++    [Işıl Kurt] (Işıl Kurt)
 +    [Ömer Faruk Tayfur] (Ömer Faruk Tayfur)
 +    [Abdulmenaf Kasap] (Abdulmenaf Kasap)
 +    [Seha Yiğit Güryol] (Seha Yiğit)
 +    [Haluk Aydın] (Haluk Aydın)
 +    [Serpil Kuzu] (Serpil Kuzu)
-+    [Uğur Taş](Uğur Taş)
-+    [Mert Even](Mert Even)
++    [Uğur Taş] (Uğur Taş)
++    [Mert Even] (Mert Even)

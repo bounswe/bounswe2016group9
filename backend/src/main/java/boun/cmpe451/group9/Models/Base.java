@@ -9,6 +9,7 @@ import java.util.Date;
  * The base class for all classes that represents a table.
  * Includes variables that are common for all tables
  */
+@SuppressWarnings("unused")
 @MappedSuperclass
 public class Base extends ResourceSupport {
     @Id
