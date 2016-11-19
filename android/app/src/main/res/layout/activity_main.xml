@@ -13,7 +13,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to App"
+        android:text="Sign In"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/button"
