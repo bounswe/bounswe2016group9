@@ -34,43 +34,7 @@
     <div ng-include="'navbar.html'"></div>
     <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
         <div class="col-md-2 col-lg-2">
-            <!--  Create Topic Modal -->
-            <script type="text/ng-template" id="createTopic.html">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="modal-title">Create Topic</h3>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName">
-                    <hr class="dl-horizontal"/>
-                    <span>Tag</span>
-                    <input type="text" class="form-control" placeholder="Tags" ng-model="topicTags">
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateTopic()">OK</button>
-                    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                </div>
-            </script>
-            <!--  Add Relation Modal  -->
-            <script type="text/ng-template" id="addRelation.html">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="modal-title">Add Relation</h3>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName1">
-                    <hr class="dl-horizontal"/>
-                    <span>Topic Name</span>
-                    <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName2">
-                    <hr class="dl-horizontal"/>
-                    <span>Relation Name</span>
-                    <input type="text" class="form-control" placeholder="Relation Name" ng-model="relationName">
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="$ctrl.okAddRelation()">OK</button>
-                    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                </div>
-            </script>
+            <div ng-include="'modals.html'"></div>
             <ul class="left-navbar">
                 <li><a ng-click="show = !show">What's Going On</a></li>
                 <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>

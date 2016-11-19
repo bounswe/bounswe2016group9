@@ -35,71 +35,7 @@
     <div class="container-fluid" style="padding-left: 0">
         <div class="row">
         	<div class="col-md-2" ng-controller="ModalDemoCtrl as $ctrl">
-        		<!--  Create Topic Modal -->
-                <script type="text/ng-template" id="createTopic.html">
-                    <div class="modal-header">
-                        <h3 class="modal-title" id="modal-title">Create Topic</h3>
-                    </div>
-                    <div class="modal-body" id="modal-body">
-                        <span>Topic Name</span>
-                        <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName">
-                        <span>Tag</span>
-                        <input type="text" class="form-control" placeholder="Tags" ng-model="topicTags">
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateTopic()">OK</button>
-                        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                    </div>
-                </script>
-                <!--  Add Relation Modal  -->
-                <script type="text/ng-template" id="addRelation.html">
-                    <div class="modal-header">
-                        <h3 class="modal-title" id="modal-title">Add Relation</h3>
-                    </div>
-                    <div class="modal-body" id="modal-body">
-                        <span>Topic Name</span>
-                        <input type="text" class="form-control" placeholder="Topic Name">
-                        <span>Topic Name</span>
-                        <input type="text" class="form-control" placeholder="Topic Name">
-                        <span>Relation Name</span>
-                        <input type="text" class="form-control" placeholder="Relation Name">
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="button" ng-click="$ctrl.okAddRelation()">OK</button>
-                        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                    </div>
-                </script>
-                <!--  Create Post  -->
-                <script type="text/ng-template" id="createPost.html">
-                    <div class="modal-header">
-                        <h3 class="modal-title" id="modal-title">Create Post</h3>
-                    </div>
-                    <div class="modal-body" id="modal-body">
-                        <span>Post</span>
-                        <textarea class="form-control" rows="6" placeholder="Post" id="Post" ng-model="postContent"></textarea>
-                         <hr class="dl-horizontal"/>
-                        <span>Tags</span>
-                        <input type="text" class="form-control" placeholder="Tags" ng-model="postTags">
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreatePost()">OK</button>
-                        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                    </div>
-                </script>
-                <!--  Create Comment  -->
-                <script type="text/ng-template" id="createComment.html">
-                    <div class="modal-header">
-                        <h3 class="modal-title" id="modal-title">Create Comment</h3>
-                    </div>
-                    <div class="modal-body" id="modal-body">
-                        <span>Add Comment</span>
-                        <textarea class="form-control" rows="6" placeholder="Comment" id="Comment" ng-model="comment"></textarea>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateComment()">OK</button>
-                        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                    </div>
-                </script>
+                <div ng-include="'modals.html'"></div>
                 <ul class="left-navbar">
                     <li><a >Grappi</a></li>
                     <li><a href="" ng-click="$ctrl.openAddRelation()">Add relation</a></li>
