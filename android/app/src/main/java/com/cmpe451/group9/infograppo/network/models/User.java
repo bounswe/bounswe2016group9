@@ -1,17 +1,33 @@
 package com.cmpe451.group9.infograppo.network.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by menaf on 16/11/16.
  */
 
 public class User {
 
+    @SerializedName("username")
     private String username;
+
+    @SerializedName("name")
     private String name;
+
+    @SerializedName("surname")
     private String surname;
+
+    @SerializedName("age")
     private int age;
+
+    @SerializedName("password")
     private String password;
+
+    @SerializedName("email")
     private String email;
+
+    @SerializedName("entity_id")
+    private int entityId;
 
     public String getUsername() {
         return username;
@@ -59,6 +75,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(int entityId) {
+        this.entityId = entityId;
     }
 
 }

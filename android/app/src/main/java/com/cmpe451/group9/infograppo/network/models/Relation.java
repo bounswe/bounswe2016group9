@@ -1,15 +1,26 @@
 package com.cmpe451.group9.infograppo.network.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by menaf on 16/11/16.
  */
 
 public class Relation {
 
+    @SerializedName("name")
     private String name;
+
+    @SerializedName("fromTopic")
     private Topic fromTopic;
+
+    @SerializedName("toTopic")
     private Topic toTopic;
+
+    @SerializedName("voteCount")
     private int voteCount;
+
+    @SerializedName("createdUser")
     private User createdUser;
 
     public String getName() {
