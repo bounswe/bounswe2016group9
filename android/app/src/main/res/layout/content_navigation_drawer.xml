@@ -13,4 +13,25 @@
     tools:context="com.cmpe451.group9.infograppo.activities.NavigationDrawerActivity"
     tools:showIn="@layout/app_bar_navigation_drawer">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/topicName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp" />
+        <TextView
+            android:id="@+id/trendingCount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp" />
+        <TextView
+            android:id="@+id/entityId"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp" />
+    </LinearLayout>
+
 </RelativeLayout>
