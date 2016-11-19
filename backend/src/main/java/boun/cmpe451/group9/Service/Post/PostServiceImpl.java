@@ -22,4 +22,14 @@ public class PostServiceImpl extends BaseServiceImpl<Post> implements PostServic
     public List<Post> getPostByUserId(long id) {
         return postDAO.getPostByUserId(id);
     }
+
+    @Override
+    public List<Post> getPostByTopicId(long id) {
+        return postDAO.getPostByUserId(id);
+    }
+
+    @Override
+    public List<Post> getPostByLocation(int id) {
+        return postDAO.getPostByLocation(id);
+    }
 }

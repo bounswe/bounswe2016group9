@@ -15,14 +15,14 @@ public interface PostDAO extends BaseDAO<Post> {
     /**
      * Retrieves the list of row with the given user id from the table "POST"
      * @param userID the id of the user
-     * @return List of post
+     * @return List of posts
      */
     List<Post> getPostByUserId(long userID);
 
     /**
      * Retrieves the list of row with the given topic id from the table "POST"
      * @param topicID the id of the user
-     * @return List of post
+     * @return List of posts
      */
     List<Post> getPostsByTopicId(long topicID);
 
