@@ -86,11 +86,19 @@ body {
   border-bottom-left-radius: 5px 5px;
 }
 
-        
 .navbar-brand {
     float: left;
     height: 50px;
     padding: 3px 3px;
     font-size: 18px;
     line-height: 20px;
+}
+
+#profileProperties {
+  border-style: groove;
+  height: 150px;
+  background: white;
+  padding: 20px;
+  font-size: medium;
+  display: inline-block;
 }
