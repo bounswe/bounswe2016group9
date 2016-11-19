@@ -1,7 +1,7 @@
 package boun.cmpe451.group9.Models.DB;
 
 import boun.cmpe451.group9.Models.Base;
-import com.sun.org.apache.xpath.internal.operations.String;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -14,8 +14,7 @@ import javax.persistence.*;
 public class Post extends Base {
 
     @NotBlank
-    @Column(name = "CONTENT")
-    @Length(min = 3, max = 100)
+    @Column(name = "CONTENT", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "VOTE_COUNT")
