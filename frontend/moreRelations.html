@@ -36,21 +36,20 @@
     <script type="text/javascript" src="dist/vis.js"></script>
     <link href="dist/vis.css" rel="stylesheet" type="text/css" />
   </head>
-  <!--body ng-controller="HomeCtrl"-->
-  <body ng-controller="HomeCtrl">
+  <!--body ng-controller="RelationshipsCtrl"-->
+  <body>
     <div ng-include="'navbar.html'"></div>
     <div class="container-fluid"  style="padding-left: 0">
       <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
           <div class="col-md-2 col-lg-2">
-              <div ng-include="'modals.html'"></div>
-              <ul class="left-navbar">
-                  <li><a>Grappi</a></li>
-                  <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
-                  <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
-              </ul>
+            <div ng-include="'modals.html'"></div>
+            <ul class="left-navbar">
+              <li><a ng-click="show = !show"><span ng-show="!show">Grappi</span><span ng-show="show">Relation</span></a></li>
+              <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
+              <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
+            </ul>
           </div>
-          <!--div class="col-md-8" ng-controller="RelationshipsController" -->
-          <div class="col-md-8" >
+          <div class="col-md-9" ng-show="!show">
             <div class="row">
               <div class="col-md-10">
                 <!--h1>{{relation.topic1name}} - {{relation.topic2name}}</h1-->
@@ -87,6 +86,9 @@
                
               </div>
             </div>
+          </div>
+          <div class="col-md-10 col-lg-10" ng-show="show">
+            <div id="mynetwork"></div>    
           </div>
       </div>
     </div>

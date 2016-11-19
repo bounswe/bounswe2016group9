@@ -36,7 +36,7 @@
         <div class="col-md-2 col-lg-2">
             <div ng-include="'modals.html'"></div>
             <ul class="left-navbar">
-                <li><a ng-click="show = !show">What's Going On</a></li>
+                <li><a ng-click="show = !show"><span ng-show="!show">Grappi</span><span ng-show="show">Search</span></a></li>
                 <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
                 <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
             </ul>
@@ -108,38 +108,5 @@
     <script src="js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
     <!-- Our own js file -->
     <script src="js/InfoGrappo.js"></script>
-    <script src="js/SearchCtrl.js"></script>
-    <script type="text/javascript">
-        // create an array with nodes
-        var nodes = new vis.DataSet([
-            {id: 1, label: 'Node 1'},
-            {id: 2, label: 'Node 2'},
-            {id: 3, label: 'Node 3'},
-            {id: 4, label: 'Node 4'},
-            {id: 5, label: 'Node 5'}
-        ]);
-
-        // create an array with edges
-        var edges = new vis.DataSet([
-            {from: 1, to: 3},
-            {from: 1, to: 2},
-            {from: 1, to: 2},
-            {from: 2, to: 4},
-            {from: 2, to: 5}
-        ]);
-
-        // create a network
-        var container = document.getElementById('mynetwork');
-
-        // provide the data in the vis format
-        var data = {
-            nodes: nodes,
-            edges: edges
-        };
-        var options = {};
-
-        // initialize your network!
-        var network = new vis.Network(container, data, options);
-    </script>
   </body>
 </html>

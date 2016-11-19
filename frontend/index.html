@@ -39,60 +39,60 @@
   <body ng-controller="HomeCtrl">
   <div ng-include="'navbar.html'"></div>
     <div class="container-fluid"  style="padding-left: 0">
-      <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
-          <div class="col-md-2 col-lg-2">
-          <div ng-include="'modals.html'"></div>
-            <ul class="left-navbar">
-                <li><a ng-click="show = !show"><span ng-show="!show">Grappi</span><span ng-show="show">Home</span></a></li>
-                <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
-                <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
-            </ul>
-          </div>
-          <div class="col-md-10 col-lg-10" ng-show="show">
-              <div id="mynetwork"></div>    
-          </div>
-          <div class="col-md-10 col-lg-10" ng-show="!show">
-              <h1>HOME</h1>   
-              <div>
-                  <p><i class="fa fa-dot-circle-o"></i>
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
-                  created a topic: 
-                  <a href="topic.html" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Election 2016</a> 
-                  (November 14, 19:53).
-                  </p>
+        <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
+            <div class="col-md-2 col-lg-2">
+                <div ng-include="'modals.html'"></div>
+                <ul class="left-navbar">
+                    <li><a ng-click="show = !show"><span ng-show="!show">Grappi</span><span ng-show="show">Home</span></a></li>
+                    <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
+                    <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
+                </ul>
+            </div>
+            <div class="col-md-10 col-lg-10" ng-show="show">
+                <div id="mynetwork"></div>    
+            </div>
+            <div class="col-md-10 col-lg-10" ng-show="!show">
+                <h1>HOME</h1>   
+                <div>
+                    <p><i class="fa fa-dot-circle-o"></i>
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
+                    created a topic: 
+                    <a href="topic.html" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Election 2016</a> 
+                    (November 14, 19:53).
+                    </p>
 
-                  <p><i class="fa fa-dot-circle-o"></i>
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
-                  commented on 
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice ...</a>
-                  , 
-                   Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. (18:47)
-                  </p>
+                    <p><i class="fa fa-dot-circle-o"></i>
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
+                    commented on 
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice ...</a>
+                    , 
+                    Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. (18:47)
+                    </p>
 
-                  <p><i class="fa fa-dot-circle-o"></i>
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
-                  created a post under
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> topic, 
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </a> (18:42)
-                  </p>
+                    <p><i class="fa fa-dot-circle-o"></i>
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
+                    created a post under
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> topic, 
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Any Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </a> (18:42)
+                    </p>
 
-                  <p><i class="fa fa-dot-circle-o"></i>
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
-                  add a relation called
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> between
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Lorem ipsum dolor sit amet</a> and 
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Lorem ipsum dolor</a> (15:47).
-                  </p>
+                    <p><i class="fa fa-dot-circle-o"></i>
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
+                    add a relation called
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> between
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Lorem ipsum dolor sit amet</a> and 
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Lorem ipsum dolor</a> (15:47).
+                    </p>
 
-                  <p><i class="fa fa-dot-circle-o"></i>
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
-                  created a topic: 
-                  <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> 
-                  (September 14, 15:47).
-                  </p>
-              </div>
-          </div>
-      </div>
+                    <p><i class="fa fa-dot-circle-o"></i>
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Emre Öztürk (pevey)</a>
+                    created a topic: 
+                    <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Content"> Dawn of Justice</a> 
+                    (September 14, 15:47).
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- Angular file(necessary for UI-Bootstrap's Angular plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>

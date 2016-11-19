@@ -33,22 +33,26 @@
   <body ng-controller="TopicPageCtrl">
     <div ng-include="'navbar.html'"></div>
     <div class="container-fluid" style="padding-left: 0">
-        <div class="row">
-        	<div class="col-md-2" ng-controller="ModalDemoCtrl as $ctrl">
+        <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
+        	<div class="col-md-2">
                 <div ng-include="'modals.html'"></div>
                 <ul class="left-navbar">
-                    <li><a >Grappi</a></li>
+                    <li><a ng-click="show = !show"><span ng-show="!show">Grappi</span><span ng-show="show">Topic</span></a></li>
                     <li><a href="" ng-click="$ctrl.openAddRelation()">Add relation</a></li>
                     <li><a href="" ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
                 </ul>
             </div>
+            <!-- Map -->
+            <div class="col-md-8" ng-show="show">
+                <div id="mynetwork"></div>    
+            </div>
             <!--  Content  -->
-        	<div class="col-md-8">
+        	<div class="col-md-8" ng-show="!show">
         		<div class="row">
         			<div class="col-md-10">
         				<h1>{{topic.name}}</h1>
         			</div>
-        			<div class="col-md-2" ng-controller="ModalDemoCtrl as $ctrl">
+        			<div class="col-md-2">
         				<button type="button" class="btn btn-primary" ng-click="$ctrl.openCreatePost()">Create Post</button>
         			</div>
         		</div>
@@ -105,101 +109,11 @@
             				<span>{{comment.commentContent}}</span>
             			</div>
                     </div>
-                    <!--  Comment  >
-                    <div class="col-md-1 col-md-offset-1">
-                        <ul class="rating">
-                            <li>
-                                <a href=><i class="fa fa-thumbs-up"></i></a> 
-                            </li>
-                            <li>
-                                <span>15</span>
-                            </li>
-                            <li>
-                                <a href=><i class="fa fa-thumbs-down"></i></a> 
-                            </li>
-                        </ul>
-                    </div>
-        			<div class="col-md-10 generalBorder">
-        				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-        			</div-->
-                    <!--  Comment  >
-                    <div class="col-md-1 col-md-offset-1">
-                        <ul class="rating">
-                            <li>
-                                <a href=><i class="fa fa-thumbs-up"></i></a> 
-                            </li>
-                            <li>
-                                <span>15</span>
-                            </li>
-                            <li>
-                                <a href=><i class="fa fa-thumbs-down"></i></a> 
-                            </li>
-                        </ul>
-                    </div>
-        			<div class="col-md-10 generalBorder">
-        				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-        			</div-->
                     <!--  Add Comment Button  -->
-        			<div class="col-md-2 col-md-offset-2"  ng-controller="ModalDemoCtrl as $ctrl">
+        			<div class="col-md-2 col-md-offset-2">
         				<button type="button" class="btn btn-primary" ng-click="$ctrl.openCreateComment()">Add Comment</button>
         			</div>
                 </div>
-                <!--div class="row">
-                    <div class="col-md-1">
-                        <ul class="rating">
-                            <li>
-                                <a href=><i class="fa fa-thumbs-up"></i></a> 
-                            </li>
-                            <li>
-                                <span>15</span>
-                            </li>
-                            <li>
-                                <a href=><i class="fa fa-thumbs-down"></i></a> 
-                            </li>
-                            <li>
-                                <a href=><i class="fa fa-star"></i></a> 
-                            </li>
-                        </ul>
-                    </div>
-        			<div class="col-md-11 generalBorder">
-        				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-        			</div>
-                    <div class="col-md-1 col-md-offset-1">
-                        <ul class="rating">
-                            <li>
-                                <a href=><i class="fa fa-thumbs-up"></i></a> 
-                            </li>
-                            <li>
-                                <span>15</span>
-                            </li>
-                            <li>
-                                <a href=><i class="fa fa-thumbs-down"></i></a> 
-                            </li>
-                        </ul>
-                    </div>
-        			<div class="col-md-10 generalBorder">
-        				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-        			</div>
-                    <div class="col-md-1 col-md-offset-1">
-                        <ul class="rating">
-                            <li>
-                                <a href=><i class="fa fa-thumbs-up"></i></a> 
-                            </li>
-                            <li>
-                                <span>15</span>
-                            </li>
-                            <li>
-                                <a href=><i class="fa fa-thumbs-down"></i></a> 
-                            </li>
-                        </ul>
-                    </div>
-        			<div class="col-md-10 generalBorder">
-        				<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-        			</div>
-        			<div class="col-md-2 col-md-offset-2">
-        				<button type="button" class="btn btn-primary">Add Comment</button>
-        			</div>
-        		</div-->
         	</div>
         	<div class="col-md-2">
         		<div class="row">
@@ -218,6 +132,7 @@
         			</div>
         		</div>
         	</div>
+
     	</div>
     </div>
     <!-- Angular file(necessary for UI-Bootstrap's Angular plugins) -->
