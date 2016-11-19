@@ -1,32 +1,26 @@
-package boun.cmpe451.group9.Models.DB;
+package com.cmpe451.group9.infograppo.network.models;
 
-import boun.cmpe451.group9.Models.Base;
+import com.google.gson.annotations.SerializedName;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+/**
+ * Created by menaf on 16/11/16.
+ */
 
-import javax.persistence.*;
+public class Post {
 
-
-@SuppressWarnings("unused")
-@Entity
-@Table(name = "POST")
-public class Post extends Base {
-
-    @NotBlank
-    @Column(name = "CONTENT", columnDefinition = "TEXT")
+    @SerializedName("content")
     private String content;
 
-    @Column(name = "VOTE_COUNT")
+    @SerializedName("voteCount")
     private int voteCount;
 
-    @Column(name="LOCATION_ID")
+    @SerializedName("locationID")
     private int locationID;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @SerializedName("createdUser")
     private User createdUser;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @SerializedName("topic")
     private Topic topic;
 
     public String getContent() {
