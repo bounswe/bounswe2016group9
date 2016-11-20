@@ -9,7 +9,7 @@
         <item
             android:id="@+id/grappi"
             android:icon="@drawable/ic_grappi"
-            android:title="@string/grappi" />
+            android:title="@string/grappi"/>
         <item
             android:id="@+id/create_topic"
             android:icon="@drawable/ic_create_topic"

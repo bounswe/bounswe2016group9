@@ -20,4 +20,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NavigationDrawerActivity.class);
         startActivity(intent);
     }
+
+    public void showListView(View view) {
+        Intent intent = new Intent(this,ListViewActivity.class);
+        startActivity(intent);
+    }
 }
