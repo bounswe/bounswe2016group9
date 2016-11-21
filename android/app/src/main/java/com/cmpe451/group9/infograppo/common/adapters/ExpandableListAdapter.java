@@ -1,20 +1,14 @@
-package com.cmpe451.group9.infograppo.adapters;
+package com.cmpe451.group9.infograppo.common.adapters;
 
 /**
  * Created by gral on 11/20/16.
  */
-
-import java.util.List;
-import java.util.Map;
-
-import com.cmpe451.group9.infograppo.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +16,11 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.cmpe451.group9.infograppo.R;
+
+import java.util.List;
+import java.util.Map;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 

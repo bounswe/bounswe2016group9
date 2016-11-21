@@ -1,15 +1,13 @@
 package com.cmpe451.group9.infograppo.activities;
 
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +22,7 @@ import com.cmpe451.group9.infograppo.R;
 import com.cmpe451.group9.infograppo.network.models.Topic;
 import com.cmpe451.group9.infograppo.network.models.User;
 import com.cmpe451.group9.infograppo.network.services.MySingleton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -43,12 +42,35 @@ public class NavigationDrawerActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        final FloatingActionButton grappi = (FloatingActionButton) findViewById(R.id.grappi);
+        grappi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                grappi.setTitle("Grappi Clicked");
+            }
+        });
+
+        final FloatingActionButton createTopic = (FloatingActionButton) findViewById(R.id.create_topic);
+        createTopic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createTopic.setTitle("Create Topic Clicked");
+            }
+        });
+
+        final FloatingActionButton addRelation = (FloatingActionButton) findViewById(R.id.add_relation);
+        addRelation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addRelation.setTitle("Add Relation Clicked");
+            }
+        });
+
+        final FloatingActionButton search = (FloatingActionButton) findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search.setTitle("Search Clicked");
             }
         });
 
@@ -107,12 +129,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
             this.setTitle(R.string.grappi);
 
 
-
             final TextView topicName = (TextView) findViewById(R.id.topicName);
             final TextView trendingCount = (TextView) findViewById(R.id.trendingCount);
             final TextView entityId = (TextView) findViewById(R.id.entityId);
 
-            String url ="http://52.67.44.90:8080/topics/";
+            String url = "http://52.67.44.90:8080/topics/";
 
             JsonArrayRequest jsObjRequest = new JsonArrayRequest
                     (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -129,7 +150,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                tmp =new Gson().fromJson(String.valueOf(obj), Topic.class);
+                                tmp = new Gson().fromJson(String.valueOf(obj), Topic.class);
                                 lists.add(tmp);
                             }
                             topicName.setText(lists.get(15).getName());
@@ -173,9 +194,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
                             User asd = new Gson().fromJson(String.valueOf(response), User.class);
 
-                            topicName.setText("User name: "+asd.getName());
-                            trendingCount.setText("User surname: "+ asd.getSurname());
-                            entityId.setText("User email address: "+ asd.getEmail());
+                            topicName.setText("User name: " + asd.getName());
+                            trendingCount.setText("User surname: " + asd.getSurname());
+                            entityId.setText("User email address: " + asd.getEmail());
 
 
                         }

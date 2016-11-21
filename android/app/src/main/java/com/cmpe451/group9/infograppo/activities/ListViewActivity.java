@@ -5,12 +5,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.cmpe451.group9.infograppo.adapters.ExpandableListAdapter;
+import com.cmpe451.group9.infograppo.common.adapters.ExpandableListAdapter;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
