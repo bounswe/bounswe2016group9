@@ -12,7 +12,7 @@ public class PostDAOImpl extends BaseDAOImpl<Post> implements PostDAO {
     @Override
     public List<Post> getPostByUserId(long userID) {
         return this.getSessionFactory().getCurrentSession()
-                .createSQLQuery("SELECT * FROM post p WHERE p.user_id = :id")
+                .createSQLQuery("SELECT * FROM post p WHERE p.created_user_id = :id")
                 .addEntity(Post.class)
                 .setParameter("id", userID)
                 .list();
@@ -21,5 +21,14 @@ public class PostDAOImpl extends BaseDAOImpl<Post> implements PostDAO {
     @Override
     public List<Post> getPostByLocation(int locationID) {
         return null;
+    }
+
+    @Override
+    public List<Post> getPostsByTopicId(long topicID) {
+        return this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT * FROM post p WHERE p.topic_id = :id")
+                .addEntity(Post.class)
+                .setParameter("id", topicID)
+                .list();
     }
 }

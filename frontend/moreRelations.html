@@ -36,88 +36,20 @@
     <script type="text/javascript" src="dist/vis.js"></script>
     <link href="dist/vis.css" rel="stylesheet" type="text/css" />
   </head>
-  <!--body ng-controller="HomeCtrl"-->
-  <body ng-controller="HomeCtrl">
-    <nav class="navbar navbar-default">
-      <div class="container-fluid"  id="main-nav-bar">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#" style="height: inherit">
-            <img alt="brand" src="../logo/Horizontal.png" height=70 >
-          </a>
-        </div>
-        <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
-          <ul class="nav navbar-nav">
-            <li>
-                <form class="navbar-form searchForm" method="get" action="search.html" ng-controller="SearchCtrl">
-                    <div class="form-group">
-                      <input type="text" id="tfq" class="search-elements" name="q" size="21" maxlength="120" placeholder="Search our website">
-                      <select class="form-control" >
-                        <option value="normalsearch">Normal</option>
-                        <option value="relationSearch">Relation</option>
-                        <option value="dateSearch">Date</option>
-                      </select>
-                      <button type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search()">Search</button>
-                    </div>
-                </form>
-            </li>
-
-            <li class="navbar-right"><a href="#" style="color: #97B0F8">Log Out</a></li>
-            <li class="navbar-right"><a href="#" style="color: white">Settings</a></li>
-            <li class="navbar-right"><a href="#" style="color: white">Notification</a></li>
-            <li class="navbar-right"><a href="#" style="color: white;">Profile</a></li>
-          </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
+  <!--body ng-controller="RelationshipsCtrl"-->
+  <body>
+    <div ng-include="'navbar.html'"></div>
     <div class="container-fluid"  style="padding-left: 0">
       <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
           <div class="col-md-2 col-lg-2">
-              <!--  Create Topic Modal -->
-              <script type="text/ng-template" id="createTopic.html">
-                  <div class="modal-header">
-                      <h3 class="modal-title" id="modal-title">Create Topic</h3>
-                  </div>
-                  <div class="modal-body" id="modal-body">
-                      <span>Topic Name</span>
-                      <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName">
-                      <hr class="dl-horizontal"/>
-                      <span>Tag</span>
-                      <input type="text" class="form-control" placeholder="Tags" ng-model="topicTags">
-                  </div>
-                  <div class="modal-footer">
-                      <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateTopic()">OK</button>
-                      <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                  </div>
-              </script>
-              <!--  Add Relation Modal  -->
-              <script type="text/ng-template" id="addRelation.html">
-                  <div class="modal-header">
-                      <h3 class="modal-title" id="modal-title">Add Relation</h3>
-                  </div>
-                  <div class="modal-body" id="modal-body">
-                      <span>Topic Name</span>
-                      <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName1">
-                      <hr class="dl-horizontal"/>
-                      <span>Topic Name</span>
-                      <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName2">
-                      <hr class="dl-horizontal"/>
-                      <span>Relation Name</span>
-                      <input type="text" class="form-control" placeholder="Relation Name" ng-model="relationName">
-                  </div>
-                  <div class="modal-footer">
-                      <button class="btn btn-primary" type="button" ng-click="$ctrl.okAddRelation()">OK</button>
-                      <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-                  </div>
-              </script>
-              <ul class="left-navbar">
-                  <li><a>Grappi</a></li>
-                  <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
-                  <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
-              </ul>
+            <div ng-include="'modals.html'"></div>
+            <ul class="left-navbar">
+              <li><a ng-click="show = !show"><span ng-show="!show">Grappi</span><span ng-show="show">Relation</span></a></li>
+              <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
+              <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
+            </ul>
           </div>
-          <!--div class="col-md-8" ng-controller="RelationshipsController" -->
-          <div class="col-md-8" >
+          <div class="col-md-9" ng-show="!show">
             <div class="row">
               <div class="col-md-10">
                 <!--h1>{{relation.topic1name}} - {{relation.topic2name}}</h1-->
@@ -154,6 +86,9 @@
                
               </div>
             </div>
+          </div>
+          <div class="col-md-10 col-lg-10" ng-show="show">
+            <div id="mynetwork"></div>    
           </div>
       </div>
     </div>
