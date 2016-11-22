@@ -1,6 +1,8 @@
 package boun.cmpe451.group9.Controllers.Post;
 
+import boun.cmpe451.group9.Controllers.Comment.CommentController;
 import boun.cmpe451.group9.Controllers.Tag.TagController;
+import boun.cmpe451.group9.Models.DB.Comment;
 import boun.cmpe451.group9.Models.DB.Post;
 import boun.cmpe451.group9.Models.DB.Tag;
 import boun.cmpe451.group9.Service.Comment.CommentService;
@@ -101,6 +103,10 @@ public class PostController {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping
     public ResponseEntity<List<Post>> getAllPosts(){
         List<Post> posts = postService.findAll();
@@ -114,7 +120,11 @@ public class PostController {
         }
     }
 
-
+    /**
+     Returns a response for the request "GET /posts/{id}/tags"
+     * @param id the id of the resource "Post"
+     * @return OK with the list of tags that post owns, NOT_FOUND if the post is not found
+     */
    @GetMapping("{id}/tags")
     public ResponseEntity<List<Tag>> getAllTagsByPostId(@PathVariable("id") long id){
         if(postService.checkIfEntityExistsById(id)){
@@ -129,9 +139,28 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     Returns a response for the request "GET /posts/{id}/comments"
+     * @param id the id of the resource "Post"
+     * @return OK with the list of comments that post owns, NOT_FOUND if the post is not found
+     */
+    @GetMapping("{id}/comments")
+    public ResponseEntity<List<Comment>> getAllCommentsByPostId(@PathVariable("id") long id){
+        if(postService.checkIfEntityExistsById(id)){
+            List <Comment> comments= commentService.getCommentByPostId(id);
+            if(!comments.isEmpty()){
+                comments.forEach(CommentController::addLinksToComment);
+                return  new ResponseEntity<>(comments, HttpStatus.OK);
+            }
+
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     public static Post addLinksToPost(Post post){
         post.add(linkTo(PostController.class).slash(post.getEntityId()).withSelfRel());
+        post.add(linkTo(PostController.class).slash("tags").withRel("tags"));
+        post.add(linkTo(PostController.class).slash("comments").withRel("comments"));
         return post;
     }
 

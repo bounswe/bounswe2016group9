@@ -1,10 +1,11 @@
 package boun.cmpe451.group9.Controllers.User;
 
+import boun.cmpe451.group9.Controllers.Comment.CommentController;
 import boun.cmpe451.group9.Controllers.Post.PostController;
 import boun.cmpe451.group9.Controllers.Topic.TopicController;
-import boun.cmpe451.group9.Models.DB.Post;
-import boun.cmpe451.group9.Models.DB.Topic;
-import boun.cmpe451.group9.Models.DB.User;
+import boun.cmpe451.group9.Models.DB.*;
+
+import boun.cmpe451.group9.Service.Comment.CommentService;
 import boun.cmpe451.group9.Service.Post.PostService;
 import boun.cmpe451.group9.Service.Topic.TopicService;
 import boun.cmpe451.group9.Service.User.UserService;
@@ -31,6 +32,7 @@ public class UserController {
 
     private PostService postService;
 
+    private CommentService commentService;
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -41,6 +43,9 @@ public class UserController {
 
     @Autowired
     public void setPostService(PostService postService){this.postService=postService;}
+
+    @Autowired
+    public void setCommentService(CommentService commentService){ this.commentService= commentService;}
     /**
      * Returns a response for the request "GET /users/{id}"
      * @param id the id of the resource "User"
@@ -130,6 +135,11 @@ public class UserController {
         }
     }
 
+    /**
+     *Returns a response for the request "GET /users/{id}/posts"
+     * @param id the id of the resource "User"
+     * @return OK with the list of posts the user "id" created, NOT_FOUND if the user is not found
+     */
     @GetMapping("{id}/posts")
     public ResponseEntity<List<Post>> getPostsByUserId (@PathVariable("id") long id){
         if(userService.checkIfEntityExistsById(id)){
@@ -142,6 +152,22 @@ public class UserController {
         }
     }
 
+    /**
+     *Returns a response for the request "GET /users/{id}/comments"
+     * @param id the id of the resource "User"
+     * @return OK with the list of comments the user "id" created, NOT_FOUND if the user is not found
+     */
+    @GetMapping("{id}/comments")
+    public ResponseEntity<List<Comment>> getCommentsByUserId (@PathVariable("id") long id){
+        if(userService.checkIfEntityExistsById(id)){
+            List<Comment> comments= commentService.getCommentsByUserId(id);
+            comments.forEach(CommentController::addLinksToComment);
+            return new ResponseEntity<>(comments, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     /**
      * Returns a response for the request "GET /users"
      * @return the list of all users
