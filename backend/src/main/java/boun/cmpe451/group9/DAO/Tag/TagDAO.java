@@ -13,4 +13,6 @@ public interface TagDAO extends BaseDAO<Tag> {
     boolean checkIfTagExistsByName(String name);
 
     List<Tag> getTagsByTopicId(long id);
+
+    List<Tag> getTagsByPostId(long id);
 }

@@ -34,4 +34,7 @@ public class TagServiceImpl extends BaseServiceImpl<Tag> implements TagService {
     public List<Tag> getTagsByTopicId(long id) {
         return tagDAO.getTagsByTopicId(id);
     }
+
+    @Override
+    public List<Tag> getTagsByPostId(long id) { return tagDAO.getTagsByPostId(id);}
 }

@@ -115,10 +115,10 @@ public class PostController {
     }
 
 
-   /* @GetMapping("{id}/tags")
+   @GetMapping("{id}/tags")
     public ResponseEntity<List<Tag>> getAllTagsByPostId(@PathVariable("id") long id){
         if(postService.checkIfEntityExistsById(id)){
-            List<Tag> tags = tagService.get
+            List<Tag> tags = tagService.getTagsByPostId(id);
 
             if(!tags.isEmpty()){
                 tags.forEach(TagController::addLinksToTag);
@@ -129,7 +129,7 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-*/
+
     public static Post addLinksToPost(Post post){
         post.add(linkTo(PostController.class).slash(post.getEntityId()).withSelfRel());
         return post;
