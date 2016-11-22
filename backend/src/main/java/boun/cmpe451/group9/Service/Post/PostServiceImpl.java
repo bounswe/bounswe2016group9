@@ -6,10 +6,13 @@ import boun.cmpe451.group9.Service.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import boun.cmpe451.group9.DAO.Post.PostDAO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 @Service
+@Transactional(readOnly = true)
 public class PostServiceImpl extends BaseServiceImpl<Post> implements PostService {
     private PostDAO postDAO;
 
@@ -25,7 +28,7 @@ public class PostServiceImpl extends BaseServiceImpl<Post> implements PostServic
 
     @Override
     public List<Post> getPostByTopicId(long id) {
-        return postDAO.getPostByUserId(id);
+        return postDAO.getPostsByTopicId(id);
     }
 
     @Override

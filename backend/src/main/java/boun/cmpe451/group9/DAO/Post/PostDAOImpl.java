@@ -20,7 +20,11 @@ public class PostDAOImpl extends BaseDAOImpl<Post> implements PostDAO {
 
     @Override
     public List<Post> getPostByLocation(int locationID) {
-        return null;
+        return  this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT * FROM post p WHERE p.locationID = :id")
+                .addEntity(Post.class)
+                .setParameter("id", locationID)
+                .list();
     }
 
     @Override

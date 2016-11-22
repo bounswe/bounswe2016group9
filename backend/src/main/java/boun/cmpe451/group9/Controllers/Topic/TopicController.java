@@ -1,5 +1,6 @@
 package boun.cmpe451.group9.Controllers.Topic;
 
+import boun.cmpe451.group9.Controllers.Post.PostController;
 import boun.cmpe451.group9.Controllers.Relation.RelationController;
 import boun.cmpe451.group9.Controllers.SemanticTag.SemanticTagController;
 import boun.cmpe451.group9.Controllers.Tag.TagController;
@@ -7,6 +8,8 @@ import boun.cmpe451.group9.Models.DB.*;
 import boun.cmpe451.group9.Models.Meta.SPARQLEntityResponse;
 import boun.cmpe451.group9.Models.Meta.SPARQLTypeResponse;
 import boun.cmpe451.group9.Models.Meta.TopicTagResponse;
+import boun.cmpe451.group9.Service.Comment.CommentService;
+import boun.cmpe451.group9.Service.Post.PostService;
 import boun.cmpe451.group9.Service.Relation.RelationService;
 import boun.cmpe451.group9.Service.STagTopic.STagTopicService;
 import boun.cmpe451.group9.Service.SemanticTag.SemanticTagService;
@@ -39,6 +42,7 @@ public class TopicController {
     private SemanticTagService semanticTagService;
     private STagTopicService sTagTopicService;
     private RelationService relationService;
+    private PostService postService;
 
     @Autowired
     public void setTopicService(TopicService topicService){
@@ -68,6 +72,10 @@ public class TopicController {
     @Autowired
     public void setRelationService(RelationService relationService){
         this.relationService = relationService;
+    }
+    @Autowired
+    public void setPostService(PostService postService) {
+        this.postService = postService;
     }
 
     /**
@@ -311,6 +319,20 @@ public class TopicController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    @GetMapping("{id}/posts")
+    public ResponseEntity<List<Post>> getAllPostsByTopicId(@PathVariable("id") long id){
+        if(topicService.checkIfEntityExistsById(id)) {
+
+            List<Post> posts = postService.getPostByTopicId(id);
+            if (!posts.isEmpty()) {
+                posts.forEach(PostController::addLinksToPost);
+
+
+                return new ResponseEntity<>(posts, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     public static Topic addLinkToTopic(Topic topic){
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel());
@@ -318,7 +340,7 @@ public class TopicController {
         topic.add(linkTo(TopicController.class).slash("semanticTags").withRel("semanticTags"));
         topic.add(linkTo(TopicController.class).slash("fromTopics").withRel("relationsFromTopics"));
         topic.add(linkTo(TopicController.class).slash("toTopics").withRel("relationsToTopics"));
-
+        topic.add(linkTo(TopicController.class).slash("posts").withRel("posts"));
         return topic;
     }
 

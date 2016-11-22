@@ -1,7 +1,11 @@
 package boun.cmpe451.group9.Controllers.Post;
 
+import boun.cmpe451.group9.Controllers.Tag.TagController;
 import boun.cmpe451.group9.Models.DB.Post;
+import boun.cmpe451.group9.Models.DB.Tag;
+import boun.cmpe451.group9.Service.Comment.CommentService;
 import boun.cmpe451.group9.Service.Post.PostService;
+import boun.cmpe451.group9.Service.Tag.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +21,19 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class PostController {
 
     private PostService postService;
+    private CommentService commentService;
+    private TagService tagService;
 
     @Autowired
     public void setPostService(PostService postService){
         this.postService = postService;
     }
+
+    @Autowired
+    public void setCommentService(CommentService commentService) { this.commentService = commentService; }
+
+    @Autowired
+    public void setTagService(TagService tagService) {this.tagService = tagService; }
 
     /**
      * Retrieves post "id"
@@ -93,8 +105,8 @@ public class PostController {
     public ResponseEntity<List<Post>> getAllPosts(){
         List<Post> posts = postService.findAll();
 
-        if(posts.isEmpty()){
-            posts.forEach(this::addLinksToPost);
+        if(!posts.isEmpty()){
+            posts.forEach(PostController::addLinksToPost);
 
             return new ResponseEntity<>(posts, HttpStatus.OK);
         }else{
@@ -102,8 +114,26 @@ public class PostController {
         }
     }
 
-    private Post addLinksToPost(Post post){
+
+   /* @GetMapping("{id}/tags")
+    public ResponseEntity<List<Tag>> getAllTagsByPostId(@PathVariable("id") long id){
+        if(postService.checkIfEntityExistsById(id)){
+            List<Tag> tags = tagService.get
+
+            if(!tags.isEmpty()){
+                tags.forEach(TagController::addLinksToTag);
+
+                return new ResponseEntity<>(tags, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+*/
+    public static Post addLinksToPost(Post post){
         post.add(linkTo(PostController.class).slash(post.getEntityId()).withSelfRel());
         return post;
     }
+
+
 }

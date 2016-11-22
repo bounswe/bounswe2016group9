@@ -1,8 +1,11 @@
 package boun.cmpe451.group9.Controllers.User;
 
+import boun.cmpe451.group9.Controllers.Post.PostController;
 import boun.cmpe451.group9.Controllers.Topic.TopicController;
+import boun.cmpe451.group9.Models.DB.Post;
 import boun.cmpe451.group9.Models.DB.Topic;
 import boun.cmpe451.group9.Models.DB.User;
+import boun.cmpe451.group9.Service.Post.PostService;
 import boun.cmpe451.group9.Service.Topic.TopicService;
 import boun.cmpe451.group9.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,8 @@ public class UserController {
 
     private TopicService topicService;
 
+    private PostService postService;
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -34,6 +39,8 @@ public class UserController {
     @Autowired
     public void setTopicService(TopicService topicService){ this.topicService = topicService; }
 
+    @Autowired
+    public void setPostService(PostService postService){this.postService=postService;}
     /**
      * Returns a response for the request "GET /users/{id}"
      * @param id the id of the resource "User"
@@ -119,6 +126,18 @@ public class UserController {
 
             return new ResponseEntity<>(topics, HttpStatus.OK);
         }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("{id}/posts")
+    public ResponseEntity<List<Post>> getPostsByUserId (@PathVariable("id") long id){
+        if(userService.checkIfEntityExistsById(id)){
+            List<Post> posts= postService.getPostByUserId(id);
+            posts.forEach(PostController::addLinksToPost);
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        }
+        else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
