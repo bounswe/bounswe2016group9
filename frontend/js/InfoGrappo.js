@@ -1,5 +1,8 @@
 angular.module('InfoGrappoWeb', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics){
+angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootScope, Topics){
+  
+  $rootScope.user = {name:"Ali Çomar", age:18, city:"Adana/Turkey", email:"alicomar@comarci.com"};
+
   $scope.sendTopic = function(toTopicID){
     Topics.sendTopic(toTopicID);
     console.log(Topics.getTopic());
@@ -146,6 +149,32 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
     });
   };
 
+  $ctrl.openProfileSettings = function (size, parentSelector) {
+    var parentElem = parentSelector ? 
+      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+    var modalInstance = $uibModal.open({
+      animation: $ctrl.animationsEnabled,
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      templateUrl: 'profileSettings.html',
+      controller: 'ModalInstanceCtrl',
+      controllerAs: '$ctrl',
+      size: size,
+      appendTo: parentElem,
+      resolve: {
+        items: function () {
+          return $ctrl.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (result) {
+      console.log(result);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
   $ctrl.toggleAnimation = function () {
     $ctrl.animationsEnabled = !$ctrl.animationsEnabled;
   };
@@ -201,6 +230,14 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
     };
     $uibModalInstance.close(result);
   };
+
+  $ctrl.okSaveProfile = function () {
+    console.log($scope.user);
+    var result = {
+      user : $scope.user
+    };
+    $uibModalInstance.close(result);
+  }
 
   $ctrl.cancel = function () {
     $uibModalInstance.dismiss('cancel');

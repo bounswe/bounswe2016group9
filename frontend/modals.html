@@ -63,3 +63,32 @@
                         <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
                     </div>
                 </script>
+                <script type="text/ng-template" id="profileSettings.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Profile Settings</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input class="form-control" type="text" name="name" ng-model="user.name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input class="form-control" type="text" name="email" ng-model="user.email">
+                            </div>
+                            <div class="form-group">
+                                <label for="age">Age</label>
+                                <input class="form-control" type="number" name="age" ng-model="user.age">
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input class="form-control" type="text" name="user.city" ng-model="user.city">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" ng-click="$ctrl.okSaveProfile()">Save</button>
+                        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                    </div>
+                </script>
