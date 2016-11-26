@@ -175,6 +175,32 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
     });
   };
 
+  $ctrl.openLogin = function (size, parentSelector) {
+    var parentElem = parentSelector ? 
+      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+    var modalInstance = $uibModal.open({
+      animation: $ctrl.animationsEnabled,
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      templateUrl: 'signIn.html',
+      controller: 'ModalInstanceCtrl',
+      controllerAs: '$ctrl',
+      size: "lg",
+      appendTo: parentElem,
+      resolve: {
+        items: function () {
+          return $ctrl.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (result) {
+      console.log(result);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
   $ctrl.toggleAnimation = function () {
     $ctrl.animationsEnabled = !$ctrl.animationsEnabled;
   };
@@ -236,6 +262,22 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
     var result = {
       user : $scope.user
     };
+    $uibModalInstance.close(result);
+  }
+
+  $ctrl.okSignIn = function () {
+    console.log($scope.signIn);
+    var result = {
+      signIn : $scope.signIn
+    };
+    $uibModalInstance.close(result);
+  }
+
+  $ctrl.okSignUp = function () {
+    console.log($scope.signUp);
+    var result = {
+      signUp : $scope.signUp
+    }
     $uibModalInstance.close(result);
   }
 
