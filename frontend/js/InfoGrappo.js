@@ -6,7 +6,7 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
   $scope.sendTopic = function(toTopicID){
     Topics.sendTopic(toTopicID);
     console.log(Topics.getTopic());
-  }
+  };
   Topics.all().then(function(response){
     $scope.topics = response;
     console.log($scope.topics.data);
@@ -20,7 +20,11 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
       });
       Topics.getRelation($scope.topics.data[i].entityId).then(function(response){
         for (var j = 0; j < response.data.length; j++) {
-          edges.push({from: response.data[j].fromTopic.entityId,to:response.data[j].toTopic.entityId});
+          edges.push({
+              from: response.data[j].fromTopic.entityId,
+              to:response.data[j].toTopic.entityId,
+              value: response.data[j].voteCount
+          });
         }
 
       // create a network
@@ -31,7 +35,19 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
           nodes: nodes,
           edges: edges
       };
-      var options = {};
+      var options = {
+        nodes: {
+          font: {
+            color: 'white'
+          },
+          // color: '#51F7F2'
+          //color: '#2ADAD5'
+          color: '#C2478B'
+        },
+        edges: {
+          color: '#29CB51'
+        }
+      };
 
       // initialize your network!
       var network = new vis.Network(container, data, options);

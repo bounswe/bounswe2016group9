@@ -1,5 +1,5 @@
 body {
-  background: aliceblue;
+  background: lightcyan;
 }
 
 .navbar-header {
@@ -8,8 +8,9 @@ body {
 
 #mynetwork {
   /*width: 1000px;*/
-  height: 800px;
+  height: 600px;
   border: 1px solid lightgray;
+  background: white;
 }
 .left-navbar {
   list-style-type: none;
