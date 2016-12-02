@@ -23,11 +23,6 @@
                 <form class="navbar-form searchForm" method="get" action="search.html" ng-controller="SearchCtrl">
                     <div class="form-group">
                       <input type="text" id="tfq" class="search-elements" name="q" size="21" maxlength="120" placeholder="Search our website">
-                      <select class="form-control" >
-                        <option value="normalsearch">Normal</option>
-                        <option value="relationSearch">Relation</option>
-                        <option value="dateSearch">Date</option>
-                      </select>
                       <button type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search()">Search</button>
                     </div>
                 </form>
@@ -38,10 +33,6 @@
             <li class="navbar-right"><a href="profile.html" style="color: white;">Profile</a></li>
             <li class="navbar-right" ng-controller="ModalDemoCtrl as $ctrl"><a href="#" ng-click="$ctrl.openLogin()" style="color: white;">Sign in / Sign Up </a></li>
           </ul>
-          
-
-
-
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>

@@ -36,61 +36,31 @@
     <script type="text/javascript" src="dist/vis.js"></script>
     <link href="dist/vis.css" rel="stylesheet" type="text/css" />
   </head>
-  <!--body ng-controller="RelationshipsCtrl"-->
   <body ng-controller="HomeCtrl">
     <div ng-include="'navbar.html'"></div>
-    <div class="container-fluid"  style="padding-left: 0">
-      <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
-          <div class="col-md-2 col-lg-2">
-            <div ng-include="'modals.html'"></div>
-            <ul class="left-navbar">
-              <li><a ng-click="show = !show"><span ng-show="!show">Grappi</span><span ng-show="show">Relation</span></a></li>
-              <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
-              <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
-            </ul>
-          </div>
-          <div class="col-md-9" ng-show="!show">
-            <div class="row">
-              <div class="col-md-10">
-                <!--h1>{{relation.topic1name}} - {{relation.topic2name}}</h1-->
-                <h1>Rusya - Amerika</h1>
-              </div>
-            </div>
-          
-                <!--  Relation's texts  -->
-            <!--div class="row" ng-repeat="relations"-->
-            <div class="row">
-              <div class="col-md-1">
-                <ul class="rating">
-                  <li>
-                    <a href=><i class="fa fa-thumbs-up"></i></a> 
-                  </li>
-                  <li>
-                    <span>85</span>
-                    <!--span>{{relation.relationRate}}</span-->
-                  </li>
-                  <li>
-                    <a href=><i class="fa fa-thumbs-down"></i></a> 
-                  </li>
-                </ul>
-              </div>
-              <div class="col-md-11 generalBorder">
-                <!--span>{{post.relationText}}</span-->
-                
-                <div><span>3. Dünya Savaşı'ndaki en büyük iki ülkesi.</span></div>
-                <div>
-                  <span style="float:right;">Related by Mehmet Doğan on 09.11.2016</span>
-                  <!--span style="float:right;">Related by {{relation.owner}} on {{relation.date}}</span-->
+        <div class="container-fluid"  style="padding-left: 0">
+            <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
+                <div class="col-md-2 col-lg-2">
+                    <div ng-include="'modals.html'"></div>
+                    <ul class="left-navbar">
+                        <li><a ng-click="show = !show"><span ng-show="!show">Grappi</span><span ng-show="show">Home</span></a></li>
+                        <li><a ng-click="$ctrl.openAddRelation()">Add relation</a></li>
+                        <li><a ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
+                    </ul>
                 </div>
-          
-               
-              </div>
+                <div class="col-md-10 col-lg-10" ng-show="show">
+                    <div id="mynetwork"></div>    
+                </div>
+                <div class="col-md-10 col-lg-10" ng-show="!show"  ng-controller="TopicGraphCtrl">
+                    <div class="row">
+                        <h1>{{topics.data[0].name}}</h1>
+                    </div>
+                    <div class="row" >
+                        <div id="topicnetwork"></div>  
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-md-10 col-lg-10" ng-show="show">
-            <div id="mynetwork"></div>    
-          </div>
-      </div>
+        </div>
     </div>
     <!-- Angular file(necessary for UI-Bootstrap's Angular plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>

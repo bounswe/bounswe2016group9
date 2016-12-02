@@ -33,7 +33,6 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
       // provide the data in the vis format
       var data = {
           nodes: nodes,
-          edges: edges
       };
       var options = {
         nodes: {
@@ -43,14 +42,68 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
           // color: '#51F7F2'
           //color: '#2ADAD5'
           color: '#C2478B'
-        },
-        edges: {
-          color: '#29CB51'
         }
       };
 
       // initialize your network!
       var network = new vis.Network(container, data, options);
+      });
+    }
+  });  
+});
+
+
+
+angular.module('InfoGrappoWeb').controller('TopicGraphCtrl', function($scope, Topics){
+  $scope.sendTopic = function(toTopicID){
+    Topics.sendTopic(toTopicID);
+    console.log(Topics.getTopic());
+  };
+  Topics.all().then(function(response){
+    $scope.topics = response;
+    console.log($scope.topics.data);
+    // create an array with nodes
+    var nodes = [];
+    var edges = [];
+
+   
+
+    for (var i = 0; i<$scope.topics.data.length; i++) {
+      nodes.push({
+        id :$scope.topics.data[i].entityId,
+        label: $scope.topics.data[i].name
+      });
+      Topics.getRelation($scope.topics.data[i].entityId).then(function(response){
+        for (var j = 0; j < response.data.length; j++) {
+          edges.push({
+              from: response.data[j].fromTopic.entityId,
+              to:response.data[j].toTopic.entityId,
+              value: response.data[j].voteCount
+          });
+        }
+
+      // create a network
+      var container2 = document.getElementById('topicnetwork');
+      // provide the data in the vis format
+      var data = {
+          nodes: nodes,
+          edges: edges
+      };
+      var options = {
+        nodes: {
+          font: {
+            color: 'white'
+          },
+          // color: '#51F7F2'
+          // color: '#2ADAD5'
+          color: '#C2478B'
+        },
+        edges: {
+          color: '#29CB51'
+        }
+      };
+      // initialize your network!
+      var network = new vis.Network(container2, data, options);
       });
     }
   });  
@@ -357,6 +410,7 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
   $scope.posts=Posts.all();
   $scope.comments=Comments.all();
 });
+
 
 angular.module('InfoGrappoWeb').factory('Topics', function($http) {
   // Might use a resource here that returns a JSON array
