@@ -30,4 +30,15 @@
         android:id="@+id/button2"
         android:onClick="showListView"/>
 
+    <Button
+        android:text="Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button2"
+        android:layout_alignRight="@+id/button2"
+        android:layout_alignEnd="@+id/button2"
+        android:layout_marginTop="36dp"
+        android:id="@+id/button3"
+        android:onClick="showProfile"/>
+
 </RelativeLayout>

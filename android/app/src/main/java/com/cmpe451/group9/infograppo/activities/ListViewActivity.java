@@ -69,6 +69,7 @@ public class ListViewActivity extends AppCompatActivity {
                                 userinfo.add(tmp.getUser().getName());
                                 userinfo.add(tmp.getUser().getSurname());
                                 userinfo.add(tmp.getUser().getEmail());
+
                             }catch(Exception e){}
 
                             tWR.put(tmp.getName(), userinfo);
@@ -78,7 +79,6 @@ public class ListViewActivity extends AppCompatActivity {
 
                         expListView.setAdapter(expListAdapter);
 
-                        setGroupIndicatorToRight();
 
                         expListView.setOnChildClickListener(new OnChildClickListener() {
 
