@@ -5,101 +5,103 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.cmpe451.group9.infograppo.common.adapters.ExpandableListAdapter;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Toast;
 
 import com.cmpe451.group9.infograppo.R;
+import com.cmpe451.group9.infograppo.network.models.Topic;
+import com.cmpe451.group9.infograppo.network.services.MySingleton;
+import com.google.gson.Gson;
 
-public class ListViewActivity extends Activity {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    List<String> groupList;
-    List<String> childList;
-    Map<String, List<String>> laptopCollection;
+public class ListViewActivity extends AppCompatActivity {
+
+    List<String> relatedTopics;
+    Map<String, List<String>> topicsWithRelations;
     ExpandableListView expListView;
+    ListViewActivity listViewActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
-
-        createGroupList();
-
-        createCollection();
-
         expListView = (ExpandableListView) findViewById(R.id.laptop_list);
-        final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(
-                this, groupList, laptopCollection);
-        expListView.setAdapter(expListAdapter);
+        relatedTopics = new ArrayList<String>();
+        topicsWithRelations = new LinkedHashMap<String, List<String>>();
 
-        //setGroupIndicatorToRight();
+        final String url = "http://52.67.44.90:8080/topics/";
 
-        expListView.setOnChildClickListener(new OnChildClickListener() {
+        MySingleton.getInstance(this).addToRequestQueue(new JsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
 
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                final String selected = (String) expListAdapter.getChild(
-                        groupPosition, childPosition);
-                Toast.makeText(getBaseContext(), selected, Toast.LENGTH_LONG)
-                        .show();
+                        Topic tmp;
+                        ArrayList<String> allTops= new ArrayList<String>();
+                        ArrayList<String> userinfo;
+                        Map<String, List<String>> tWR= new LinkedHashMap<String, List<String>>();
+                        JSONObject obj = new JSONObject();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                obj = response.getJSONObject(i);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            tmp = new Gson().fromJson(String.valueOf(obj), Topic.class);
+                            allTops.add(tmp.getName());
+                            userinfo = new ArrayList<>();
+                            try {
+                                userinfo.add(tmp.getUser().getName());
+                                userinfo.add(tmp.getUser().getSurname());
+                                userinfo.add(tmp.getUser().getEmail());
+                            }catch(Exception e){}
 
-                return true;
-            }
-        });
-    }
+                            tWR.put(tmp.getName(), userinfo);
+                        }
+                        final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(
+                                listViewActivity, allTops, tWR);
 
-    private void createGroupList() {
-        groupList = new ArrayList<String>();
-        groupList.add("HP");
-        groupList.add("Dell");
-        groupList.add("Lenovo");
-        groupList.add("Sony");
-        groupList.add("HCL");
-        groupList.add("Samsung");
-    }
+                        expListView.setAdapter(expListAdapter);
 
-    private void createCollection() {
-        // preparing laptops collection(child)
-        String[] hpModels = { "HP Pavilion G6-2014TX", "ProBook HP 4540",
-                "HP Envy 4-1025TX" };
-        String[] hclModels = { "HCL S2101", "HCL L2102", "HCL V2002" };
-        String[] lenovoModels = { "IdeaPad Z Series", "Essential G Series",
-                "ThinkPad X Series", "Ideapad Z Series" };
-        String[] sonyModels = { "VAIO E Series", "VAIO Z Series",
-                "VAIO S Series", "VAIO YB Series" };
-        String[] dellModels = { "Inspiron", "Vostro", "XPS" };
-        String[] samsungModels = { "NP Series", "Series 5", "SF Series" };
+                        setGroupIndicatorToRight();
 
-        laptopCollection = new LinkedHashMap<String, List<String>>();
+                        expListView.setOnChildClickListener(new OnChildClickListener() {
 
-        for (String laptop : groupList) {
-            if (laptop.equals("HP")) {
-                loadChild(hpModels);
-            } else if (laptop.equals("Dell"))
-                loadChild(dellModels);
-            else if (laptop.equals("Sony"))
-                loadChild(sonyModels);
-            else if (laptop.equals("HCL"))
-                loadChild(hclModels);
-            else if (laptop.equals("Samsung"))
-                loadChild(samsungModels);
-            else
-                loadChild(lenovoModels);
+                            public boolean onChildClick(ExpandableListView parent, View v,
+                                                        int groupPosition, int childPosition, long id) {
+                                final String selected = (String) expListAdapter.getChild(
+                                        groupPosition, childPosition);
+                                Toast.makeText(getBaseContext(), selected, Toast.LENGTH_LONG)
+                                        .show();
 
-            laptopCollection.put(laptop, childList);
-        }
-    }
+                                return true;
+                            }
+                        });
+                    }
+                }, new Response.ErrorListener() {
 
-    private void loadChild(String[] laptopModels) {
-        childList = new ArrayList<String>();
-        for (String model : laptopModels)
-            childList.add(model);
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+
+                    }
+                }));
+
     }
 
     private void setGroupIndicatorToRight() {
@@ -111,7 +113,6 @@ public class ListViewActivity extends Activity {
         expListView.setIndicatorBounds(width - getDipsFromPixel(35), width
                 - getDipsFromPixel(5));
     }
-
     // Convert pixel to dip
     public int getDipsFromPixel(float pixels) {
         // Get the screen's density scale
@@ -120,10 +121,10 @@ public class ListViewActivity extends Activity {
         return (int) (pixels * scale + 0.5f);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.activity_main, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.navigation_drawer, menu);
+        return true;
+    }
 }
