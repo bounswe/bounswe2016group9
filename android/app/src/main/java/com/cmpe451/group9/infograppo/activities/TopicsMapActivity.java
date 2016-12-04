@@ -32,7 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ListViewActivity extends Activity {
+public class TopicsMapActivity extends Activity {
 
     String ourTopic="7";
     String ourURL="http://52.67.44.90:8080/";
@@ -40,7 +40,7 @@ public class ListViewActivity extends Activity {
     List<String> relatedTopics;
     Map<String, List<String>> topicsWithRelations;
     ExpandableListView expListView;
-    ListViewActivity listViewActivity = this;
+    TopicsMapActivity topicsMapActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +85,7 @@ public class ListViewActivity extends Activity {
                             tWR.put(reltop, content);
                         }
                         final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(
-                                listViewActivity, allTops, tWR);
+                                topicsMapActivity, allTops, tWR);
 
                         expListView.setAdapter(expListAdapter);
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="10dp"
-    tools:context="com.cmpe451.group9.infograppo.activities.ListViewActivity">
+    tools:context="com.cmpe451.group9.infograppo.activities.TopicsMapActivity">
 
     <TextView
         android:id="@+id/text_group"

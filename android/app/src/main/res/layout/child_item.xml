@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    tools:context="com.cmpe451.group9.infograppo.activities.ListViewActivity">
+    tools:context="com.cmpe451.group9.infograppo.activities.TopicsMapActivity">
     <LinearLayout
         android:layout_width="30dp"
         android:layout_height="match_parent"
