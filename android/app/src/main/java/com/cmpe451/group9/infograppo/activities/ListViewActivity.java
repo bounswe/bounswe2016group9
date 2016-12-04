@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.cmpe451.group9.infograppo.common.adapters.ExpandableListAdapter;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -18,9 +19,11 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmpe451.group9.infograppo.R;
+import com.cmpe451.group9.infograppo.network.models.Relation;
 import com.cmpe451.group9.infograppo.network.models.Topic;
 import com.cmpe451.group9.infograppo.network.services.MySingleton;
 import com.google.gson.Gson;
@@ -29,7 +32,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ListViewActivity extends AppCompatActivity {
+public class ListViewActivity extends Activity {
+
+    String ourTopic="7";
+    String ourURL="http://52.67.44.90:8080/";
 
     List<String> relatedTopics;
     Map<String, List<String>> topicsWithRelations;
@@ -40,21 +46,20 @@ public class ListViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
-        expListView = (ExpandableListView) findViewById(R.id.laptop_list);
+        expListView = (ExpandableListView) findViewById(R.id.list_expandable);
         relatedTopics = new ArrayList<String>();
         topicsWithRelations = new LinkedHashMap<String, List<String>>();
-
-        final String url = "http://52.67.44.90:8080/topics/";
+        setGroupIndicatorToRight();
+        final String url = ourURL+"topics/"+ourTopic+"/relationsFrom";//for relations From, not To
 
         MySingleton.getInstance(this).addToRequestQueue(new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        Topic tmp;
+                        Relation tmp;
                         ArrayList<String> allTops= new ArrayList<String>();
-                        ArrayList<String> userinfo;
-                        Map<String, List<String>> tWR= new LinkedHashMap<String, List<String>>();
+                        Map<String, List<String>> tWR= new LinkedHashMap<String, List<String>>();//topics with relations
                         JSONObject obj = new JSONObject();
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -62,17 +67,22 @@ public class ListViewActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            tmp = new Gson().fromJson(String.valueOf(obj), Topic.class);
-                            allTops.add(tmp.getName());
-                            userinfo = new ArrayList<>();
+                            tmp = new Gson().fromJson(String.valueOf(obj), Relation.class);
+                            String reltop="";//related topic name
                             try {
-                                userinfo.add(tmp.getUser().getName());
-                                userinfo.add(tmp.getUser().getSurname());
-                                userinfo.add(tmp.getUser().getEmail());
-
+                                reltop= tmp.getToTopic().getName();//topic name "To" relations
+                            }catch (Exception e){}
+                            List<String> content= new ArrayList<String>();//all relations content related to this topic
+                            try {
+                                if(tWR.containsKey(reltop)) {
+                                    content= tWR.get(reltop);
+                                    content.add(tmp.getContent());
+                                }else {
+                                    content.add(tmp.getContent());
+                                    allTops.add(reltop);
+                                }
                             }catch(Exception e){}
-
-                            tWR.put(tmp.getName(), userinfo);
+                            tWR.put(reltop, content);
                         }
                         final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(
                                 listViewActivity, allTops, tWR);
@@ -126,5 +136,21 @@ public class ListViewActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation_drawer, menu);
         return true;
+    }
+    public void relationUp(View view) {
+        TextView rate = (TextView) findViewById(R.id.text_rate_relation);
+        String rr= (Integer.parseInt((String)rate.getText())+1)+"";
+        rate.setText(rr);
+    }
+    public void relationDown(View view) {
+        TextView rate = (TextView) findViewById(R.id.text_rate_relation);
+        String rr= (Integer.parseInt((String)rate.getText())-1)+"";
+        rate.setText(rr);
+    }
+    public void doNothing(View view) {
+
+    }
+    public void goThatTopic(View view) {//when click on the topic
+
     }
 }

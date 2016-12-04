@@ -53,34 +53,40 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.child_item, null);
         }
 
-        TextView item = (TextView) convertView.findViewById(R.id.laptop);
-
-        ImageView delete = (ImageView) convertView.findViewById(R.id.delete);
-        delete.setOnClickListener(new OnClickListener() {
-
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Do you want to remove?");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                List<String> child =
-                                        topicsWithRelations.get(topics.get(groupPosition));
-                                child.remove(childPosition);
-                                notifyDataSetChanged();
-                            }
-                        });
-                builder.setNegativeButton("No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+        TextView item = (TextView) convertView.findViewById(R.id.text_child);
+        /*ImageView up = (ImageView) convertView.findViewById(R.id.image_relation_up);
+        up.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView rate = (TextView) view.findViewById(R.id.text_child);
             }
-        });
+        });*/
+//        ImageView delete = (ImageView) convertView.findViewById(R.id.nav_view);
+//        delete.setOnClickListener(new OnClickListener() {
+//
+//            public void onClick(View v) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                builder.setMessage("Do you want to remove?");
+//                builder.setCancelable(false);
+//                builder.setPositiveButton("Yes",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                List<String> child =
+//                                        topicsWithRelations.get(topics.get(groupPosition));
+//                                child.remove(childPosition);
+//                                notifyDataSetChanged();
+//                            }
+//                        });
+//                builder.setNegativeButton("No",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//                AlertDialog alertDialog = builder.create();
+//                alertDialog.show();
+//            }
+//        });
 
         item.setText(relation);
         return convertView;
@@ -111,7 +117,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.group_item,
                     null);
         }
-        TextView item = (TextView) convertView.findViewById(R.id.laptop);
+        TextView item = (TextView) convertView.findViewById(R.id.text_group);
         item.setTypeface(null, Typeface.BOLD);
         item.setText(topicName);
         return convertView;
