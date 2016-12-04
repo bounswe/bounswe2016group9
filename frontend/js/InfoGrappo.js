@@ -1,5 +1,5 @@
 angular.module('InfoGrappoWeb', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootScope, Topics, $window){
+angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootScope, Topics, $window, $document){
   
   $rootScope.user = {name:"Ali Çomar", age:18, city:"Adana/Turkey", email:"alicomar@comarci.com"};
 
@@ -27,27 +27,62 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
           });
         }
 
-      // create a network
-      var container = document.getElementById('mynetwork');
+        // create a network
+        var container = document.getElementById('mynetwork');
 
-      // provide the data in the vis format
-      var data = {
-          nodes: nodes,
-          edges: edges
-      };
-      var options = {
-        nodes: {
-          font: {
-            color: 'white'
-          },
-          // color: '#51F7F2'
-          //color: '#2ADAD5'
-          color: '#C2478B'
-        }
-      };
+        // provide the data in the vis format
+        var data = {
+            nodes: nodes,
+            edges: edges
+        };
+        var options = {
+          nodes: {
+            font: {
+              color: 'white'
+            },
+            // color: '#51F7F2'
+            //color: '#2ADAD5'
+            color: '#C2478B'
+          }
+        };
 
-      // initialize your network!
-      var network = new vis.Network(container, data, options);
+        // initialize your network!
+        var network = new vis.Network(container, data, options);
+        //To get click on canvas
+        network.on("click", function (params) {
+          //If params has only edge(we do not take when click on node)
+          if(params.edges.length >= 1 && params.nodes.length <= 0){
+            //Search edges which are appear on canvas to find edges come from params
+            for(var i=0; i<edges.length; i++){
+              if(edges[i].id == params.edges[0]){
+                var edge = edges[i];
+                break;
+              }
+            }
+            //Find topics which are connected via this edge
+            var fromTopic;
+            var toTopic;
+            $scope.relation = {};
+            Topics.getRelation(edge.from).then(function(res){
+              for(var i=0; i<res.data.length; i++){
+                if(res.data[i].toTopic.entityId == edge.to){
+                  console.log("matched");
+                  fromTopic = res.data[i].fromTopic;
+                  toTopic = res.data[i].toTopic;
+                  break;
+                }
+              }
+              //Header of relation part
+              $scope.relation.name = fromTopic.name+"--"+toTopic.name;
+              //relation types
+              $scope.relation.types = [{type : "ali"},{ type : "ayşe"},{ type: "fatma"}];
+              console.log($scope.relation.types);
+              $document.find('#relation').css('display','block'); 
+            });
+          }else{
+            $document.find('#relation').css('display', 'none');
+          }
+        });
       });
     }
   });  
