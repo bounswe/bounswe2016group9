@@ -22,7 +22,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showListView(View view) {
-        Intent intent = new Intent(this,ListViewActivity.class);
+        Intent intent = new Intent(this,TopicsMapActivity.class);
+        startActivity(intent);
+    }
+    public void showProfile(View view) {
+        Intent intent = new Intent(this,ProfileActivity.class);
+        startActivity(intent);
+    }
+    public void showGrappi(View view) {
+        Intent intent = new Intent(this,GrappiActivity.class);
         startActivity(intent);
     }
 }
