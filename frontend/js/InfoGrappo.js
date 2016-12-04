@@ -1,11 +1,11 @@
 angular.module('InfoGrappoWeb', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootScope, Topics){
+angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootScope, Topics, $window){
   
   $rootScope.user = {name:"Ali Çomar", age:18, city:"Adana/Turkey", email:"alicomar@comarci.com"};
 
   $scope.sendTopic = function(toTopicID){
-    Topics.sendTopic(toTopicID);
-    console.log(Topics.getTopic());
+    $window.localStorage.setItem("topic",toTopicID);
+    console.log($window.localStorage.getItem("topic"));
   };
   Topics.all().then(function(response){
     $scope.topics = response;
@@ -33,6 +33,7 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
       // provide the data in the vis format
       var data = {
           nodes: nodes,
+          edges: edges
       };
       var options = {
         nodes: {
@@ -380,10 +381,8 @@ angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log)
 
 });
 
-angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topics, Posts, Comments){
-  //$scope.topic =Topics.get(1);
-  console.log(Topics.getTopic());
-  Topics.get(Topics.getTopic()).then(function(response){
+angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topics, Posts, Comments, $window){
+  Topics.get($window.localStorage.getItem("topic")).then(function(response){
     $scope.topic = response.data;
   });
   var relations = [];
