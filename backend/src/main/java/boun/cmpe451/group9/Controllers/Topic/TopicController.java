@@ -275,6 +275,8 @@ public class TopicController {
                 return new ResponseEntity<>(relations, HttpStatus.OK);
             }
         }
+        // TODO backend, reported by frontend
+        // Please return empty if topic has not a relation
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

@@ -19,12 +19,12 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
         label: $scope.topics.data[i].name
       });
       Topics.getRelation($scope.topics.data[i].entityId).then(function(response){
-        for (var j = 0; j < response.data.length; j++) {
-          edges.push({
-              from: response.data[j].fromTopic.entityId,
-              to:response.data[j].toTopic.entityId,
-              value: response.data[j].voteCount
-          });
+          for (var j = 0; j < response.data.length; j++) {
+            edges.push({
+                from: response.data[j].fromTopic.entityId,
+                to:response.data[j].toTopic.entityId,
+                value: response.data[j].voteCount
+            });
         }
 
         // create a network
@@ -368,7 +368,7 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
       user : $scope.user
     };
     $uibModalInstance.close(result);
-  }
+  };
 
   $ctrl.okSignIn = function () {
     console.log($scope.signIn);
@@ -376,15 +376,15 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
       signIn : $scope.signIn
     };
     $uibModalInstance.close(result);
-  }
+  };
 
   $ctrl.okSignUp = function () {
     console.log($scope.signUp);
     var result = {
       signUp : $scope.signUp
-    }
+    };
     $uibModalInstance.close(result);
-  }
+  };
 
   $ctrl.cancel = function () {
     $uibModalInstance.dismiss('cancel');
@@ -427,7 +427,7 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
       relations.push(response.data[i].toTopic);
     }
     $scope.relations=relations;
-  })
+  });
   $scope.go = function(topicID){
     Topics.get(topicID).then(function(response){
       $scope.topic = response.data;
@@ -446,7 +446,7 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
 });
 
 
-angular.module('InfoGrappoWeb').factory('Topics', function($http) {
+angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', function($http, $q) {
   // Might use a resource here that returns a JSON array
   var toTopic = 1;
   return {
@@ -484,18 +484,22 @@ angular.module('InfoGrappoWeb').factory('Topics', function($http) {
       });
     },
     getRelation: function(topicID) {
-      return $http({
+      var deferred = $q.defer();
+
+      $http({
         method: 'GET',
         url: "http://52.67.44.90:8080/topics/"+topicID+"/relationsFrom"
       }).then(function successCallback(data) {
-        return data;
+        deferred.resolve(data);
       }, function errorCallback(data) {
-        console.log("Lanet olasıca backend çalışmıyor!!!!");
-        return null;
+        //console.log(data);
+        deferred.reject('Hata logu');
+
       });
+      return deferred.promise;
     }
   };
-});
+}]);
 
 angular.module('InfoGrappoWeb').factory('Posts', function(){
 
