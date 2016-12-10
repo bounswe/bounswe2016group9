@@ -4,11 +4,13 @@ import boun.cmpe451.group9.Controllers.Post.PostController;
 import boun.cmpe451.group9.Controllers.Relation.RelationController;
 import boun.cmpe451.group9.Controllers.SemanticTag.SemanticTagController;
 import boun.cmpe451.group9.Controllers.Tag.TagController;
+import boun.cmpe451.group9.Controllers.User.UserController;
 import boun.cmpe451.group9.Models.DB.*;
 import boun.cmpe451.group9.Models.Meta.SPARQLEntityResponse;
 import boun.cmpe451.group9.Models.Meta.SPARQLTypeResponse;
 import boun.cmpe451.group9.Models.Meta.TopicTagResponse;
 import boun.cmpe451.group9.Service.Comment.CommentService;
+import boun.cmpe451.group9.Service.FollowTopic.FollowTopicService;
 import boun.cmpe451.group9.Service.Post.PostService;
 import boun.cmpe451.group9.Service.Relation.RelationService;
 import boun.cmpe451.group9.Service.STagTopic.STagTopicService;
@@ -25,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
-
+import boun.cmpe451.group9.Controllers.EmptyJsonResponse;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
@@ -43,6 +45,7 @@ public class TopicController {
     private STagTopicService sTagTopicService;
     private RelationService relationService;
     private PostService postService;
+    private FollowTopicService followTopicService;
 
     @Autowired
     public void setTopicService(TopicService topicService){
@@ -77,7 +80,8 @@ public class TopicController {
     public void setPostService(PostService postService) {
         this.postService = postService;
     }
-
+    @Autowired
+    public void setFollowTopicService(FollowTopicService followTopicService){this.followTopicService=followTopicService;}
     /**
      * Returns a response for the request "GET /topics/{id}"
      * @param id the id of the resource "Topic"
@@ -90,7 +94,7 @@ public class TopicController {
 
             return new ResponseEntity<>(topic, HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new EmptyJsonResponse(),HttpStatus.NOT_FOUND);
         }
     }
 
@@ -336,6 +340,18 @@ public class TopicController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("{id}/followers")
+    public ResponseEntity<List<User>> getFollowerUsersById(@PathVariable("id") long id){
+        if(topicService.checkIfEntityExistsById(id)){
+            List<User> followers= followTopicService.getFollowerUsersById(id);
+            if(!followers.isEmpty()){
+                followers.forEach(UserController::addLinkToUser);
+                return  new ResponseEntity<>(followers,HttpStatus.OK);
+            }
+        }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
     public static Topic addLinkToTopic(Topic topic){
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel());
         topic.add(linkTo(TopicController.class).slash("tags").withRel("tags"));

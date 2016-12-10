@@ -6,6 +6,7 @@ import boun.cmpe451.group9.Controllers.Topic.TopicController;
 import boun.cmpe451.group9.Models.DB.*;
 
 import boun.cmpe451.group9.Service.Comment.CommentService;
+import boun.cmpe451.group9.Service.FollowTopic.FollowTopicService;
 import boun.cmpe451.group9.Service.Post.PostService;
 import boun.cmpe451.group9.Service.Topic.TopicService;
 import boun.cmpe451.group9.Service.User.UserService;
@@ -33,6 +34,9 @@ public class UserController {
     private PostService postService;
 
     private CommentService commentService;
+
+    private FollowTopicService followTopicService;
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -46,6 +50,9 @@ public class UserController {
 
     @Autowired
     public void setCommentService(CommentService commentService){ this.commentService= commentService;}
+
+    @Autowired
+    public void setFollowTopicService(FollowTopicService followTopicService){ this.followTopicService=followTopicService;}
     /**
      * Returns a response for the request "GET /users/{id}"
      * @param id the id of the resource "User"
@@ -185,6 +192,17 @@ public class UserController {
         }
     }
 
+    @GetMapping("{id}/followingTopics")
+    public ResponseEntity<List<Topic>> getFollowingTopicsByUserId(@PathVariable("id") long id){
+        if (userService.checkIfEntityExistsById(id)){
+            List<Topic> followingTopics = followTopicService.getFollowingTopicsById(id);
+            followingTopics.forEach(TopicController::addLinkToTopic);
+            return new ResponseEntity<>(followingTopics, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
     public static User addLinkToUser(User user){
         user.add(linkTo(UserController.class).slash(user.getEntityId()).withSelfRel());
         user.add(linkTo(UserController.class).slash(user.getEntityId()).slash("topics").withRel("topics"));
