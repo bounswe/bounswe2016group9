@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@SuppressWarnings("MVCPathVariableInspection")
 @RestController
-@RequestMapping("users/{id}")
+@RequestMapping(value="/users")
 public class FollowRelController {
 
     private FollowRelService followRelService;
@@ -36,9 +36,10 @@ public class FollowRelController {
      * @param id user "id"
      * @return all users that user "id" follows
      */
-    @GetMapping("following")
+    @GetMapping("{id}/following")
     public ResponseEntity<List<User>> getFollowingsById(@PathVariable("id") long id){
         if(userService.checkIfEntityExistsById(id)){
+            System.out.println("Controller Id " + id);
             List<User> users = followRelService.getFollowingByUserId(id);
 
             users.forEach(UserController::addLinkToUser);
@@ -54,8 +55,8 @@ public class FollowRelController {
      * @param id user "id"
      * @return all users that follow user "id"
      */
-    @GetMapping("follower")
-    public ResponseEntity<List<User>> getFollowerById(@PathVariable("id") long id){
+    @GetMapping("{id}/follower")
+    public ResponseEntity<List<User>> getFollowersById(@PathVariable("id") long id){
         if(userService.checkIfEntityExistsById(id)){
             List<User> users = followRelService.getFollowerByUserId(id);
 
