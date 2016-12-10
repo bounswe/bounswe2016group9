@@ -3,8 +3,10 @@ package boun.cmpe451.group9.Controllers.User;
 import boun.cmpe451.group9.Controllers.Comment.CommentController;
 import boun.cmpe451.group9.Controllers.Post.PostController;
 import boun.cmpe451.group9.Controllers.Topic.TopicController;
-import boun.cmpe451.group9.Models.DB.*;
-
+import boun.cmpe451.group9.Models.DB.Comment;
+import boun.cmpe451.group9.Models.DB.Post;
+import boun.cmpe451.group9.Models.DB.Topic;
+import boun.cmpe451.group9.Models.DB.User;
 import boun.cmpe451.group9.Service.Comment.CommentService;
 import boun.cmpe451.group9.Service.FollowTopic.FollowTopicService;
 import boun.cmpe451.group9.Service.Post.PostService;
@@ -13,6 +15,7 @@ import boun.cmpe451.group9.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -53,6 +56,7 @@ public class UserController {
 
     @Autowired
     public void setFollowTopicService(FollowTopicService followTopicService){ this.followTopicService=followTopicService;}
+
     /**
      * Returns a response for the request "GET /users/{id}"
      * @param id the id of the resource "User"
@@ -60,11 +64,15 @@ public class UserController {
      */
     @GetMapping("{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") long id){
-
         if(userService.checkIfEntityExistsById(id)) {
             User user = addLinkToUser(userService.getById(id));
 
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            if(currentUser.getUsername().equals(user.getUsername()))
+                return new ResponseEntity<>(user, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -80,12 +88,19 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user){
 
         if(userService.checkIfEntityExistsById(id)){
-            user.setEntityId(id);
-            userService.save(user);
+            User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            user = addLinkToUser(user);
+            if(currentUser.getUsername().equals(user.getUsername())) {
+                user.setEntityId(id);
+                userService.save(user);
 
-            return new ResponseEntity<>(user, HttpStatus.OK);
+                user = addLinkToUser(user);
+
+                return new ResponseEntity<>(user, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

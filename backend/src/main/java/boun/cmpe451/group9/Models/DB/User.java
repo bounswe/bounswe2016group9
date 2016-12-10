@@ -36,7 +36,7 @@ public class User extends Base {
 
     @NotBlank
     @Column(name = "PASSWORD")
-    @Length(min = 6, max = 127)
+    @Length(min = 60, max = 300)
     private String password;
 
     @NotBlank
@@ -44,8 +44,22 @@ public class User extends Base {
     @Column(name = "EMAIL")
     private String email;
 
+    @Column(name = "ENABLED")
+    private boolean enabled;
+
     @OneToOne
     private Image profilePictureUrl;
+
+    public User(){
+
+    }
+
+    public User(User user){
+        this.setEntityId(user.getEntityId());
+        this.setUsername(user.getUsername());
+        this.setPassword(user.getPassword());
+        this.setEnabled(user.isEnabled());
+    }
 
     public String getUsername() {
         return username;
@@ -93,6 +107,14 @@ public class User extends Base {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Image getProfilePictureUrl() {

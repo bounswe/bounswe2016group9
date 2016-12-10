@@ -16,4 +16,6 @@ public interface TopicService extends BaseService<Topic> {
      * @return list of topics that the user "id" created
      */
     List<Topic> getTopicsByUserId(long id);
+
+    List<Topic> searchTopicByName(String keywords);
 }

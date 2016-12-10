@@ -26,4 +26,21 @@ public class TopicDAOImpl extends BaseDAOImpl<Topic> implements TopicDAO {
                 .setParameter("id", id)
                 .list();
     }
+
+    @Override
+    public List<Topic> searchTopicByName(String[] keywords) {
+        String sqlText = "'" + keywords[0];
+
+        for(int i=1;i<keywords.length;i++){
+            sqlText += "|" + keywords[i];
+        }
+        sqlText += "'";
+
+        //noinspection JpaQueryApiInspection
+        return this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT t.* FROM topic t WHERE t.name REGEXP :regex")
+                .addEntity(Topic.class)
+                .setParameter("regex", sqlText)
+                .list();
+    }
 }
