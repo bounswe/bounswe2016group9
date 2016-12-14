@@ -27,9 +27,7 @@ public class TopicServiceImpl extends BaseServiceImpl<Topic> implements TopicSer
     }
 
     @Override
-    public List<Topic> searchTopicByName(String keywords) {
-
-
-        return null;
+    public List<Topic> autoComp(String keyword) {
+        return topicDAO.autoComp(keyword);
     }
 }

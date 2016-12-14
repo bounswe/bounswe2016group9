@@ -20,11 +20,13 @@ public class SearchController {
 
     @GetMapping
     public ResponseEntity searchEntity(@RequestParam("keywords") String keywords, @RequestParam("type") String type){
-        if(type.equals("topic")){
-            return new ResponseEntity<>(searchService.searchTopic(keywords), HttpStatus.OK);
-        }else {
-            //TODO search post,comment
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        switch (type) {
+            case "topic":
+                return new ResponseEntity<>(searchService.searchTopic(keywords), HttpStatus.OK);
+            case "post":
+                return new ResponseEntity<>(searchService.searchPost(keywords), HttpStatus.OK);
+            default:
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

@@ -41,6 +41,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/comments/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/tags/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/search").permitAll()
+                .antMatchers(HttpMethod.GET, "/autoComp").permitAll()
                 .anyRequest().authenticated()
         .and().csrf().disable();
     }

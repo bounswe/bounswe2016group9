@@ -36,7 +36,7 @@ public class STagTopicDAOImpl extends BaseDAOImpl<STagTopic> implements STagTopi
         return this.getSessionFactory().getCurrentSession()
                 .createSQLQuery("SELECT t.* FROM semantictag_topic stag " +
                         "JOIN semantic_tag tag ON stag.semantic_tag_id = tag.id " +
-                        "JOIN topic t ON stag.topic_id = t.id WHERE tag.name REGEXP :text")
+                        "JOIN topic t ON stag.topic_id = t.id WHERE tag.type REGEXP :text")
                 .addEntity(Topic.class)
                 .setParameter("text", sqlText).list();
     }

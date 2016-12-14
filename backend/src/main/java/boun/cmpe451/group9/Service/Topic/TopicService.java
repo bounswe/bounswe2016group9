@@ -17,5 +17,5 @@ public interface TopicService extends BaseService<Topic> {
      */
     List<Topic> getTopicsByUserId(long id);
 
-    List<Topic> searchTopicByName(String keywords);
+    List<Topic> autoComp(String keyword);
 }

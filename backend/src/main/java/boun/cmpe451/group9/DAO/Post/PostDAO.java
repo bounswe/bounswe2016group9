@@ -33,4 +33,6 @@ public interface PostDAO extends BaseDAO<Post> {
      * @return List of posts
      */
     List<Post> getPostByLocation(int locationID);
+
+    List<Post> searchPostByName(String[] split);
 }
