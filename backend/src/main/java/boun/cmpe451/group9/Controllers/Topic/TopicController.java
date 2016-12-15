@@ -1,7 +1,9 @@
 package boun.cmpe451.group9.Controllers.Topic;
 
+import boun.cmpe451.group9.Controllers.AutoComplete.AutoCompleteController;
 import boun.cmpe451.group9.Controllers.Post.PostController;
 import boun.cmpe451.group9.Controllers.Relation.RelationController;
+import boun.cmpe451.group9.Controllers.Search.SearchController;
 import boun.cmpe451.group9.Controllers.SemanticTag.SemanticTagController;
 import boun.cmpe451.group9.Controllers.Tag.TagController;
 import boun.cmpe451.group9.Controllers.User.UserController;
@@ -9,7 +11,6 @@ import boun.cmpe451.group9.Models.DB.*;
 import boun.cmpe451.group9.Models.Meta.SPARQLEntityResponse;
 import boun.cmpe451.group9.Models.Meta.SPARQLTypeResponse;
 import boun.cmpe451.group9.Models.Meta.TopicTagResponse;
-import boun.cmpe451.group9.Service.Comment.CommentService;
 import boun.cmpe451.group9.Service.FollowTopic.FollowTopicService;
 import boun.cmpe451.group9.Service.Post.PostService;
 import boun.cmpe451.group9.Service.Relation.RelationService;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
-import boun.cmpe451.group9.Controllers.EmptyJsonResponse;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
@@ -94,7 +95,7 @@ public class TopicController {
 
             return new ResponseEntity<>(topic, HttpStatus.OK);
         }else{
-            return new ResponseEntity(new EmptyJsonResponse(),HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Topic(),HttpStatus.NOT_FOUND);
         }
     }
 
@@ -354,11 +355,13 @@ public class TopicController {
     }
     public static Topic addLinkToTopic(Topic topic){
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel());
-        topic.add(linkTo(TopicController.class).slash("tags").withRel("tags"));
-        topic.add(linkTo(TopicController.class).slash("semanticTags").withRel("semanticTags"));
-        topic.add(linkTo(TopicController.class).slash("fromTopics").withRel("relationsFromTopics"));
-        topic.add(linkTo(TopicController.class).slash("toTopics").withRel("relationsToTopics"));
-        topic.add(linkTo(TopicController.class).slash("posts").withRel("posts"));
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("tags").withRel("tags"));
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("semanticTags").withRel("semanticTags"));
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("fromTopics").withRel("relationsFromTopics"));
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("toTopics").withRel("relationsToTopics"));
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("posts").withRel("posts"));
+        topic.add(linkTo(SearchController.class).withRel("search"));
+        topic.add(linkTo(AutoCompleteController.class).withRel("autoComplete"));
         return topic;
     }
 

@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by seha on 19.11.2016.
  */
@@ -13,11 +15,12 @@ import javax.persistence.*;
 public class Comment extends Base{
 
     @NotBlank
-    @Column(name = "CONTENT", columnDefinition = "TEXT")
+    @Column(name = "CONTENT", columnDefinition = "VARCHAR(140) default ''")
     @Length(min =2, max =140)
     private String content;
 
-    @Column(name = "VOTE_COUNT")
+    @NotNull
+    @Column(name = "VOTE_COUNT", columnDefinition = "int default 0")
     private int voteCount;
 
     @ManyToOne(cascade = CascadeType.ALL)

@@ -35,16 +35,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .authorizeRequests()
                 .antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/topics/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/comments/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/tags/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/search").permitAll()
                 .antMatchers(HttpMethod.GET, "/autoComp").permitAll()
+        .and()
+            .authorizeRequests()
                 .anyRequest().authenticated()
-        .and().csrf().disable();
+        .and()
+            .csrf().disable();
     }
 
     @Bean

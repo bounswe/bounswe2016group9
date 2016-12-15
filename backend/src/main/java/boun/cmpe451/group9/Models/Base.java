@@ -2,10 +2,8 @@ package boun.cmpe451.group9.Models;
 
 import org.springframework.hateoas.ResourceSupport;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -20,6 +18,7 @@ public class Base extends ResourceSupport {
     @Column(name = "ID")
     private long id;
 
+    @NotNull
     @Column(name = "CREATION_TIME")
     private LocalDateTime creationTime;
 
@@ -37,5 +36,10 @@ public class Base extends ResourceSupport {
 
     public void setCreationTime(LocalDateTime creationTime) {
         this.creationTime = creationTime;
+    }
+
+    @PrePersist
+    public void createCreationTime(){
+        creationTime = LocalDateTime.now();
     }
 }

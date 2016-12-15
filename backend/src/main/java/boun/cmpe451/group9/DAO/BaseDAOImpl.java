@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @SuppressWarnings({"unchecked", "unused"})
@@ -46,7 +45,6 @@ public abstract class BaseDAOImpl<T extends Base> implements BaseDAO<T> {
 
     @Override
     public void save(T entity) {
-        entity.setCreationTime(LocalDateTime.now());
         sessionFactory.getCurrentSession().saveOrUpdate(entity);
     }
 

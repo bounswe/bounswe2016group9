@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 
 @SuppressWarnings("unused")
@@ -17,7 +18,8 @@ public class Post extends Base {
     @Column(name = "CONTENT", columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "VOTE_COUNT")
+    @NotNull
+    @Column(name = "VOTE_COUNT", columnDefinition = "int default 0")
     private int voteCount;
 
     @Column(name="LOCATION_ID")

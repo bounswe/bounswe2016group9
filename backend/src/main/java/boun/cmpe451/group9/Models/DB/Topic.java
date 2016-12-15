@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * The object representation of the table "TOPIC"
@@ -22,10 +23,12 @@ public class Topic extends Base {
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
-    @Column(name = "TRENDING_COUNT")
+    @NotNull
+    @Column(name = "TRENDING_COUNT", columnDefinition = "int default 0")
     private int trendingCount;
 
-    @Column(name = "POST_COUNT")
+    @NotNull
+    @Column(name = "POST_COUNT", columnDefinition = "int default 0")
     private int postCount;
 
     public String getName() {
