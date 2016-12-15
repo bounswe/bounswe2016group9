@@ -104,8 +104,8 @@ public class PostController {
     }
 
     /**
-     *
-     * @return
+     * Retrieves all posts
+     * @return all posts in the database
      */
     @GetMapping
     public ResponseEntity<List<Post>> getAllPosts(){

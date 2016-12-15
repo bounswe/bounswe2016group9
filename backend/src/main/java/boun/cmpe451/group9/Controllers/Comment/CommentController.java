@@ -1,43 +1,28 @@
 package boun.cmpe451.group9.Controllers.Comment;
 
+import boun.cmpe451.group9.Controllers.Post.PostController;
 import boun.cmpe451.group9.Models.DB.Comment;
 import boun.cmpe451.group9.Service.Comment.CommentService;
-import boun.cmpe451.group9.Service.Post.PostService;
-import boun.cmpe451.group9.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
 /**
  * Created by seha on 19.11.2016.
  */
-@SuppressWarnings("MVCPathVariableInspection")
-@RestController
-@RequestMapping(value="/comments")
 
+@SuppressWarnings({"MVCPathVariableInspection", "DefaultFileTemplate"})
+@RestController
+@RequestMapping("/comments")
 public class CommentController {
 
     private CommentService commentService;
-    private UserService userService;
-    private PostService postService;
 
     @Autowired
     public void setCommentService(CommentService commentService) {this.commentService = commentService;}
-    @Autowired
-    public void setUserService(UserService userService) {this.userService = userService;}
-    @Autowired
-    public void setPostService(PostService postService) {this.postService = postService;}
 
     /**
      * Returns a response for the request "GET /comments/{id}"
@@ -67,7 +52,7 @@ public class CommentController {
 
             return new ResponseEntity<>(comment, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>( HttpStatus.CONFLICT);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     /**
@@ -105,12 +90,9 @@ public class CommentController {
 
     }
 
-    // Need to be checked
     public static Comment addLinksToComment(Comment comment) {
         comment.add(linkTo(CommentController.class).slash(comment.getEntityId()).withSelfRel());
-        comment.add(linkTo(CommentController.class).slash("posts").withRel("posts"));
+        comment.add(linkTo(PostController.class).slash(comment.getPostOfComment().getEntityId()).withRel("post"));
         return comment;
     }
-
-
 }

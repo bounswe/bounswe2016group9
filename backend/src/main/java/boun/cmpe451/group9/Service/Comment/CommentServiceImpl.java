@@ -11,15 +11,15 @@ import java.util.List;
 /**
  * Created by seha on 19.11.2016.
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "DefaultFileTemplate"})
 @Service
 @Transactional(readOnly = true)
-public class CommentServiceImpl extends BaseServiceImpl<Comment> implements CommentService   {
+public class CommentServiceImpl extends BaseServiceImpl<Comment> implements CommentService{
 
     private CommentDAO commentDAO;
 
     @Autowired
-    public  void  setCommentDAO(CommentDAO commentDAO){this.commentDAO=commentDAO;}
+    public void setCommentDAO(CommentDAO commentDAO){ this.commentDAO = commentDAO; }
 
     @Override
     public List<Comment> getCommentsByUserId(long id) {
