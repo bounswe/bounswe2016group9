@@ -1,7 +1,9 @@
 
 package boun.cmpe451.group9.Service.Post;
 
+import boun.cmpe451.group9.DAO.Topic.TopicDAO;
 import boun.cmpe451.group9.Models.DB.Post;
+import boun.cmpe451.group9.Models.DB.Topic;
 import boun.cmpe451.group9.Service.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,16 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PostServiceImpl extends BaseServiceImpl<Post> implements PostService {
     private PostDAO postDAO;
+    private TopicDAO topicDAO;
 
     @Autowired
     public void setPostDAO(PostDAO postDAO){
         this.postDAO = postDAO;
+    }
+
+    @Autowired
+    public void setTopicDAO(TopicDAO topicDAO){
+        this.topicDAO = topicDAO;
     }
 
     @Override
@@ -35,4 +43,14 @@ public class PostServiceImpl extends BaseServiceImpl<Post> implements PostServic
     public List<Post> getPostByLocation(int id) {
         return postDAO.getPostByLocation(id);
     }
+
+
+    public void save(Post entity) {
+        Topic topic = entity.getTopic();
+        topic.setPostCount(topic.getPostCount()+1);
+        topicDAO.save(topic);
+        this.postDAO.save(entity);
+    }
+
+
 }
