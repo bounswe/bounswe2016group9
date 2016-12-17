@@ -77,7 +77,7 @@
                                 <a href=><i class="fa fa-thumbs-up"></i></a> 
                             </li>
                             <li>
-                                <span>{{post.postLikes}}</span>
+                                <span>{{post.voteCount}}</span>
                             </li>
                             <li>
                                 <a href=><i class="fa fa-thumbs-down"></i></a> 
@@ -88,17 +88,17 @@
                         </ul>
                     </div>
         			<div class="col-md-11 generalBorder">
-        				<span>{{post.postContent}}</span>
+        				<span>{{post.content}}</span>
         			</div>
                     <!--  Comment  -->
-                    <div ng-repeat="comment in comments">
+                    <div ng-repeat="comment in post.comments">
                         <div class="col-md-1 col-md-offset-1">
                             <ul class="rating">
                                 <li>
                                     <a href=><i class="fa fa-thumbs-up"></i></a> 
                                 </li>
                                 <li>
-                                    <span>{{comment.commentLikes}}</span>
+                                    <span>{{comment.voteCount}}</span>
                                 </li>
                                 <li>
                                     <a href=><i class="fa fa-thumbs-down"></i></a> 
@@ -106,7 +106,7 @@
                             </ul>
                         </div>
             			<div class="col-md-10 generalBorder">
-            				<span>{{comment.commentContent}}</span>
+            				<span>{{comment.content}}</span>
             			</div>
                     </div>
                     <!--  Add Comment Button  -->

@@ -455,32 +455,91 @@ angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log)
 });
 
 angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topics, Posts, Comments, $window){
+  function getComments(postId, i){
+    Posts.getComments(postId).then(function(res){
+      $scope.posts[i].comments = res; 
+    });
+  }
   Topics.get($window.localStorage.getItem("topic")).then(function(response){
     $scope.topic = response.data;
+    Topics.getPosts($scope.topic.entityId).then(function(data){ 
+      $scope.posts = data;
+      for(var i=0; i<$scope.posts.length; i++){
+        getComments($scope.posts[i].entityId, i);
+      }
+    });  
   });
+  
   var relations = [];
   Topics.getRelation(Topics.getTopic()).then(function(response){
     console.log("response2");
-    for (var i = 0; i < response.data.length; i++) {
-      relations.push(response.data[i].toTopic);
+    for (var i = 0; i < response.length; i++) {
+      var pushArrayFrom = true;
+      var pushArrayTo = true; 
+      for(var j = 0; j < relations.length; j++){
+        if(response[i].fromTopic.entityId === relations[j].entityId){
+          pushArrayFrom = false;
+        }else if(response[i].toTopic.entityId === relations[j].entityId){
+          pushArrayTo = false;
+        }
+      }
+      if(pushArrayFrom){
+        if(response[i].fromTopic.entityId != Topics.getTopic()){
+          relations.push(response[i].fromTopic);
+        }
+      }
+      if(pushArrayTo){
+        if(response[i].toTopic.entityId != Topics.getTopic()){
+          relations.push(response[i].toTopic);
+        }
+      }
     }
     $scope.relations=relations;
   });
   $scope.go = function(topicID){
     Topics.get(topicID).then(function(response){
       $scope.topic = response.data;
+      $scope.posts = [];
+      Topics.getPosts($scope.topic.entityId).then(function(data){ 
+        $scope.posts = data;
+        for(var i=0; i<$scope.posts.length; i++){
+          $scope.postForComment = $scope.posts[i];
+          Posts.getComments($scope.posts[i].entityId).then(function(res){
+            /*i bunun icinde 2 oluyo anlamadım bende neden oldugunu böyle yaptım */
+            $scope.postForComment.comments = res; 
+          });
+          $scope.posts[i].comments = $scope.postForComment.comments;
+        }
+      });  
     });
     var relations = [];
     Topics.getRelation(topicID).then(function(response){
       console.log("response2");
-      for (var i = 0; i < response.data.length; i++) {
-        relations.push(response.data[i].toTopic);
+      for (var i = 0; i < response.length; i++) {
+        var pushArrayFrom = true;
+        var pushArrayTo = true; 
+        for(var j = 0; j < relations.length; j++){
+          
+          if(response[i].fromTopic.entityId == relations[j].entityId){
+            pushArrayFrom = false;
+          }else if(response[i].toTopic.entityId == relations[j].entityId){
+            pushArrayTo = false;
+          }
+        }
+        if(pushArrayFrom){
+          if(response[i].fromTopic.entityId != topicID){
+            relations.push(response[i].fromTopic);
+          }
+        }
+        if(pushArrayTo){
+          if(response[i].toTopic.entityId != topicID){
+            relations.push(response[i].toTopic);
+          }
+        }
       }
       $scope.relations=relations;
     })
   };
-  $scope.posts=Posts.all();
-  $scope.comments=Comments.all();
 });
 
 
@@ -562,11 +621,23 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', function($http
         deferred.reject("not relation");
       });
       return deferred.promise;
+    },
+    getPosts : function(topicId){
+      var deferred = $q.defer();
+      $http({
+        url : "http://52.67.44.90:8080/topics/"+topicId+"/posts",
+        method : "GET"
+      }).then(function successCallback(data){
+        deferred.resolve(data.data);
+      }, function errorCallback(data){
+        deferred.reject("not posts");
+      });
+      return deferred.promise;
     }
   };
 }]);
 
-angular.module('InfoGrappoWeb').factory('Posts', function(){
+angular.module('InfoGrappoWeb').factory('Posts', function($q, $http){
 
   var posts = [{
     postID:0,
@@ -602,6 +673,18 @@ angular.module('InfoGrappoWeb').factory('Posts', function(){
         }
       }
       return null;
+    },
+    getComments : function(postId){
+      var deferred = $q.defer();
+      $http({
+        url : "http://52.67.44.90:8080/posts/"+postId+"/comments",
+        method : "GET"
+      }).then(function successCallback(data){
+        deferred.resolve(data.data);
+      }, function errorCallback(data){
+        deferred.reject("no comment");
+      });
+      return deferred.promise;
     }
   };
 });
