@@ -60,4 +60,20 @@ public class TopicDAOImpl extends BaseDAOImpl<Topic> implements TopicDAO {
                 .addEntity(Topic.class)
                 .list();
     }
+
+    @Override
+    public List<Topic> getMostRelatedTopics(long id) {
+        List<Topic> from= this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT r.from_topic_id FROM relation r where r.to_topic_id =:id ORDER BY vote_count DESC LIMIT 3")
+                .addEntity(Topic.class)
+                .setParameter("id", id)
+                .list();
+        List <Topic> to = this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT r.to_topic_id FROM relation r where r.from_topic_id =:id ORDER BY vote_count DESC LIMIT 3")
+                .addEntity(Topic.class)
+                .setParameter("id", id)
+                .list();
+        from.addAll(to);
+        return from;
+    }
 }

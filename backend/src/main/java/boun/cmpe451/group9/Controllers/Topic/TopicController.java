@@ -376,6 +376,18 @@ public class TopicController {
         }
     }
 
+    @GetMapping("{id}/related")
+    public ResponseEntity<List<Topic>> getMostRelatedTopics(long id){
+        List<Topic> related = topicService.getMostRelatedTopics(id);
+
+        if(!related.isEmpty()){
+            related.forEach(TopicController::addLinkToTopic);
+            return new ResponseEntity<>(related, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     public static Topic addLinkToTopic(Topic topic){
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel());
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("tags").withRel("tags"));
