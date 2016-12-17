@@ -207,6 +207,11 @@ public class UserController {
         }
     }
 
+    /**
+     *Returns a response for the request "GET /users/{id}/followingTopics"
+     * @param id the id of the resource "User"
+     * @return OK with the list of followingTopics the user "id" follows, NOT_FOUND if the user is not found
+     */
     @GetMapping("{id}/followingTopics")
     public ResponseEntity<List<Topic>> getFollowingTopicsByUserId(@PathVariable("id") long id){
         if (userService.checkIfEntityExistsById(id)){
@@ -218,6 +223,14 @@ public class UserController {
         }
 
     }
+
+    /*@GetMapping("{id}/timeline")
+    public ResponseEntity<List<Post>> getTimelineByUserId(@PathVariable("id") long id){
+        if(userService.checkIfEntityExistsById(id)){
+
+        }
+
+    }*/
     public static User addLinkToUser(User user){
         user.add(linkTo(UserController.class).slash(user.getEntityId()).withSelfRel());
         user.add(linkTo(UserController.class).slash(user.getEntityId()).slash("topics").withRel("topics"));

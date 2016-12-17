@@ -25,6 +25,8 @@ public interface TopicDAO extends BaseDAO<Topic> {
      */
     List getTopicsByUserId(long id);
 
+    List <Topic> getGrappi();
+
     List<Topic> searchTopicByName(String[] keywords);
 
     List<Topic> autoComp(String keyword);

@@ -52,4 +52,12 @@ public class TopicDAOImpl extends BaseDAOImpl<Topic> implements TopicDAO {
                 .setParameter("regex", regex)
                 .list();
     }
+
+    @Override
+    public List<Topic> getGrappi() {
+        return (List<Topic>)this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT * FROM topic ORDER BY trending_count DESC LIMIT 10")
+                .addEntity(Topic.class)
+                .list();
+    }
 }

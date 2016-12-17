@@ -30,4 +30,9 @@ public class TopicServiceImpl extends BaseServiceImpl<Topic> implements TopicSer
     public List<Topic> autoComp(String keyword) {
         return topicDAO.autoComp(keyword);
     }
+
+    @Override
+    public List<Topic> getGrappi() {
+        return  topicDAO.getGrappi();
+    }
 }

@@ -106,7 +106,7 @@ public class TopicController {
      */
     @GetMapping("/test")
     public ResponseEntity<SPARQLEntityResponse> testSPARQL() throws Exception {
-        URL url = new URL(createUrlForSPARQLMultiEntities("Venus"));
+        URL url = new URL(createUrlForSPARQLMultiEntities("Juno"));
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -285,6 +285,11 @@ public class TopicController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     Get all relations that end at the topic
+     * @param id topic id relations ended
+     * @return list of relations
+     */
     @GetMapping("{id}/relationsTo")
     public ResponseEntity<List<Relation>> getAllRelationsToTopic(@PathVariable("id") long id){
         if(topicService.checkIfEntityExistsById(id)){
@@ -299,6 +304,11 @@ public class TopicController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("{id}/tags")
     public ResponseEntity<List<Tag>> getAllTagsByTopicId(@PathVariable("id") long id){
         if(topicService.checkIfEntityExistsById(id)){
@@ -353,6 +363,19 @@ public class TopicController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
+    @GetMapping("/grappi")
+    public ResponseEntity<List<Topic>> getGrappi(){
+        List<Topic> grappiTopics = topicService.getGrappi();
+
+        if(!grappiTopics.isEmpty()){
+            grappiTopics.forEach(TopicController::addLinkToTopic);
+
+            return new ResponseEntity<>(grappiTopics, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     public static Topic addLinkToTopic(Topic topic){
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel());
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("tags").withRel("tags"));
