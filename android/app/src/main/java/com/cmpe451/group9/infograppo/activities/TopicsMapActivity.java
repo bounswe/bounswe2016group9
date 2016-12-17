@@ -47,8 +47,8 @@ public class TopicsMapActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
         expListView = (ExpandableListView) findViewById(R.id.list_expandable);
-        relatedTopics = new ArrayList<String>();
-        topicsWithRelations = new LinkedHashMap<String, List<String>>();
+        relatedTopics = new ArrayList<>();
+        topicsWithRelations = new LinkedHashMap<>();
         setGroupIndicatorToRight();
         final String url = ourURL+"topics/"+ourTopic+"/relationsFrom";//for relations From, not To
 
@@ -58,8 +58,8 @@ public class TopicsMapActivity extends Activity {
                     public void onResponse(JSONArray response) {
 
                         Relation tmp;
-                        ArrayList<String> allTops= new ArrayList<String>();
-                        Map<String, List<String>> tWR= new LinkedHashMap<String, List<String>>();//topics with relations
+                        ArrayList<String> allTops= new ArrayList<>();
+                        Map<String, List<String>> topicWithRelations= new LinkedHashMap<>();
                         JSONObject obj = new JSONObject();
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -68,24 +68,24 @@ public class TopicsMapActivity extends Activity {
                                 e.printStackTrace();
                             }
                             tmp = new Gson().fromJson(String.valueOf(obj), Relation.class);
-                            String reltop="";//related topic name
+                            String relatedTopicName="";//related topic name
                             try {
-                                reltop= tmp.getToTopic().getName();//topic name "To" relations
+                                relatedTopicName= tmp.getToTopic().getName();//topic name "To" relations
                             }catch (Exception e){}
-                            List<String> content= new ArrayList<String>();//all relations content related to this topic
+                            List<String> content= new ArrayList<>();//all relations content related to this topic
                             try {
-                                if(tWR.containsKey(reltop)) {
-                                    content= tWR.get(reltop);
+                                if(topicWithRelations.containsKey(relatedTopicName)) {
+                                    content= topicWithRelations.get(relatedTopicName);
                                     content.add(tmp.getContent());
                                 }else {
                                     content.add(tmp.getContent());
-                                    allTops.add(reltop);
+                                    allTops.add(relatedTopicName);
                                 }
                             }catch(Exception e){}
-                            tWR.put(reltop, content);
+                            topicWithRelations.put(relatedTopicName, content);
                         }
                         final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(
-                                topicsMapActivity, allTops, tWR);
+                                topicsMapActivity, allTops, topicWithRelations);
 
                         expListView.setAdapter(expListAdapter);
 
@@ -106,10 +106,7 @@ public class TopicsMapActivity extends Activity {
                 }, new Response.ErrorListener() {
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-
-                    }
+                    public void onErrorResponse(VolleyError error) {}
                 }));
 
     }
@@ -146,9 +143,6 @@ public class TopicsMapActivity extends Activity {
         TextView rate = (TextView) findViewById(R.id.text_rate_relation);
         String rr= (Integer.parseInt((String)rate.getText())-1)+"";
         rate.setText(rr);
-    }
-    public void doNothing(View view) {
-
     }
     public void goThatTopic(View view) {//when click on the topic
 

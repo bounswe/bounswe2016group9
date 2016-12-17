@@ -75,10 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-
-                    }
+                    public void onErrorResponse(VolleyError error) {}
                 });
 
         // Access the RequestQueue through your singleton class.
@@ -86,7 +83,6 @@ public class ProfileActivity extends AppCompatActivity {
         MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
 
     }
-
 
     public void changePicture(View view) {
         ImageView iw= (ImageView) findViewById(R.id.image_profile);

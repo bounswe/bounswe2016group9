@@ -1,8 +1,9 @@
 package com.cmpe451.group9.infograppo.activities;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -19,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.cmpe451.group9.infograppo.R;
+import com.cmpe451.group9.infograppo.common.fragments.ProfileFragment;
 import com.cmpe451.group9.infograppo.network.models.Topic;
 import com.cmpe451.group9.infograppo.network.models.User;
 import com.cmpe451.group9.infograppo.network.services.MySingleton;
@@ -153,9 +156,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
                                 tmp = new Gson().fromJson(String.valueOf(obj), Topic.class);
                                 lists.add(tmp);
                             }
-                            topicName.setText(lists.get(15).getName());
-                            trendingCount.setText(lists.get(15).getUser().getName());
-                            entityId.setText(lists.get(15).getUser().getEmail());
+                            try {
+                                topicName.setText(lists.get(2).getName());
+                                trendingCount.setText(lists.get(2).getUser().getName());
+                                entityId.setText(lists.get(2).getUser().getEmail());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
 
                         }
@@ -212,8 +219,16 @@ public class NavigationDrawerActivity extends AppCompatActivity
             // Access the RequestQueue through your singleton class.
             MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
 
+
         } else if (id == R.id.notification) {
             this.setTitle(R.string.notification);
+
+            Fragment profileFragment = new ProfileFragment();
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.content_navigation_drawer, profileFragment)
+                    .commit();
+
         } else if (id == R.id.settings) {
             this.setTitle(R.string.settings);
         } else if (id == R.id.about) {
@@ -225,5 +240,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void changePicture(View view) {
+        ImageView iw= (ImageView) findViewById(R.id.image_profile);
+        iw.setImageResource(R.drawable.menaf);
     }
 }

@@ -1,25 +1,19 @@
 package com.cmpe451.group9.infograppo.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.cmpe451.group9.infograppo.R;
-import com.cmpe451.group9.infograppo.common.adapters.ExpandableListAdapter;
-import com.cmpe451.group9.infograppo.network.models.Relation;
 import com.cmpe451.group9.infograppo.network.models.Topic;
-import com.cmpe451.group9.infograppo.network.models.User;
 import com.cmpe451.group9.infograppo.network.services.MySingleton;
 import com.google.gson.Gson;
 
@@ -28,9 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GrappiActivity extends AppCompatActivity {
     ArrayList<String> topics;
@@ -63,16 +54,13 @@ public class GrappiActivity extends AppCompatActivity {
                             tmp = new Gson().fromJson(String.valueOf(obj), Topic.class);
                             try {
                                 topics.add(tmp.getName());
-                            }catch (Exception e){}
+                            }catch (Exception ignored){}
                         }
                     }
                 }, new Response.ErrorListener() {
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-
-                    }
+                    public void onErrorResponse(VolleyError error) {}
                 }));
         lw.setOnItemClickListener( new AdapterView.OnItemClickListener(){
 
