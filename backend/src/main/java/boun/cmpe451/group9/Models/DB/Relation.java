@@ -4,6 +4,7 @@ import boun.cmpe451.group9.Models.Base;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * The object representation of the table "RELATION"
@@ -19,7 +20,8 @@ public class Relation extends Base {
     @ManyToOne(cascade = CascadeType.ALL)
     private Topic toTopic;
 
-    @Column(name = "VOTE_COUNT")
+    @NotNull
+    @Column(name = "VOTE_COUNT", columnDefinition = "int default 0")
     private int voteCount;
 
     @ManyToOne(cascade = CascadeType.ALL)

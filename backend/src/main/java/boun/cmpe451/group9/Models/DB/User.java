@@ -4,11 +4,12 @@ import boun.cmpe451.group9.Models.Base;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * The object representation of the table "USER"
@@ -36,7 +37,6 @@ public class User extends Base {
 
     @NotBlank
     @Column(name = "PASSWORD")
-    @Length(min = 6, max = 127)
     private String password;
 
     @NotBlank
@@ -44,8 +44,24 @@ public class User extends Base {
     @Column(name = "EMAIL")
     private String email;
 
-    @OneToOne
-    private Image profilePictureUrl;
+    @NotNull
+    @Column(name = "ENABLED", columnDefinition = "boolean default true")
+    private boolean enabled = true;
+
+    @URL
+    @Column(name = "IMAGE_URL")
+    private String image_url;
+
+    public User(){
+
+    }
+
+    public User(User user){
+        this.setEntityId(user.getEntityId());
+        this.setUsername(user.getUsername());
+        this.setPassword(user.getPassword());
+        this.setEnabled(user.isEnabled());
+    }
 
     public String getUsername() {
         return username;
@@ -95,11 +111,19 @@ public class User extends Base {
         this.email = email;
     }
 
-    public Image getProfilePictureUrl() {
-        return profilePictureUrl;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setProfilePictureUrl(Image profilePictureUrl) {
-        this.profilePictureUrl = profilePictureUrl;
+    private void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 }

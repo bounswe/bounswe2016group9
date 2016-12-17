@@ -18,8 +18,8 @@ public interface CommentDAO extends BaseDAO<Comment> {
     List<Comment> getCommentsByUserId(long userID);
 
     /**
-     *
-     * @param topicID id of the topic
+     * Retrieves the list of row with the given post id from table "COMMENT"
+     * @param postID id of the post
      * @return list of comments
      */
     List<Comment> getCommentsByPostId(long postID);

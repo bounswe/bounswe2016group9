@@ -1,12 +1,18 @@
 package boun.cmpe451.group9.Controllers.Topic;
 
+import boun.cmpe451.group9.Controllers.AutoComplete.AutoCompleteController;
+import boun.cmpe451.group9.Controllers.Post.PostController;
 import boun.cmpe451.group9.Controllers.Relation.RelationController;
+import boun.cmpe451.group9.Controllers.Search.SearchController;
 import boun.cmpe451.group9.Controllers.SemanticTag.SemanticTagController;
 import boun.cmpe451.group9.Controllers.Tag.TagController;
+import boun.cmpe451.group9.Controllers.User.UserController;
 import boun.cmpe451.group9.Models.DB.*;
 import boun.cmpe451.group9.Models.Meta.SPARQLEntityResponse;
 import boun.cmpe451.group9.Models.Meta.SPARQLTypeResponse;
 import boun.cmpe451.group9.Models.Meta.TopicTagResponse;
+import boun.cmpe451.group9.Service.FollowTopic.FollowTopicService;
+import boun.cmpe451.group9.Service.Post.PostService;
 import boun.cmpe451.group9.Service.Relation.RelationService;
 import boun.cmpe451.group9.Service.STagTopic.STagTopicService;
 import boun.cmpe451.group9.Service.SemanticTag.SemanticTagService;
@@ -39,6 +45,8 @@ public class TopicController {
     private SemanticTagService semanticTagService;
     private STagTopicService sTagTopicService;
     private RelationService relationService;
+    private PostService postService;
+    private FollowTopicService followTopicService;
 
     @Autowired
     public void setTopicService(TopicService topicService){
@@ -69,7 +77,12 @@ public class TopicController {
     public void setRelationService(RelationService relationService){
         this.relationService = relationService;
     }
-
+    @Autowired
+    public void setPostService(PostService postService) {
+        this.postService = postService;
+    }
+    @Autowired
+    public void setFollowTopicService(FollowTopicService followTopicService){this.followTopicService=followTopicService;}
     /**
      * Returns a response for the request "GET /topics/{id}"
      * @param id the id of the resource "Topic"
@@ -82,7 +95,7 @@ public class TopicController {
 
             return new ResponseEntity<>(topic, HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Topic(),HttpStatus.NOT_FOUND);
         }
     }
 
@@ -93,7 +106,7 @@ public class TopicController {
      */
     @GetMapping("/test")
     public ResponseEntity<SPARQLEntityResponse> testSPARQL() throws Exception {
-        URL url = new URL(createUrlForSPARQLMultiEntities("Venus"));
+        URL url = new URL(createUrlForSPARQLMultiEntities("Juno"));
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -267,9 +280,16 @@ public class TopicController {
                 return new ResponseEntity<>(relations, HttpStatus.OK);
             }
         }
+        // TODO backend, reported by frontend
+        // Please return empty if topic has not a relation
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     Get all relations that end at the topic
+     * @param id topic id relations ended
+     * @return list of relations
+     */
     @GetMapping("{id}/relationsTo")
     public ResponseEntity<List<Relation>> getAllRelationsToTopic(@PathVariable("id") long id){
         if(topicService.checkIfEntityExistsById(id)){
@@ -284,6 +304,11 @@ public class TopicController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("{id}/tags")
     public ResponseEntity<List<Tag>> getAllTagsByTopicId(@PathVariable("id") long id){
         if(topicService.checkIfEntityExistsById(id)){
@@ -311,14 +336,55 @@ public class TopicController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    @GetMapping("{id}/posts")
+    public ResponseEntity<List<Post>> getAllPostsByTopicId(@PathVariable("id") long id){
+        if(topicService.checkIfEntityExistsById(id)) {
+
+            List<Post> posts = postService.getPostByTopicId(id);
+            if (!posts.isEmpty()) {
+                posts.forEach(PostController::addLinksToPost);
+
+
+                return new ResponseEntity<>(posts, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("{id}/followers")
+    public ResponseEntity<List<User>> getFollowerUsersById(@PathVariable("id") long id){
+        if(topicService.checkIfEntityExistsById(id)){
+            List<User> followers= followTopicService.getFollowerUsersById(id);
+            if(!followers.isEmpty()){
+                followers.forEach(UserController::addLinkToUser);
+                return  new ResponseEntity<>(followers,HttpStatus.OK);
+            }
+        }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
+    @GetMapping("/grappi")
+    public ResponseEntity<List<Topic>> getGrappi(){
+        List<Topic> grappiTopics = topicService.getGrappi();
+
+        if(!grappiTopics.isEmpty()){
+            grappiTopics.forEach(TopicController::addLinkToTopic);
+
+            return new ResponseEntity<>(grappiTopics, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     public static Topic addLinkToTopic(Topic topic){
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel());
-        topic.add(linkTo(TopicController.class).slash("tags").withRel("tags"));
-        topic.add(linkTo(TopicController.class).slash("semanticTags").withRel("semanticTags"));
-        topic.add(linkTo(TopicController.class).slash("fromTopics").withRel("relationsFromTopics"));
-        topic.add(linkTo(TopicController.class).slash("toTopics").withRel("relationsToTopics"));
-
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("tags").withRel("tags"));
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("semanticTags").withRel("semanticTags"));
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("fromTopics").withRel("relationsFromTopics"));
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("toTopics").withRel("relationsToTopics"));
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("posts").withRel("posts"));
+        topic.add(linkTo(SearchController.class).withRel("search"));
+        topic.add(linkTo(AutoCompleteController.class).withRel("autoComplete"));
         return topic;
     }
 

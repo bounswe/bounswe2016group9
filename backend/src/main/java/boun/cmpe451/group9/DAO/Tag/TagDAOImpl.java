@@ -32,4 +32,13 @@ public class TagDAOImpl extends BaseDAOImpl<Tag> implements TagDAO {
                 .setParameter("id", id)
                 .list();
     }
+
+    @Override
+    public List<Tag> getTagsByPostId(long id) {
+         return this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT t.* FROM tag t JOIN tag_post post ON (t.id = post.tag_id) WHERE (post.post_id = :id)")
+                .addEntity(Tag.class)
+                .setParameter("id", id)
+                .list();
+    }
 }

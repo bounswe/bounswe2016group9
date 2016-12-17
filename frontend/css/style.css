@@ -1,5 +1,5 @@
 body {
-  background: aliceblue;
+  background: lightcyan;
 }
 
 .navbar-header {
@@ -8,8 +8,15 @@ body {
 
 #mynetwork {
   /*width: 1000px;*/
-  height: 800px;
+  height: 600px;
   border: 1px solid lightgray;
+  background: white;
+}
+#topicnetwork {
+  /*width: 1000px;*/
+  height: 600px;
+  border: 1px solid lightgray;
+  background: white;
 }
 .left-navbar {
   list-style-type: none;
@@ -115,4 +122,12 @@ body {
   padding: 20px;
   font-size: medium;
   display: inline-block;
+}
+#relation{
+  background-color: rgba(61,89,129,0.5); 
+  height: 598px; 
+  z-index: 99999; 
+  position: relative; 
+  top:-598px; 
+  float:right; 
 }

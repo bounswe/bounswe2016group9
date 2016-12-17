@@ -7,24 +7,23 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@SuppressWarnings({"unused", "unchecked"})
+@SuppressWarnings("unchecked")
 @Repository
 public class FollowRelDAOImpl extends BaseDAOImpl<FollowRel> implements FollowRelDAO {
     @Override
-    public List<User> getFollowingById(long id) {
+    public List<User> getFollowingById(long userId) {
         return this.getSessionFactory().getCurrentSession()
-                .createSQLQuery("SELECT r.following_id FROM relation r JOIN user u ON (u.id = r.follower_id) WHERE (u.id = :id)")
+                .createSQLQuery("SELECT u.* FROM follow_rel r JOIN user u ON u.id = r.following_id WHERE r.follower_id = :id")
                 .addEntity(User.class)
-                .setParameter("id", id)
+                .setParameter("id", userId)
                 .list();
     }
-
     @Override
-    public List<User> getFollowerById(long id) {
+    public List<User> getFollowerById(long userId) {
         return  this.getSessionFactory().getCurrentSession()
-                .createSQLQuery("SELECT r.follower_id FROM relation r JOIN user u ON (u.id = r.following_id) WHERE (u.id = :id)")
+                .createSQLQuery("SELECT u.* FROM follow_rel r JOIN user u ON u.id = r.follower_id WHERE r.following_id = :id")
                 .addEntity(User.class)
-                .setParameter("id", id)
+                .setParameter("id", userId)
                 .list();
     }
 }

@@ -12,15 +12,15 @@ import java.util.List;
 public interface FollowRelDAO extends BaseDAO<FollowRel> {
     /**
      * Get all users that user "id" follows
-     * @param id user "id"
+     * @param userId user "id"
      * @return all users that user "id" follows
      */
-    List<User> getFollowingById(long id);
+    List<User> getFollowingById(long userId);
 
     /**
      * Get all users that follow user "id"
-     * @param id user "id"
+     * @param userId user "id"
      * @return all users that follow user "id"
      */
-    List<User> getFollowerById(long id);
+    List<User> getFollowerById(long userId);
 }

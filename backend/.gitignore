@@ -13,7 +13,7 @@ target/
 *.iws
 *.iml
 *.ipr
-*.properties
+/testDB
 
 ### NetBeans ###
 nbproject/private/

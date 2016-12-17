@@ -24,4 +24,10 @@ public interface TopicDAO extends BaseDAO<Topic> {
      * @return a list of rows with user_id = id
      */
     List getTopicsByUserId(long id);
+
+    List <Topic> getGrappi();
+
+    List<Topic> searchTopicByName(String[] keywords);
+
+    List<Topic> autoComp(String keyword);
 }

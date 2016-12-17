@@ -25,4 +25,14 @@ public class TopicServiceImpl extends BaseServiceImpl<Topic> implements TopicSer
     public List<Topic> getTopicsByUserId(long id) {
         return topicDAO.getTopicsByUserId(id);
     }
+
+    @Override
+    public List<Topic> autoComp(String keyword) {
+        return topicDAO.autoComp(keyword);
+    }
+
+    @Override
+    public List<Topic> getGrappi() {
+        return  topicDAO.getGrappi();
+    }
 }

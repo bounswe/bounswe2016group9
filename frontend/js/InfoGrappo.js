@@ -1,9 +1,12 @@
 angular.module('InfoGrappoWeb', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics){
+angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootScope, Topics, $window, $document){
+  
+  $rootScope.user = {name:"Ali Çomar", age:18, city:"Adana/Turkey", email:"alicomar@comarci.com"};
+
   $scope.sendTopic = function(toTopicID){
-    Topics.sendTopic(toTopicID);
-    console.log(Topics.getTopic());
-  }
+    $window.localStorage.setItem("topic",toTopicID);
+    console.log($window.localStorage.getItem("topic"));
+  };
   Topics.all().then(function(response){
     $scope.topics = response;
     console.log($scope.topics.data);
@@ -15,11 +18,6 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics){
         id :$scope.topics.data[i].entityId,
         label: $scope.topics.data[i].name
       });
-      Topics.getRelation($scope.topics.data[i].entityId).then(function(response){
-        for (var j = 0; j < response.data.length; j++) {
-          edges.push({from: response.data[j].fromTopic.entityId,to:response.data[j].toTopic.entityId});
-        }
-
       // create a network
       var container = document.getElementById('mynetwork');
 
@@ -28,10 +26,158 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics){
           nodes: nodes,
           edges: edges
       };
-      var options = {};
+      var options = {
+        nodes: {
+          font: {
+            color: 'white'
+          },
+          // color: '#51F7F2'
+          //color: '#2ADAD5'
+          color: '#C2478B'
+        }
+      };
 
       // initialize your network!
       var network = new vis.Network(container, data, options);
+      //To get click on canvas
+      network.on("click", function (params) {
+        //when click on node(topic)
+        if(params.nodes.length >= 1){
+          $scope.relatedNodes = {nodes:[], edges:[]};
+          var node = params.nodes[0];
+          Topics.getRelation(node).then(function(response){
+            if(response[0].fromTopic.entityId == node){
+              $scope.relatedNodes.nodes.push({
+                id:response[0].fromTopic.entityId,
+                label:response[0].fromTopic.name
+              });
+            }else{
+              $scope.relatedNodes.nodes.push({
+                id:response[0].toTopic.entityId,
+                label:response[0].toTopic.name
+              });
+            }
+            for (var i = 0; i < response.length; i++) {
+              if(response[i].toTopic.entityId != node){
+                $scope.relatedNodes.nodes.push({
+                  id:response[i].toTopic.entityId,
+                  label:response[i].toTopic.name
+                })
+              }else if(response[i].fromTopic.entityId != node){
+                $scope.relatedNodes.nodes.push({
+                  id:response[i].fromTopic.entityId,
+                  label:response[i].fromTopic.name
+                })
+              }
+              $scope.relatedNodes.edges.push({
+                from: response[i].fromTopic.entityId,
+                to:response[i].toTopic.entityId,
+                value: response[i].voteCount
+              });
+              network.setData($scope.relatedNodes);
+            }
+          });
+        }
+        //If params has only edge(we do not take when click on node)
+        else if(params.edges.length >= 1 && params.nodes.length <= 0){
+          //Search edges which are appear on canvas to find edges come from params
+          for(var i=0; i<$scope.relatedNodes.edges.length; i++){
+            if($scope.relatedNodes.edges[i].id == params.edges[0]){
+              var edge = $scope.relatedNodes.edges[i];
+            }
+          }
+          //Find topics which are connected via this edge
+          var fromTopic;
+          var toTopic;
+          $scope.relation = {};
+          Topics.getRelation(edge.from).then(function(res){
+            for(var i=0; i<res.length; i++){
+              if(res[i].toTopic.entityId == edge.to){
+                console.log("matched");
+                fromTopic = res[i].fromTopic;
+                toTopic = res[i].toTopic;
+                break;
+              }
+            }
+            //Header of relation part
+            $scope.relation.name = fromTopic.name+"--"+toTopic.name;
+            //relation types
+            $scope.relation.types = [{type : "ali"},{ type : "ayşe"},{ type: "fatma"}];
+            console.log($scope.relation.types);
+            $document.find('#relation').css('display','block'); 
+          });
+        }else{
+          //change
+          // when click on somewhere in map other than edges or nodes
+          if($document.find('#relation').css('display') == 'block'){
+            $document.find('#relation').css('display', 'none');
+          }else{
+            //node and edges reset
+            $scope.relatedNodes = {nodes:[], edges:[]};
+            network.setData({
+              nodes: nodes,
+              edges: [] 
+            });
+          }
+          //change end
+        }
+      });
+    }
+  });  
+});
+
+
+
+angular.module('InfoGrappoWeb').controller('TopicGraphCtrl', function($scope, Topics){
+  $scope.sendTopic = function(toTopicID){
+    Topics.sendTopic(toTopicID);
+    console.log(Topics.getTopic());
+  };
+  Topics.all().then(function(response){
+    $scope.topics = response;
+    console.log($scope.topics.data);
+    // create an array with nodes
+    var nodes = [];
+    var edges = [];
+
+   
+
+    for (var i = 0; i<$scope.topics.data.length; i++) {
+      nodes.push({
+        id :$scope.topics.data[i].entityId,
+        label: $scope.topics.data[i].name
+      });
+      Topics.getRelation($scope.topics.data[i].entityId).then(function(response){
+        for (var j = 0; j < response.data.length; j++) {
+          edges.push({
+              from: response.data[j].fromTopic.entityId,
+              to:response.data[j].toTopic.entityId,
+              value: response.data[j].voteCount
+          });
+        }
+
+      // create a network
+      var container2 = document.getElementById('topicnetwork');
+      // provide the data in the vis format
+      var data = {
+          nodes: nodes,
+          edges: edges
+      };
+      var options = {
+        nodes: {
+          font: {
+            color: 'white'
+          },
+          // color: '#51F7F2'
+          // color: '#2ADAD5'
+          color: '#C2478B'
+        },
+        edges: {
+          color: '#29CB51'
+        }
+      };
+      // initialize your network!
+      var network = new vis.Network(container2, data, options);
       });
     }
   });  
@@ -146,6 +292,58 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
     });
   };
 
+  $ctrl.openProfileSettings = function (size, parentSelector) {
+    var parentElem = parentSelector ? 
+      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+    var modalInstance = $uibModal.open({
+      animation: $ctrl.animationsEnabled,
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      templateUrl: 'profileSettings.html',
+      controller: 'ModalInstanceCtrl',
+      controllerAs: '$ctrl',
+      size: size,
+      appendTo: parentElem,
+      resolve: {
+        items: function () {
+          return $ctrl.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (result) {
+      console.log(result);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
+  $ctrl.openLogin = function (size, parentSelector) {
+    var parentElem = parentSelector ? 
+      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+    var modalInstance = $uibModal.open({
+      animation: $ctrl.animationsEnabled,
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      templateUrl: 'signIn.html',
+      controller: 'ModalInstanceCtrl',
+      controllerAs: '$ctrl',
+      size: "lg",
+      appendTo: parentElem,
+      resolve: {
+        items: function () {
+          return $ctrl.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (result) {
+      console.log(result);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
   $ctrl.toggleAnimation = function () {
     $ctrl.animationsEnabled = !$ctrl.animationsEnabled;
   };
@@ -202,6 +400,30 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
     $uibModalInstance.close(result);
   };
 
+  $ctrl.okSaveProfile = function () {
+    console.log($scope.user);
+    var result = {
+      user : $scope.user
+    };
+    $uibModalInstance.close(result);
+  };
+
+  $ctrl.okSignIn = function () {
+    console.log($scope.signIn);
+    var result = {
+      signIn : $scope.signIn
+    };
+    $uibModalInstance.close(result);
+  };
+
+  $ctrl.okSignUp = function () {
+    console.log($scope.signUp);
+    var result = {
+      signUp : $scope.signUp
+    };
+    $uibModalInstance.close(result);
+  };
+
   $ctrl.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
@@ -232,10 +454,8 @@ angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log)
 
 });
 
-angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topics, Posts, Comments){
-  //$scope.topic =Topics.get(1);
-  console.log(Topics.getTopic());
-  Topics.get(Topics.getTopic()).then(function(response){
+angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topics, Posts, Comments, $window){
+  Topics.get($window.localStorage.getItem("topic")).then(function(response){
     $scope.topic = response.data;
   });
   var relations = [];
@@ -245,7 +465,7 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
       relations.push(response.data[i].toTopic);
     }
     $scope.relations=relations;
-  })
+  });
   $scope.go = function(topicID){
     Topics.get(topicID).then(function(response){
       $scope.topic = response.data;
@@ -263,7 +483,8 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
   $scope.comments=Comments.all();
 });
 
-angular.module('InfoGrappoWeb').factory('Topics', function($http) {
+
+angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', function($http, $q) {
   // Might use a resource here that returns a JSON array
   var toTopic = 1;
   return {
@@ -301,18 +522,49 @@ angular.module('InfoGrappoWeb').factory('Topics', function($http) {
       });
     },
     getRelation: function(topicID) {
-      return $http({
+      var deferred = $q.defer();
+      var getTo = $http({
+        method: 'GET',
+        url: "http://52.67.44.90:8080/topics/"+topicID+"/relationsTo"
+      }).then(function successCallback(data){
+        return data.data;
+      }, function errorCallback(data){
+        console.log(data);
+        return null;
+      });
+      var getFrom = $http({
         method: 'GET',
         url: "http://52.67.44.90:8080/topics/"+topicID+"/relationsFrom"
       }).then(function successCallback(data) {
-        return data;
+        return data.data;
       }, function errorCallback(data) {
-        console.log("Lanet olasıca backend çalışmıyor!!!!");
+        console.log(data);
         return null;
       });
+      $q.all([getFrom, getTo]).then(function(data){
+        data[3] = [];
+        if (Array.isArray(data[0])){
+          for (var i=0; i<data[0].length; i++){
+            data[3].push(data[0][i])
+          }
+        } 
+        if(Array.isArray(data[1])){
+          for (var i=0; i<data[1].length; i++){
+            data[3].push(data[1][i]);
+          }
+        }
+        if(Array.isArray(data[0]) || Array.isArray(data[1])){
+          deferred.resolve(data[3]);
+        }else{
+          deferred.reject("not relations");
+        }
+      }, function(data){
+        deferred.reject("not relation");
+      });
+      return deferred.promise;
     }
   };
-});
+}]);
 
 angular.module('InfoGrappoWeb').factory('Posts', function(){
 

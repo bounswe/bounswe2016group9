@@ -20,7 +20,27 @@ public class PostDAOImpl extends BaseDAOImpl<Post> implements PostDAO {
 
     @Override
     public List<Post> getPostByLocation(int locationID) {
-        return null;
+        return  this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT * FROM post p WHERE p.locationID = :id")
+                .addEntity(Post.class)
+                .setParameter("id", locationID)
+                .list();
+    }
+
+    @Override
+    public List<Post> searchPostByName(String[] keywords) {
+        String sqlText = "'" + keywords[0];
+
+        for(int i=1;i<keywords.length;i++){
+            sqlText += "|" + keywords[i];
+        }
+        sqlText += "'";
+
+        return this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT t.* FROM post t WHERE t.name REGEXP :regex")
+                .addEntity(Post.class)
+                .setParameter("regex", sqlText)
+                .list();
     }
 
     @Override

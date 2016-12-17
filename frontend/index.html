@@ -49,7 +49,30 @@
                 </ul>
             </div>
             <div class="col-md-10 col-lg-10" ng-show="show">
-                <div id="mynetwork"></div>    
+                <div id="mynetwork"></div>
+                <div id="relation" class="col-md-6" style="display: none;">
+                    <h4>{{relation.name}}</h4>
+                    <div id="topics" ng-repeat="type in relation.types">
+                        <div id="topic" class="row">
+                            <div class="col-md-1">
+                                <ul class="rating">
+                                    <li>
+                                        <a href=><i class="fa fa-thumbs-up"></i></a> 
+                                    </li>
+                                    <li>
+                                        <span>5</span>
+                                    </li>
+                                    <li>
+                                        <a href=><i class="fa fa-thumbs-down"></i></a> 
+                                    </li>
+                                </ul> 
+                            </div>
+                            <div class="col-md-11">
+                                <span id="comment">{{type.type}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-10 col-lg-10" ng-show="!show">
                 <h1>HOME</h1>   
