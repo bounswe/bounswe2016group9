@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="7"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -14,23 +16,24 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="115dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:id="@+id/profileLinearLayout1">
 
         <ImageView
-            android:layout_width="164dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             app:srcCompat="@drawable/info_grappo_logo"
             android:id="@+id/image_profile"
             android:onClick="changePicture"/>
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:weightSum="3">
             <TextView
                 android:text="Comar Ali (comar ali)"
                 android:layout_width="match_parent"
@@ -55,32 +58,35 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/profileLinearLayout1"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="10dp"
         android:id="@+id/profileLinearLayout2">
 
         <Button
             android:text="@string/button_change_picture"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:id="@+id/button_changepicture"
             android:onClick="changePicture"/>
 
         <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="match_parent"></LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
         <Button
             android:text="@string/button_edit_profile"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:id="@+id/button_editprofile" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/profileLinearLayout2"
+        android:layout_height="0dp"
+        android:layout_weight="4"
 
         tools:context=".activities.ProfileActivity">
 
@@ -162,4 +168,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
