@@ -22,7 +22,9 @@
             android:label="@string/title_activity_navigation_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.TopicsMapActivity" />
+        <activity android:name=".activities.SignupActivity" />
         <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.GrappiActivity"/>
     </application>
 
