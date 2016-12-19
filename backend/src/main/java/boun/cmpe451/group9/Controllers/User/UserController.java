@@ -12,6 +12,7 @@ import boun.cmpe451.group9.Service.FollowTopic.FollowTopicService;
 import boun.cmpe451.group9.Service.Post.PostService;
 import boun.cmpe451.group9.Service.Topic.TopicService;
 import boun.cmpe451.group9.Service.User.UserService;
+import boun.cmpe451.group9.Service.UserRole.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,8 @@ public class UserController {
 
     private FollowTopicService followTopicService;
 
+    private UserRoleService userRoleService;
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -56,6 +59,11 @@ public class UserController {
 
     @Autowired
     public void setFollowTopicService(FollowTopicService followTopicService){ this.followTopicService=followTopicService;}
+
+    @Autowired
+    public void setUserRoleService(UserRoleService userRoleService){
+        this.userRoleService = userRoleService;
+    }
 
     /**
      * Returns a response for the request "GET /users/{id}"
@@ -90,7 +98,7 @@ public class UserController {
         if(userService.checkIfEntityExistsById(id)){
             User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            if(currentUser.getUsername().equals(user.getUsername())) {
+            if(currentUser.getEntityId() == id) {
                 user.setEntityId(id);
                 userService.save(user);
 
@@ -194,17 +202,35 @@ public class UserController {
      * Returns a response for the request "GET /users"
      * @return the list of all users
      */
+    @SuppressWarnings("unchecked")
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers(){
-        List<User> allUsers = userService.findAll();
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(!allUsers.isEmpty()){
-            allUsers.forEach(UserController::addLinkToUser);
+        if(checkAuthority(currentUser)) {
+            List<User> allUsers = userService.findAll();
 
-            return new ResponseEntity<>(allUsers, HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if (!allUsers.isEmpty()) {
+                allUsers.forEach(UserController::addLinkToUser);
+
+                return new ResponseEntity<>(allUsers, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }else{
+            return new ResponseEntity(currentUser, HttpStatus.OK);
         }
+    }
+
+    private boolean checkAuthority(User user){
+        List<String> authList = userRoleService.findRoleByUsername(user);
+
+        for (String anAuthList : authList) {
+            if (anAuthList.equals("ROLE_ADMIN")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

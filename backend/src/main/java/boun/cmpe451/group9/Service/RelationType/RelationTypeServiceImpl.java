@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Created by narya on 12/19/16.
- */
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 public class RelationTypeServiceImpl extends BaseServiceImpl<RelationType> implements RelationTypeService {
@@ -18,4 +17,8 @@ public class RelationTypeServiceImpl extends BaseServiceImpl<RelationType> imple
     @Autowired
     public void setRelationTypeDAO(RelationTypeDAO relationTypeDAO){this.relationTypeDAO=relationTypeDAO;}
 
+    @Override
+    public List<RelationType> autoComp(String keywords) {
+        return relationTypeDAO.autoComp(keywords);
+    }
 }

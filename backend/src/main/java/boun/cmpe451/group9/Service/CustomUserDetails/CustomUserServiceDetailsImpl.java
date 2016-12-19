@@ -24,7 +24,6 @@ public class CustomUserServiceDetailsImpl implements CustomUserDetailsService {
         this.userRoleDAO = userRoleDAO;
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userDAO.getUserByUsername(username);

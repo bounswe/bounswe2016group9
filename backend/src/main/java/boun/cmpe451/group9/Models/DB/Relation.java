@@ -1,7 +1,6 @@
 package boun.cmpe451.group9.Models.DB;
 
 import boun.cmpe451.group9.Models.Base;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,9 +26,8 @@ public class Relation extends Base {
     @ManyToOne(cascade = CascadeType.ALL)
     private User createdUser;
 
-    @NotBlank
-    @Column(name="CONTENT")
-    private String content;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private RelationType relationType;
 
     public Topic getFromTopic() {
         return fromTopic;
@@ -63,7 +61,11 @@ public class Relation extends Base {
         this.createdUser = createdUser;
     }
 
-    public String getContent() {  return content;    }
+    public RelationType getRelationType() {
+        return relationType;
+    }
 
-    public void setContent(String content) {this.content = content;  }
+    public void setRelationType(RelationType relationType) {
+        this.relationType = relationType;
+    }
 }

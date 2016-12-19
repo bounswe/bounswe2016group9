@@ -1,6 +1,8 @@
 package boun.cmpe451.group9.Controllers.AutoComplete;
 
+import boun.cmpe451.group9.Models.DB.RelationType;
 import boun.cmpe451.group9.Models.DB.Topic;
+import boun.cmpe451.group9.Service.RelationType.RelationTypeService;
 import boun.cmpe451.group9.Service.Topic.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,11 +20,21 @@ public class AutoCompleteController {
 
     private TopicService topicService;
 
+    private RelationTypeService relationTypeService;
+
     @Autowired
     public void setTopicService(TopicService topicService){ this.topicService = topicService; }
 
-    @GetMapping
+    @Autowired
+    public void setRelationTypeService(RelationTypeService relationTypeService){ this.relationTypeService = relationTypeService; }
+
+    @GetMapping("/topics")
     public ResponseEntity<List<Topic>> autoCompTopics(@RequestParam("keyword") String keyword){
         return new ResponseEntity<>(topicService.autoComp(keyword), HttpStatus.OK);
+    }
+
+    @GetMapping("/relationTypes")
+    public ResponseEntity<List<RelationType>> autoCompRelTypes(@RequestParam("keyword") String keyword){
+        return new ResponseEntity<>(relationTypeService.autoComp(keyword), HttpStatus.OK);
     }
 }

@@ -29,12 +29,11 @@ public class TopicDAOImpl extends BaseDAOImpl<Topic> implements TopicDAO {
 
     @Override
     public List<Topic> searchTopicByName(String[] keywords) {
-        String sqlText = "'" + keywords[0];
+        String sqlText = keywords[0];
 
         for(int i=1;i<keywords.length;i++){
             sqlText += "|" + keywords[i];
         }
-        sqlText += "'";
 
         return this.getSessionFactory().getCurrentSession()
                 .createSQLQuery("SELECT t.* FROM topic t WHERE t.name REGEXP :regex")
