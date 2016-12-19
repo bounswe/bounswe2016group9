@@ -50,10 +50,9 @@
             </ul>
           </div>
           <div class="col-md-9" ng-show="!show">
-            <div class="row">
+            <div class="row" ng-controller="RelationCtrl as $ctrl">
               <div class="col-md-10">
-                <!--h1>{{relation.topic1name}} - {{relation.topic2name}}</h1-->
-                <h1>Rusya - Amerika</h1>
+                <h1>{{topic.name}} - {{secondTopic.name}}</h1>
               </div>
             </div>
           
@@ -66,14 +65,38 @@
                     <a href=><i class="fa fa-thumbs-up"></i></a> 
                   </li>
                   <li>
-                    <span>85</span>
-                    <!--span>{{relation.relationRate}}</span-->
+                    <span>{{relations.relation[0].relationRate}}</span>
                   </li>
                   <li>
                     <a href=><i class="fa fa-thumbs-down"></i></a> 
                   </li>
                 </ul>
               </div>
+                <div class="col-md-10 col-lg-10" ng-show="show">
+                    <div id="relation" class="col-md-6" style="display: none;">
+                        <h4>{{relation.name}}</h4>
+                        <div id="topics" ng-repeat="type in relation.types">
+                            <div id="topic" class="row">
+                                <div class="col-md-1">
+                                    <ul class="rating">
+                                        <li>
+                                            <a href=><i class="fa fa-thumbs-up"></i></a>
+                                        </li>
+                                        <li>
+                                            <span>5</span>
+                                        </li>
+                                        <li>
+                                            <a href=><i class="fa fa-thumbs-down"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-11">
+                                    <span id="comment">{{type.type}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
               <div class="col-md-11 generalBorder">
                 <!--span>{{post.relationText}}</span-->
                 
@@ -97,10 +120,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-touch.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
     <!-- Our own js file -->
     <script src="js/InfoGrappo.js"></script>
+    <script src="js/RelationCtrl.js"></script>
   </body>
 </html>
 
