@@ -28,4 +28,11 @@ public interface PostService extends BaseService<Post>{
      * @return list of posts that is created at location "id"
      */
     List<Post> getPostByLocation(int id);
+
+    /**
+     * Retrieves list of most recent posts belong to list of topic "topicIdList"
+     * @param topicIdList the list of ids
+     * @return list of most recent posts belong to topic "topicIdList"
+     */
+    List<Post> getPostsByTopicIdForTimeline(List<Long> topicIdList);
 }

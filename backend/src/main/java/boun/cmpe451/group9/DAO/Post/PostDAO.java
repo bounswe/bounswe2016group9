@@ -34,5 +34,7 @@ public interface PostDAO extends BaseDAO<Post> {
      */
     List<Post> getPostByLocation(int locationID);
 
+    List<Post> getPostsByTopicIdForTimeline(List<Long> topicIdList);
+
     List<Post> searchPostByName(String[] split);
 }

@@ -27,4 +27,5 @@ import java.util.List;
      * @return all users that follow topic with "topicID"
      */
     List<User> getFollowerUsersById(long topicID);
+
 }

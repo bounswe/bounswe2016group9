@@ -1,6 +1,7 @@
 package boun.cmpe451.group9.DAO.Topic;
 
 import boun.cmpe451.group9.DAO.BaseDAO;
+import boun.cmpe451.group9.Models.DB.Post;
 import boun.cmpe451.group9.Models.DB.Topic;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public interface TopicDAO extends BaseDAO<Topic> {
     List getTopicsByUserId(long id);
 
     List <Topic> getGrappi();
+
 
     List<Topic> searchTopicByName(String[] keywords);
 
