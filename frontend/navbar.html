@@ -1,4 +1,4 @@
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" ng-controller="NavbarCtrl">
       <div class="container-fluid"  id="main-nav-bar">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -21,23 +21,17 @@
           <ul class="nav navbar-nav">
             <li>
                 <form class="navbar-form searchForm" method="get" action="search.html" ng-controller="SearchCtrl">
-                    <div class="form-group" ng-autocomplete="result1" >
+                    <div class="form-group">
                       <input type="text" id="tfq" class="search-elements" name="q" size="21" maxlength="120" placeholder="Search our website">
                       <button type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search()">Search</button>
                     </div>
                 </form>
-                <!--ul style="z-index: -1">
-                    <li style="height:100px; overflow:hidden;">
-                        <div style="height:500px; background-color:black;">
-                        </div>
-                    </li>
-                </ul-->
             </li>
-            <li class="navbar-right"><a href="#" style="color: white">Log Out</a></li>
-            <li class="navbar-right"><a href="#" style="color: white">Settings</a></li>
-            <li class="navbar-right"><a href="#" style="color: white">Notification</a></li>
-            <li class="navbar-right"><a href="profile.html" style="color: white;">Profile</a></li>
-            <li class="navbar-right" ng-controller="ModalDemoCtrl as $ctrl"><a href="#" ng-click="$ctrl.openLogin()" style="color: white;">Sign in / Sign Up </a></li>
+            <li class="navbar-right" ng-if="auth"><a href="#" style="color: white" ng-click="logout()">Log Out</a></li>
+            <li class="navbar-right" ng-if="auth"><a href="#" style="color: white">Settings</a></li>
+            <li class="navbar-right" ng-if="auth"><a href="#" style="color: white">Notification</a></li>
+            <li class="navbar-right" ng-if="auth"><a href="profile.html" style="color: white;">Profile</a></li>
+            <li class="navbar-right" ng-controller="ModalDemoCtrl as $ctrl" ng-if="!auth"><a href="#" ng-click="$ctrl.openLogin()" style="color: white;">Sign in / Sign Up </a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
