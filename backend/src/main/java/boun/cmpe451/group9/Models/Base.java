@@ -39,6 +39,7 @@ public class Base extends ResourceSupport {
     }
 
     @PrePersist
+    @PreUpdate
     public void createCreationTime(){
         creationTime = LocalDateTime.now();
     }

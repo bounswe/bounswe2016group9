@@ -14,6 +14,8 @@ target/
 *.iml
 *.ipr
 /testDB
+/src/main/resources
+.gitignore
 
 ### NetBeans ###
 nbproject/private/
@@ -25,4 +27,5 @@ nbdist/
 .mvn
 mvnw
 mvnw.cmd
+
 
