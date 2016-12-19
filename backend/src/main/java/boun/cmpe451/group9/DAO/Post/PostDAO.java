@@ -34,7 +34,19 @@ public interface PostDAO extends BaseDAO<Post> {
      */
     List<Post> getPostByLocation(int locationID);
 
+    /**
+     * retrieves the list of most recent rows with given topicIdList from the table "POST"
+     * @param topicIdList the list of id's of topic
+     * @return List of posts
+     */
     List<Post> getPostsByTopicIdForTimeline(List<Long> topicIdList);
+
+    /**
+     * retrieves the list of most recent rows with given userIdList from the table "POST"
+     * @param userIdList the list of id's of users
+     * @return List of posts
+     */
+    List<Post> getPostsByUserIdForTimeline(List<Long> userIdList);
 
     List<Post> searchPostByName(String[] split);
 }

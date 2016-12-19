@@ -59,4 +59,13 @@ public class PostDAOImpl extends BaseDAOImpl<Post> implements PostDAO {
                 .setParameterList("topic_list",topicIdList)
                 .list();
     }
+
+    @Override
+    public List<Post> getPostsByUserIdForTimeline(List<Long> userIdList) {
+        return this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT * FROM post where user_id in :user_list ORDER by creation_time DESC LIMIT 3")
+                .addEntity(Post.class)
+                .setParameterList("user_list",userIdList)
+                .list();
+    }
 }

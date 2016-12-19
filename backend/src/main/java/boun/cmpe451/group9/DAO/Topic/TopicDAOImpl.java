@@ -77,4 +77,12 @@ public class TopicDAOImpl extends BaseDAOImpl<Topic> implements TopicDAO {
         return from;
     }
 
+    @Override
+    public List<Topic> getTopicsByUserIdForTimeline(List<Long> userIdList) {
+        return this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT * FROM topic where user_id in :user_list ORDER by creation_time DESC LIMIT 3")
+                .addEntity(Topic.class)
+                .setParameterList("user_list",userIdList)
+                .list();
+    }
 }

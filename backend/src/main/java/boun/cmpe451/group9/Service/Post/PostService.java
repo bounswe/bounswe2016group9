@@ -35,4 +35,11 @@ public interface PostService extends BaseService<Post>{
      * @return list of most recent posts belong to topic "topicIdList"
      */
     List<Post> getPostsByTopicIdForTimeline(List<Long> topicIdList);
+
+    /**
+     * Retrieves list of most recent posts belong to list of user "userIdList"
+     * @param userIdList the list of ids
+     * @return list of most recent posts belong to users "userIdList"
+     */
+    List<Post> getPostsByUserIdForTimeline(List<Long> userIdList);
 }

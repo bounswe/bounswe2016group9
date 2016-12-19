@@ -22,4 +22,11 @@ public interface CommentService extends BaseService<Comment> {
      * @return List of comments that belongs to post
      */
     List<Comment> getCommentByPostId (long id);
+
+    /**
+     * Retrieves list of most recent comments belong to list of user "userIdList"
+     * @param userIdList the list of ids
+     * @return list of most recent comments belong to users "userIdList"
+     */
+    List<Comment> getCommentsByUserIdForTimeline(List<Long> userIdList);
 }

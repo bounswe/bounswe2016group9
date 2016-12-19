@@ -40,4 +40,8 @@ public class TopicServiceImpl extends BaseServiceImpl<Topic> implements TopicSer
     public List<Topic> getGrappi() {
         return  topicDAO.getGrappi();
     }
+
+    @Override
+    public List<Topic> getTopicsByUserIdForTimeline(List<Long> userIdList) { return topicDAO.getTopicsByUserIdForTimeline(userIdList);}
+
 }

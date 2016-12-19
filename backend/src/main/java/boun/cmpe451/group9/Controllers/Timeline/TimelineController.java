@@ -1,7 +1,9 @@
 package boun.cmpe451.group9.Controllers.Timeline;
 
 
+import boun.cmpe451.group9.Controllers.Comment.CommentController;
 import boun.cmpe451.group9.Controllers.Post.PostController;
+import boun.cmpe451.group9.Controllers.Topic.TopicController;
 import boun.cmpe451.group9.Models.DB.*;
 import boun.cmpe451.group9.Service.Comment.CommentService;
 import boun.cmpe451.group9.Service.FollowRel.FollowRelService;
@@ -14,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class TimelineController {
     private CommentService commentService;
     private FollowRelService followRelService;
 
+
     @Autowired
     public void setTopicService(TopicService topicService) {
         this.topicService = topicService;
@@ -44,9 +47,7 @@ public class TimelineController {
         this.postService = postService;
     }
     @Autowired
-    public void setFollowTopicService(FollowTopicService followTopicService) {
-        this.followTopicService = followTopicService;
-    }
+    public void setFollowTopicService(FollowTopicService followTopicService) { this.followTopicService = followTopicService;}
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -74,6 +75,74 @@ public class TimelineController {
             posts.forEach(PostController::addLinksToPost);
 
         return new ResponseEntity<>(posts, HttpStatus.OK);
+
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("{id}/postOfUsers")
+    public ResponseEntity<List<Post>> getTimelineFollowingUserPosts(@PathVariable("id") long id){
+        List<User> followingUsers= followRelService.getFollowingByUserId(id);
+        List<Long> followingUserIds= new ArrayList<>();
+
+        for(User user: followingUsers){
+            followingUserIds.add(user.getEntityId());
+        }
+
+        List<Post> posts=postService.getPostsByUserIdForTimeline(followingUserIds);
+
+        if(!posts.isEmpty()){
+            posts.forEach(PostController::addLinksToPost);
+
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("{id}/topicOfUsers")
+    public ResponseEntity<List<Topic>> getTimelineFollowingUserTopics(@PathVariable("id") long id){
+        List<User> followingUsers= followRelService.getFollowingByUserId(id);
+        List<Long> followingUserIds= new ArrayList<>();
+
+        for(User user: followingUsers){
+            followingUserIds.add(user.getEntityId());
+        }
+
+        List<Topic> topics=topicService.getTopicsByUserIdForTimeline(followingUserIds);
+
+        if(!topics.isEmpty()){
+            topics.forEach(TopicController::addLinkToTopic);
+
+            return new ResponseEntity<>(topics, HttpStatus.OK);
+
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Returns a response for the request "GET /timeline/{id}/commentOfUsers"
+     * @param id the id of the resource "User"
+     * @return OK with resource with the given id if it is found, NOT_FOUND if the resource is not found
+     */
+    @GetMapping("{id}/commentOfUsers")
+    public ResponseEntity<List<Comment>> getTimelineFollowingUserComments(@PathVariable("id") long id){
+        List<User> followingUsers= followRelService.getFollowingByUserId(id);
+        List<Long> followingUserIds= new ArrayList<>();
+
+        for(User user: followingUsers){
+            followingUserIds.add(user.getEntityId());
+        }
+
+        List<Comment> comments=commentService.getCommentsByUserIdForTimeline(followingUserIds);
+
+        if(!comments.isEmpty()){
+            comments.forEach(CommentController::addLinksToComment);
+
+            return new ResponseEntity<>(comments, HttpStatus.OK);
 
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
