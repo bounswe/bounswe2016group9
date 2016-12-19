@@ -19,5 +19,7 @@ public interface TopicService extends BaseService<Topic> {
 
     List<Topic> autoComp(String keyword);
 
+    List<Topic> getMostRelatedTopics(long id);
+
     List<Topic> getGrappi();
 }

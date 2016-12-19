@@ -43,40 +43,57 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
       network.on("click", function (params) {
         //when click on node(topic)
         if(params.nodes.length >= 1){
-          $scope.relatedNodes = {nodes:[], edges:[]};
-          var node = params.nodes[0];
-          Topics.getRelation(node).then(function(response){
-            if(response[0].fromTopic.entityId == node){
-              $scope.relatedNodes.nodes.push({
-                id:response[0].fromTopic.entityId,
-                label:response[0].fromTopic.name
-              });
-            }else{
-              $scope.relatedNodes.nodes.push({
-                id:response[0].toTopic.entityId,
-                label:response[0].toTopic.name
-              });
-            }
-            for (var i = 0; i < response.length; i++) {
-              if(response[i].toTopic.entityId != node){
+          //node -> $scope.node
+          //click same node
+          if(params.nodes[0] == $scope.node){
+            $window.localStorage.setItem("topic", $scope.node);
+            $window.location = "topic.html";
+          //click different node
+          }else if(params.nodes[0] != $scope.node){
+            $scope.node = params.nodes[0];
+            $scope.relatedNodes = {nodes:[], edges:[]};
+            Topics.getRelation($scope.node).then(function(response){
+              if(response[0].fromTopic.entityId == $scope.node){
                 $scope.relatedNodes.nodes.push({
-                  id:response[i].toTopic.entityId,
-                  label:response[i].toTopic.name
-                })
-              }else if(response[i].fromTopic.entityId != node){
+                  id:response[0].fromTopic.entityId,
+                  label:response[0].fromTopic.name
+                });
+              }else{
                 $scope.relatedNodes.nodes.push({
-                  id:response[i].fromTopic.entityId,
-                  label:response[i].fromTopic.name
-                })
+                  id:response[0].toTopic.entityId,
+                  label:response[0].toTopic.name
+                });
               }
-              $scope.relatedNodes.edges.push({
-                from: response[i].fromTopic.entityId,
-                to:response[i].toTopic.entityId,
-                value: response[i].voteCount
+              for (var i = 0; i < response.length; i++) {
+                if(response[i].toTopic.entityId != $scope.node){
+                  $scope.relatedNodes.nodes.push({
+                    id:response[i].toTopic.entityId,
+                    label:response[i].toTopic.name
+                  })
+                }else if(response[i].fromTopic.entityId != $scope.node){
+                  $scope.relatedNodes.nodes.push({
+                    id:response[i].fromTopic.entityId,
+                    label:response[i].fromTopic.name
+                  })
+                }
+                $scope.relatedNodes.edges.push({
+                  from: response[i].fromTopic.entityId,
+                  to:response[i].toTopic.entityId,
+                  value: response[i].voteCount
+                });
+                network.setData($scope.relatedNodes);
+              }
+            }, function(error){
+              // if dont have edge
+              Topics.get(params.nodes[0]).then(function(response){
+                $scope.relatedNodes.nodes.push({
+                  id : params.nodes[0],
+                  label : response.data.name
+                });
+                network.setData($scope.relatedNodes);
               });
-              network.setData($scope.relatedNodes);
-            }
-          });
+            });
+          }
         }
         //If params has only edge(we do not take when click on node)
         else if(params.edges.length >= 1 && params.nodes.length <= 0){
@@ -543,9 +560,8 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
 });
 
 
-angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', function($http, $q) {
+angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', '$window', function($http, $q, $window) {
   // Might use a resource here that returns a JSON array
-  var toTopic = 1;
   return {
     all: function() {
       return $http({
@@ -566,7 +582,8 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', function($http
       toTopic = toTopic2;
     },
     getTopic:function(){
-      return toTopic;
+      //return localstorage data
+      return $window.localStorage.getItem('topic');
     },
     get: function(topicID) {
       return $http({
@@ -588,7 +605,6 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', function($http
       }).then(function successCallback(data){
         return data.data;
       }, function errorCallback(data){
-        console.log(data);
         return null;
       });
       var getFrom = $http({
@@ -597,7 +613,6 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', function($http
       }).then(function successCallback(data) {
         return data.data;
       }, function errorCallback(data) {
-        console.log(data);
         return null;
       });
       $q.all([getFrom, getTo]).then(function(data){

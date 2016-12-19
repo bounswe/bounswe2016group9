@@ -50,28 +50,35 @@
             </div>
             <div class="col-md-10 col-lg-10" ng-show="show">
                 <div id="mynetwork"></div>
-                <div id="relation" class="col-md-6" style="display: none;">
+                <div id="relation" class="col-md-5" style="display: none; color:white">
                     <h4>{{relation.name}}</h4>
                     <div id="topics" ng-repeat="type in relation.types">
                         <div id="topic" class="row">
                             <div class="col-md-1">
                                 <ul class="rating">
                                     <li>
-                                        <a href=><i class="fa fa-thumbs-up"></i></a> 
+                                        <a href=><i class="fa fa-thumbs-up" style="color:white"></i></a> 
                                     </li>
                                     <li>
-                                        <span>5</span>
+                                        <!--add {{type.vote}}-->
+                                        <span style="color:white">5</span>
                                     </li>
                                     <li>
-                                        <a href=><i class="fa fa-thumbs-down"></i></a> 
+                                        <a href=><i class="fa fa-thumbs-down" style="color:white"></i></a> 
                                     </li>
                                 </ul> 
                             </div>
-                            <div class="col-md-11">
+                            <div class="col-md-11" style="color:white">
                                 <span id="comment">{{type.type}}</span>
                             </div>
                         </div>
                     </div>
+
+                    <!-- see more -->
+                    <div class="col-md-11">
+                         <a href="#" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Relations"> See More Relationships </a>
+                    </div>
+
                 </div>
             </div>
             <div class="col-md-10 col-lg-10" ng-show="!show">

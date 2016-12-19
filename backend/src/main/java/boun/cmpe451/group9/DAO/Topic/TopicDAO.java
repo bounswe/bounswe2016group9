@@ -29,5 +29,7 @@ public interface TopicDAO extends BaseDAO<Topic> {
 
     List<Topic> searchTopicByName(String[] keywords);
 
+    List<Topic> getMostRelatedTopics(long id);
+
     List<Topic> autoComp(String keyword);
 }

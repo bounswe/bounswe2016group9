@@ -123,8 +123,9 @@ body {
   font-size: medium;
   display: inline-block;
 }
+
 #relation{
-  background-color: rgba(61,89,129,0.5); 
+  background-color: rgba(50, 110, 110, 0.9); 
   height: 598px; 
   z-index: 99999; 
   position: relative; 

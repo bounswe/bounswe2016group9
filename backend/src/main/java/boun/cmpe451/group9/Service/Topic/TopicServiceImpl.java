@@ -32,6 +32,11 @@ public class TopicServiceImpl extends BaseServiceImpl<Topic> implements TopicSer
     }
 
     @Override
+    public List<Topic> getMostRelatedTopics(long id) {
+        return topicDAO.getMostRelatedTopics(id);
+    }
+
+    @Override
     public List<Topic> getGrappi() {
         return  topicDAO.getGrappi();
     }
