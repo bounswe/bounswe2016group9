@@ -14,6 +14,17 @@ angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log)
         'InfoGrappo',
         'Boğaziçi University'
     ];
+    $scope.result1 = [
+        'Apple',
+        'Banana',
+        'Pink',
+        'Donald Trump',
+        'Hillary Clinton',
+        'USA Elections',
+        'Walter White',
+        'InfoGrappo',
+        'Boğaziçi University'
+    ];
 
     $scope.search = function () {
         var x = $scope.searchText;

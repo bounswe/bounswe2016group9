@@ -21,11 +21,17 @@
           <ul class="nav navbar-nav">
             <li>
                 <form class="navbar-form searchForm" method="get" action="search.html" ng-controller="SearchCtrl">
-                    <div class="form-group">
+                    <div class="form-group" ng-autocomplete="result1" >
                       <input type="text" id="tfq" class="search-elements" name="q" size="21" maxlength="120" placeholder="Search our website">
                       <button type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search()">Search</button>
                     </div>
                 </form>
+                <!--ul style="z-index: -1">
+                    <li style="height:100px; overflow:hidden;">
+                        <div style="height:500px; background-color:black;">
+                        </div>
+                    </li>
+                </ul-->
             </li>
             <li class="navbar-right"><a href="#" style="color: white">Log Out</a></li>
             <li class="navbar-right"><a href="#" style="color: white">Settings</a></li>
