@@ -1,12 +1,19 @@
 package boun.cmpe451.group9.Controllers.Relation;
 
 import boun.cmpe451.group9.Models.DB.Relation;
+import boun.cmpe451.group9.Models.DB.RelationType;
+import boun.cmpe451.group9.Models.Meta.SPARQLRelationTypeResponse;
 import boun.cmpe451.group9.Service.Relation.RelationService;
+import boun.cmpe451.group9.Service.RelationType.RelationTypeService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -17,12 +24,15 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class RelationController {
 
     private RelationService relationService;
+    private RelationTypeService relationTypeService;
 
     @Autowired
     public void setRelationService(RelationService relationService){
         this.relationService = relationService;
     }
 
+    @Autowired
+    public void setRelationTypeService(RelationTypeService relationTypeService){this.relationTypeService=relationTypeService;}
     /**
      * Retrieves the relation "id"
      * @param id id of the relation
@@ -104,4 +114,57 @@ public class RelationController {
         relation.add(linkTo(RelationController.class).slash(relation.getEntityId()).withSelfRel());
         return relation;
     }
+
+    @GetMapping("/setRelationTypes")
+    public ResponseEntity<List<RelationType>> addRelationTypes() throws Exception {
+        URL url = new URL(createUrlForSPARQLRelationTypes());
+        ObjectMapper mapper = new ObjectMapper();
+        SPARQLRelationTypeResponse response = mapper.readValue(url, SPARQLRelationTypeResponse.class);
+        List<SPARQLRelationTypeResponse.Results.Labels> labels = response.getResults().getBindings();
+
+        List<RelationType> relationTypes = new LinkedList<>();
+
+        for(SPARQLRelationTypeResponse.Results.Labels label : labels){
+            RelationType relationType = new RelationType();
+            relationType.setType(label.getLabel().getValue());
+            relationTypeService.save(relationType);
+            relationTypes.add(relationType);
+        }
+
+
+
+        return new ResponseEntity<>(relationTypes,HttpStatus.OK);
+
+    }
+    /**
+     * Creates url for getting relation types from DBPedia
+     * @return all relation types existing in dbpedia/ObjectProperty
+     * @throws Exception IOException
+     */
+
+    private String createUrlForSPARQLRelationTypes() throws Exception{
+        String url = "http://dbpedia.org/sparql?default-graph-uri=";
+        String encode = "http://dbpedia.org&query=PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" +
+                "PREFIX dc: <http://purl.org/dc/elements/1.1/>\n" +
+                "PREFIX : <http://dbpedia.org/resource/>\n" +
+                "PREFIX dbpedia2: <http://dbpedia.org/property/>\n" +
+                "PREFIX dbpedia: <http://dbpedia.org/>\n" +
+                "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+                "select distinct ?label where {\n" +
+                "  ?entity a owl:ObjectProperty .\n" +
+                "  ?entity rdfs:label ?label .\n" +
+                "  filter(langMatches(lang(?label),\"en\"))\n"+
+                " }";
+
+        encode = URLEncoder.encode(encode, "UTF-8");
+        encode = encode.replace("%26query%3D", "&query=");
+
+        return url+encode+"&output=json";
+    }
+
+
 }
