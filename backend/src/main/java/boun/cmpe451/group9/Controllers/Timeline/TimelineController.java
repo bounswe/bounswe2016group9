@@ -63,20 +63,24 @@ public class TimelineController {
     public ResponseEntity<List<Post>> getTimelineFollowingTopicPost(@PathVariable("id") long id){
 
         List<Topic> followingTopics=followTopicService.getFollowingTopicsById(id);
-        List<Long> followingTopicIds= new ArrayList<>();
+        if(!followingTopics.isEmpty()) {
+            List<Long> followingTopicIds = new ArrayList<>();
 
-        for(Topic topic: followingTopics){
-            followingTopicIds.add(topic.getEntityId());
-        }
-        List<Post> posts = postService.getPostsByTopicIdForTimeline(followingTopicIds);
+            for (Topic topic : followingTopics) {
+                followingTopicIds.add(topic.getEntityId());
+            }
+            List<Post> posts = postService.getPostsByTopicIdForTimeline(followingTopicIds);
 
 
-        if(!posts.isEmpty()){
-            posts.forEach(PostController::addLinksToPost);
+            if (!posts.isEmpty()) {
+                posts.forEach(PostController::addLinksToPost);
 
-        return new ResponseEntity<>(posts, HttpStatus.OK);
+                return new ResponseEntity<>(posts, HttpStatus.OK);
 
-        }else {
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -84,41 +88,49 @@ public class TimelineController {
     @GetMapping("{id}/postOfUsers")
     public ResponseEntity<List<Post>> getTimelineFollowingUserPosts(@PathVariable("id") long id){
         List<User> followingUsers= followRelService.getFollowingByUserId(id);
-        List<Long> followingUserIds= new ArrayList<>();
+        if(!followingUsers.isEmpty()){
+            List<Long> followingUserIds= new ArrayList<>();
 
-        for(User user: followingUsers){
-            followingUserIds.add(user.getEntityId());
-        }
+            for(User user: followingUsers){
+                followingUserIds.add(user.getEntityId());
+            }
 
-        List<Post> posts=postService.getPostsByUserIdForTimeline(followingUserIds);
+            List<Post> posts=postService.getPostsByUserIdForTimeline(followingUserIds);
 
-        if(!posts.isEmpty()){
-            posts.forEach(PostController::addLinksToPost);
+            if(!posts.isEmpty()){
+                posts.forEach(PostController::addLinksToPost);
 
-            return new ResponseEntity<>(posts, HttpStatus.OK);
+                return new ResponseEntity<>(posts, HttpStatus.OK);
 
-        }else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }else{
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("{id}/topicOfUsers")
     public ResponseEntity<List<Topic>> getTimelineFollowingUserTopics(@PathVariable("id") long id){
         List<User> followingUsers= followRelService.getFollowingByUserId(id);
-        List<Long> followingUserIds= new ArrayList<>();
+        if(!followingUsers.isEmpty()){
+            List<Long> followingUserIds= new ArrayList<>();
 
-        for(User user: followingUsers){
-            followingUserIds.add(user.getEntityId());
-        }
+            for(User user: followingUsers){
+                followingUserIds.add(user.getEntityId());
+            }
 
-        List<Topic> topics=topicService.getTopicsByUserIdForTimeline(followingUserIds);
+            List<Topic> topics=topicService.getTopicsByUserIdForTimeline(followingUserIds);
 
-        if(!topics.isEmpty()){
-            topics.forEach(TopicController::addLinkToTopic);
+            if(!topics.isEmpty()){
+                topics.forEach(TopicController::addLinkToTopic);
 
-            return new ResponseEntity<>(topics, HttpStatus.OK);
+                return new ResponseEntity<>(topics, HttpStatus.OK);
 
-        }else {
+            }else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -131,20 +143,24 @@ public class TimelineController {
     @GetMapping("{id}/commentOfUsers")
     public ResponseEntity<List<Comment>> getTimelineFollowingUserComments(@PathVariable("id") long id){
         List<User> followingUsers= followRelService.getFollowingByUserId(id);
-        List<Long> followingUserIds= new ArrayList<>();
+        if(!followingUsers.isEmpty()){
+            List<Long> followingUserIds= new ArrayList<>();
 
-        for(User user: followingUsers){
-            followingUserIds.add(user.getEntityId());
-        }
+            for(User user: followingUsers){
+                followingUserIds.add(user.getEntityId());
+            }
 
-        List<Comment> comments=commentService.getCommentsByUserIdForTimeline(followingUserIds);
+            List<Comment> comments=commentService.getCommentsByUserIdForTimeline(followingUserIds);
 
-        if(!comments.isEmpty()){
-            comments.forEach(CommentController::addLinksToComment);
+            if(!comments.isEmpty()){
+                comments.forEach(CommentController::addLinksToComment);
 
-            return new ResponseEntity<>(comments, HttpStatus.OK);
+                return new ResponseEntity<>(comments, HttpStatus.OK);
 
-        }else {
+            }else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
