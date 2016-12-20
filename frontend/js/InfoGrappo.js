@@ -1,8 +1,12 @@
+var appData = {
+  baseUrl : "http://52.67.44.90:8080/"
+}
 angular.module('InfoGrappoWeb', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootScope, Topics, $window, $document){
-  
-  $rootScope.user = {name:"Ali Çomar", age:18, city:"Adana/Turkey", email:"alicomar@comarci.com"};
-
+angular.module('InfoGrappoWeb').config(function($httpProvider){
+  //allows 401 cors error
+  $httpProvider.defaults.withCredentials = true;
+});
+angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics, $window, $document, User){
   $scope.sendTopic = function(toTopicID){
     $window.localStorage.setItem("topic",toTopicID);
     console.log($window.localStorage.getItem("topic"));
@@ -77,7 +81,9 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
                 $scope.relatedNodes.edges.push({
                   from: response[i].fromTopic.entityId,
                   to:response[i].toTopic.entityId,
-                  value: response[i].voteCount
+                  value: response[i].voteCount,
+                  arrows : "to",
+                  length : 250
                 });
                 network.setData($scope.relatedNodes);
               }
@@ -376,7 +382,7 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
 // It is not the same as the $uibModal service used above.
 
-angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope, $http) {
+angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope, $http , User, $window) {
   var $ctrl = this;
   $ctrl.items = items;
   $ctrl.selected = $scope.topicName;
@@ -384,7 +390,7 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
   $ctrl.okCreateTopic = function () {
     var parameter = {topic:{"name":$scope.topicName}, tags:[{"name":$scope.topicTags}]};
     console.log(parameter);
-    $http.post("http://52.67.44.90:8080/topics", parameter).
+    $http.post(appData.baseUrl+"topics", parameter).
       success(function(data, status, headers, config) {
         console.log(data);
       }).
@@ -433,11 +439,10 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
   };
 
   $ctrl.okSignIn = function () {
-    console.log($scope.signIn);
-    var result = {
-      signIn : $scope.signIn
-    };
-    $uibModalInstance.close(result);
+    User.login($scope.signIn).then(function(response){
+      $uibModalInstance.close(response);
+      $window.location.reload();
+    });
   };
 
   $ctrl.okSignUp = function () {
@@ -452,7 +457,22 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
     $uibModalInstance.dismiss('cancel');
   };
 });
-
+//navbar.html deki nav a bu controller eklenecek
+angular.module('InfoGrappoWeb').controller('NavbarCtrl', function($scope, $rootScope, $window, User){
+  $scope.auth = false;
+  if($window.localStorage.getItem('user') != undefined){
+    User.get($window.localStorage.getItem('user')).then(function(response){
+      $rootScope.user = response;
+      $scope.auth = true;
+    },function(error){
+      $scope.auth = false;
+    })
+  }
+  $scope.logout = function(){
+    $window.localStorage.removeItem("user");
+    $scope.auth = false;
+  }
+});
 angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log) {
 
     $scope.dataset = [
@@ -573,7 +593,7 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', '$window', fun
     all: function() {
       return $http({
         method: 'GET',
-        url: "http://52.67.44.90:8080/topics"
+        url: appData.baseUrl+"topics"
       }).then(function successCallback(data) {
         console.log(data);
         return data;
@@ -595,7 +615,7 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', '$window', fun
     get: function(topicID) {
       return $http({
         method: 'GET',
-        url: "http://52.67.44.90:8080/topics/"+topicID
+        url: appData.baseUrl+"topics/"+topicID
       }).then(function successCallback(data) {
         console.log(data);
         return data;
@@ -608,7 +628,7 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', '$window', fun
       var deferred = $q.defer();
       var getTo = $http({
         method: 'GET',
-        url: "http://52.67.44.90:8080/topics/"+topicID+"/relationsTo"
+        url: appData.baseUrl+"topics/"+topicID+"/relationsTo"
       }).then(function successCallback(data){
         return data.data;
       }, function errorCallback(data){
@@ -616,7 +636,7 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', '$window', fun
       });
       var getFrom = $http({
         method: 'GET',
-        url: "http://52.67.44.90:8080/topics/"+topicID+"/relationsFrom"
+        url: appData.baseUrl+"topics/"+topicID+"/relationsFrom"
       }).then(function successCallback(data) {
         return data.data;
       }, function errorCallback(data) {
@@ -647,7 +667,7 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', '$window', fun
     getPosts : function(topicId){
       var deferred = $q.defer();
       $http({
-        url : "http://52.67.44.90:8080/topics/"+topicId+"/posts",
+        url : appData.baseUrl+"topics/"+topicId+"/posts",
         method : "GET"
       }).then(function successCallback(data){
         deferred.resolve(data.data);
@@ -699,7 +719,7 @@ angular.module('InfoGrappoWeb').factory('Posts', function($q, $http){
     getComments : function(postId){
       var deferred = $q.defer();
       $http({
-        url : "http://52.67.44.90:8080/posts/"+postId+"/comments",
+        url : appData.baseUrl+"posts/"+postId+"/comments",
         method : "GET"
       }).then(function successCallback(data){
         deferred.resolve(data.data);
@@ -755,7 +775,7 @@ angular.module('InfoGrappoWeb').factory('Relations', ['$http', '$q', function($h
     all: function() {
       return $http({
         method: 'GET',
-        url: "http://52.67.44.90:8080/topics"
+        url: appData.baseUrl + "topics"
       }).then(function successCallback(data) {
         console.log(data);
         return data;
@@ -776,7 +796,7 @@ angular.module('InfoGrappoWeb').factory('Relations', ['$http', '$q', function($h
     get: function(topicID) {
       return $http({
         method: 'GET',
-        url: "http://52.67.44.90:8080/relations/"+topicID
+        url: appData.baseUrl + "relations/"+topicID
       }).then(function successCallback(data) {
         console.log(data);
         return data;
@@ -789,7 +809,7 @@ angular.module('InfoGrappoWeb').factory('Relations', ['$http', '$q', function($h
       var deferred = $q.defer();
       var getTo = $http({
         method: 'GET',
-        url: "http://52.67.44.90:8080/topics/"+topicId+"/relationsTo"
+        url: appData.baseUrl + "topics/"+topicId+"/relationsTo"
       }).then(function successCallback(data){
         return data.data;
       }, function errorCallback(data){
@@ -798,7 +818,7 @@ angular.module('InfoGrappoWeb').factory('Relations', ['$http', '$q', function($h
       });
       var getFrom = $http({
         method: 'GET',
-        url: "http://52.67.44.90:8080/topics/"+topicId+"/relationsFrom"
+        url: appData.baseUrl + "topics/"+topicId+"/relationsFrom"
       }).then(function successCallback(data) {
         return data.data;
       }, function errorCallback(data) {
@@ -830,7 +850,7 @@ angular.module('InfoGrappoWeb').factory('Relations', ['$http', '$q', function($h
     getPosts : function(topicId){
       var deferred = $q.defer();
       $http({
-        url : "http://52.67.44.90:8080/topics/"+topicId+"/posts",
+        url : appData.baseUrl + "topics/"+topicId+"/posts",
         method : "GET"
       }).then(function successCallback(data){
         deferred.resolve(data.data);
@@ -841,3 +861,40 @@ angular.module('InfoGrappoWeb').factory('Relations', ['$http', '$q', function($h
     }
   };
 }]);
+angular.module("InfoGrappoWeb").factory("User", function($http, $q, $window){
+  return {
+    // If user who login toweb site is not an admin sees his/her informations
+    login : function(credentials){
+     var deferred = $q.defer();
+     credentials.email = credentials.email.split("@")[0];
+     $http({
+        url : appData.baseUrl+'users',
+        method : 'GET',
+        headers : {
+          "Content-Type" : "application/json",
+          "Authorization": "Basic "+btoa(credentials.email +":"+ credentials.password)
+        },
+        withCredentials : true
+      }).then(function(res){
+        $window.localStorage.setItem('user', res.data.entityId);
+        deferred.resolve(res.data);
+      },function(error){
+        deferred.reject("Invalid Credentials");
+      });
+      return deferred.promise;
+    },
+    // get all info of user
+    get : function(userId){
+      var deferred = $q.defer();
+      $http({
+        url : appData.baseUrl+"users/"+userId,
+        method : "GET"
+      }).then(function(response){
+        deferred.resolve(response.data);
+      },function(error){
+        deferred.reject(error);
+      })
+      return deferred.promise;
+    }
+  } 
+});

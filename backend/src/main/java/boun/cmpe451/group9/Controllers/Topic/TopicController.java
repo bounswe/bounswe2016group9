@@ -265,6 +265,7 @@ public class TopicController {
     }
 
     /**
+     * Returns a response for the request "GET /topics/{id}/relationsFrom"
      * Get all relations that come from the topic
      * @param id topic id relations came from
      * @return list of relations
@@ -286,7 +287,8 @@ public class TopicController {
     }
 
     /**
-     Get all relations that end at the topic
+     * Returns a response for the request "GET /topics/{id}/relationsTo"
+     * Get all relations that end at the topic
      * @param id topic id relations ended
      * @return list of relations
      */
@@ -305,9 +307,10 @@ public class TopicController {
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * Returns a response for the request "GET /topics/{id}/tags"
+     * Get all tags of the topic
+     * @param id topic id added to tag
+     * @return list of tags
      */
     @GetMapping("{id}/tags")
     public ResponseEntity<List<Tag>> getAllTagsByTopicId(@PathVariable("id") long id){
@@ -323,6 +326,12 @@ public class TopicController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Returns a response for the request "GET /topics/{id}/semanticTags"
+     * Get all Semantic tags of the topic
+     * @param id topic id added to tag
+     * @return list of semantic tags
+     */
     @GetMapping("{id}/semanticTags")
     public ResponseEntity<List<SemanticTag>> getAllSTagsByTopicId(@PathVariable("id") long id){
         if(topicService.checkIfEntityExistsById(id)){
@@ -336,6 +345,12 @@ public class TopicController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    /**
+     * Returns a response for the request "GET /topics/{id}/posts"
+     * Get all posts of the topic
+     * @param id topic id
+     * @return list of posts
+     */
     @GetMapping("{id}/posts")
     public ResponseEntity<List<Post>> getAllPostsByTopicId(@PathVariable("id") long id){
         if(topicService.checkIfEntityExistsById(id)) {
@@ -350,7 +365,12 @@ public class TopicController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
+    /**
+     * Returns a response for the request "GET /topics/{id}/followers"
+     * Get all users that follows the topic
+     * @param id topic id
+     * @return list of users
+     */
     @GetMapping("{id}/followers")
     public ResponseEntity<List<User>> getFollowerUsersById(@PathVariable("id") long id){
         if(topicService.checkIfEntityExistsById(id)){
@@ -363,6 +383,11 @@ public class TopicController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
+    /**
+     * Returns a response for the request "GET /topics/grappi"
+     * Get all popular topics for main graph, grappi
+     * @return list of topics
+     */
     @GetMapping("/grappi")
     public ResponseEntity<List<Topic>> getGrappi(){
         List<Topic> grappiTopics = topicService.getGrappi();
@@ -376,6 +401,12 @@ public class TopicController {
         }
     }
 
+    /**
+     * Returns a response for the request "GET /topics/{id}/related"
+     * Get most related topics of the topic
+     * @param id topic id
+     * @return list of topics
+     */
     @GetMapping("{id}/related")
     public ResponseEntity<List<Topic>> getMostRelatedTopics(long id){
         List<Topic> related = topicService.getMostRelatedTopics(id);

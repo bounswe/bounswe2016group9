@@ -24,7 +24,12 @@ public interface CommentDAO extends BaseDAO<Comment> {
      */
     List<Comment> getCommentsByPostId(long postID);
 
-
+    /**
+     * retrieves the list of most recent rows with given userIdList from the table "COMMENT"
+     * @param userIdList the list of id's of users
+     * @return List of comments
+     */
+    List<Comment> getCommentsByUserIdForTimeline(List<Long> userIdList);
 
 
 }
