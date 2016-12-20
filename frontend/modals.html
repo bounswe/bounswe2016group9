@@ -19,41 +19,9 @@
                     <div class="modal-header">
                         <h3 class="modal-title" id="modal-title">Add Relation</h3>
                     </div>
-                    <div ng-controller="autoCompleteController as ctrl" layout="column" ng-cloak>
-                        <md-content class="md-padding">
-                            <form ng-submit="$event.preventDefault()">
-                                <p><code>md-autocomplete</code> can be used to provide search results from local or remote data sources.</p>
-                                <md-autocomplete
-                                        ng-disabled="ctrl.isDisabled"
-                                        md-no-cache="ctrl.noCache"
-                                        md-selected-item="ctrl.selectedItem"
-                                        md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-                                        md-search-text="ctrl.searchText"
-                                        md-selected-item-change="ctrl.selectedItemChange(item)"
-                                        md-items="item in ctrl.querySearch(ctrl.searchText)"
-                                        md-item-text="item.display"
-                                        md-min-length="0"
-                                        placeholder="US State?">
-                                    <md-item-template>
-                                        <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
-                                    </md-item-template>
-                                    <md-not-found>
-                                        No states matching "{{ctrl.searchText}}" were found.
-                                        <a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a>
-                                    </md-not-found>
-                                </md-autocomplete>
-                                <br/>
-                                <md-checkbox ng-model="ctrl.simulateQuery">Show progress for results?</md-checkbox>
-                                <md-checkbox ng-model="ctrl.noCache">Disable caching?</md-checkbox>
-                                <md-checkbox ng-model="ctrl.isDisabled">Disable?</md-checkbox>
-                                <p><code>md-autocomplete</code> caches results when performing a query.  After first call, it uses the cached results to eliminate unnecessary server requests or lookup logic and it can be disabled.</p>
-                            </form>
-                        </md-content>
-                    </div>
                     <div class="modal-body" id="modal-body">
                         <span>Topic Name</span>
                         <input type="text" class="form-control" placeholder="Topic Name">
-
                         <span>Topic Name</span>
                         <input type="text" class="form-control" placeholder="Topic Name">
                         <span>Relation Name</span>
