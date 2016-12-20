@@ -62,6 +62,8 @@ public class TimelineController {
     @GetMapping("{id}/postOfTopics")
     public ResponseEntity<List<Post>> getTimelineFollowingTopicPost(@PathVariable("id") long id){
 
+
+
         List<Topic> followingTopics=followTopicService.getFollowingTopicsById(id);
         if(!followingTopics.isEmpty()) {
             List<Long> followingTopicIds = new ArrayList<>();
