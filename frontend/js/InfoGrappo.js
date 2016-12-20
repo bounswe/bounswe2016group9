@@ -1,150 +1,155 @@
 var appData = {
   baseUrl : "http://52.67.44.90:8080/"
-}
+};
 angular.module('InfoGrappoWeb', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 angular.module('InfoGrappoWeb').config(function($httpProvider){
   //allows 401 cors error
   $httpProvider.defaults.withCredentials = true;
 });
-angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics, $window, $document, User){
+angular.module('InfoGrappoWeb').controller('GrappiCtrl', function ($scope, Topics, $window, $document, User) {
   $scope.sendTopic = function(toTopicID){
-    $window.localStorage.setItem("topic",toTopicID);
-    console.log($window.localStorage.getItem("topic"));
+      $window.localStorage.setItem("topic",toTopicID);
+      console.log($window.localStorage.getItem("topic"));
   };
   Topics.all().then(function(response){
-    $scope.topics = response;
-    console.log($scope.topics.data);
-    // create an array with nodes
-    var nodes = [];
-    var edges = [];
-    for (var i = 0; i<$scope.topics.data.length; i++) {
-      nodes.push({
-        id :$scope.topics.data[i].entityId,
-        label: $scope.topics.data[i].name
-      });
-      // create a network
-      var container = document.getElementById('mynetwork');
-
-      // provide the data in the vis format
-      var data = {
-          nodes: nodes,
-          edges: edges
-      };
-      var options = {
-        nodes: {
-          font: {
-            color: 'white'
-          },
-          color: '#C2478B'
-        }
-      };
-
-      // initialize your network!
-      var network = new vis.Network(container, data, options);
-      //To get click on canvas
-      network.on("click", function (params) {
-        //when click on node(topic)
-        if(params.nodes.length >= 1){
-          //node -> $scope.node
-          //click same node
-          if(params.nodes[0] == $scope.node){
-            $window.localStorage.setItem("topic", $scope.node);
-            $window.location = "topic.html";
-          //click different node
-          }else if(params.nodes[0] != $scope.node){
-            $scope.node = params.nodes[0];
-            $scope.relatedNodes = {nodes:[], edges:[]};
-            Topics.getRelation($scope.node).then(function(response){
-              if(response[0].fromTopic.entityId == $scope.node){
-                $scope.relatedNodes.nodes.push({
-                  id:response[0].fromTopic.entityId,
-                  label:response[0].fromTopic.name
-                });
-              }else{
-                $scope.relatedNodes.nodes.push({
-                  id:response[0].toTopic.entityId,
-                  label:response[0].toTopic.name
-                });
-              }
-              for (var i = 0; i < response.length; i++) {
-                if(response[i].toTopic.entityId != $scope.node){
-                  $scope.relatedNodes.nodes.push({
-                    id:response[i].toTopic.entityId,
-                    label:response[i].toTopic.name
-                  })
-                }else if(response[i].fromTopic.entityId != $scope.node){
-                  $scope.relatedNodes.nodes.push({
-                    id:response[i].fromTopic.entityId,
-                    label:response[i].fromTopic.name
-                  })
-                }
-                $scope.relatedNodes.edges.push({
-                  from: response[i].fromTopic.entityId,
-                  to:response[i].toTopic.entityId,
-                  value: response[i].voteCount,
-                  arrows : "to",
-                  length : 250
-                });
-                network.setData($scope.relatedNodes);
-              }
-            }, function(error){
-              // if dont have edge
-              Topics.get(params.nodes[0]).then(function(response){
-                $scope.relatedNodes.nodes.push({
-                  id : params.nodes[0],
-                  label : response.data.name
-                });
-                network.setData($scope.relatedNodes);
-              });
-            });
-          }
-        }
-        //If params has only edge(we do not take when click on node)
-        else if(params.edges.length >= 1 && params.nodes.length <= 0){
-          //Search edges which are appear on canvas to find edges come from params
-          for(var i=0; i<$scope.relatedNodes.edges.length; i++){
-            if($scope.relatedNodes.edges[i].id == params.edges[0]){
-              var edge = $scope.relatedNodes.edges[i];
-            }
-          }
-          //Find topics which are connected via this edge
-          var fromTopic;
-          var toTopic;
-          $scope.relation = {};
-          Topics.getRelation(edge.from).then(function(res){
-            for(var i=0; i<res.length; i++){
-              if(res[i].toTopic.entityId == edge.to){
-                console.log("matched");
-                $scope.fromTopic = res[i].fromTopic;
-                $scope.toTopic = res[i].toTopic;
-                break;
-              }
-            }
-            //Header of relation part
-            $scope.relation.name = $scope.fromTopic.name+"--"+$scope.toTopic.name;
-            //relation types
-            $scope.relation.types = [{type : "ali"},{ type : "ayşe"},{ type: "fatma"}];
-            console.log($scope.relation.types);
-            $document.find('#relation').css('display','block'); 
+        $scope.topics = response;
+        console.log($scope.topics.data);
+        // create an array with nodes
+        var nodes = [];
+        var edges = [];
+        for (var i = 0; i<$scope.topics.data.length; i++) {
+          nodes.push({
+            id :$scope.topics.data[i].entityId,
+            label: $scope.topics.data[i].name
           });
-        }else{
-          //change
-          // when click on somewhere in map other than edges or nodes
-          if($document.find('#relation').css('display') == 'block'){
-            $document.find('#relation').css('display', 'none');
-          }else{
-            //node and edges reset
-            $scope.relatedNodes = {nodes:[], edges:[]};
-            network.setData({
-              nodes: nodes,
-              edges: [] 
-            });
-          }
-          //change end
+          // create a network
+          var container = document.getElementById('mynetwork');
+
+          // provide the data in the vis format
+          var data = {
+            nodes: nodes,
+            edges: edges
+          };
+          var options = {
+            nodes: {
+              font: {
+                color: 'white'
+              },
+              color: '#C2478B'
+            }
+          };
+
+          // initialize your network!
+          var network = new vis.Network(container, data, options);
+          //To get click on canvas
+          network.on("click", function (params) {
+            //when click on node(topic)
+            if(params.nodes.length >= 1){
+              //node -> $scope.node
+              //click same node
+              if(params.nodes[0] == $scope.node){
+                $window.localStorage.setItem("topic", $scope.node);
+                $window.location = "topic.html";
+                //click different node
+              }else if(params.nodes[0] != $scope.node){
+                $scope.node = params.nodes[0];
+                $scope.relatedNodes = {nodes:[], edges:[]};
+                Topics.getRelation($scope.node).then(function(response){
+                  if(response[0].fromTopic.entityId == $scope.node){
+                    $scope.relatedNodes.nodes.push({
+                      id:response[0].fromTopic.entityId,
+                      label:response[0].fromTopic.name
+                    });
+                  }else{
+                    $scope.relatedNodes.nodes.push({
+                      id:response[0].toTopic.entityId,
+                      label:response[0].toTopic.name
+                    });
+                  }
+                  for (var i = 0; i < response.length; i++) {
+                    if(response[i].toTopic.entityId != $scope.node){
+                      $scope.relatedNodes.nodes.push({
+                        id:response[i].toTopic.entityId,
+                        label:response[i].toTopic.name
+                      })
+                    }else if(response[i].fromTopic.entityId != $scope.node){
+                      $scope.relatedNodes.nodes.push({
+                        id:response[i].fromTopic.entityId,
+                        label:response[i].fromTopic.name
+                      })
+                    }
+                    $scope.relatedNodes.edges.push({
+                      from: response[i].fromTopic.entityId,
+                      to:response[i].toTopic.entityId,
+                      value: response[i].voteCount,
+                      arrows : "to",
+                      length : 250
+                    });
+                    network.setData($scope.relatedNodes);
+                  }
+                }, function(error){
+                  // if dont have edge
+                  Topics.get(params.nodes[0]).then(function(response){
+                    $scope.relatedNodes.nodes.push({
+                      id : params.nodes[0],
+                      label : response.data.name
+                    });
+                    network.setData($scope.relatedNodes);
+                  });
+                });
+              }
+            }
+            //If params has only edge(we do not take when click on node)
+            else if(params.edges.length >= 1 && params.nodes.length <= 0){
+              //Search edges which are appear on canvas to find edges come from params
+              for(var i=0; i<$scope.relatedNodes.edges.length; i++){
+                if($scope.relatedNodes.edges[i].id == params.edges[0]){
+                  var edge = $scope.relatedNodes.edges[i];
+                }
+              }
+              //Find topics which are connected via this edge
+              $scope.relation = {};
+              Topics.getRelation(edge.from).then(function(res){
+                for(var i=0; i<res.length; i++){
+                  if(res[i].toTopic.entityId == edge.to){
+                    console.log("matched");
+                    $scope.fromTopic = res[i].fromTopic;
+                    $scope.toTopic = res[i].toTopic;
+                    break;
+                  }
+                }
+                //Header of relation part
+                $scope.relation.name = $scope.fromTopic.name+"--"+$scope.toTopic.name;
+                //relation types
+                $scope.relation.types = [{type : "ali"},{ type : "ayşe"},{ type: "fatma"}];
+                console.log($scope.relation.types);
+                $document.find('#relation').css('display','block');
+              });
+            }else{
+              //change
+              // when click on somewhere in map other than edges or nodes
+              if($document.find('#relation').css('display') == 'block'){
+                $document.find('#relation').css('display', 'none');
+              }else{
+                //node and edges reset
+                $scope.relatedNodes = {nodes:[], edges:[]};
+                network.setData({
+                  nodes: nodes,
+                  edges: []
+                });
+              }
+              //change end
+            }
+          });
         }
       });
-    }
-  });  
+});
+angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics, $window, $document, User){
+  if($window.localStorage.getItem('user') != undefined){
+    $scope.showHome = true;
+  } else {
+    $scope.showHome = false;
+  }
 });
 angular.module('InfoGrappoWeb').controller('TopicGraphCtrl', function($scope, Topics){
   $scope.sendTopic = function(toTopicID){
@@ -207,8 +212,8 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
   $scope.getMoreRelations = function(){
     var topic1 = $scope.fromTopic.entityId;
     var topic2 = $scope.toTopic.entityId;
-    $window.localStorage.setItem("topic1",topic1);
-    $window.localStorage.setItem("topic2",topic2);
+    $window.localStorage.setItem("topic1", topic1);
+    $window.localStorage.setItem("topic2", topic2);
     console.log("Get relations between: " + $window.localStorage.getItem("topic1") + " and " + $window.localStorage.getItem("topic2"));
     $window.location = "moreRelations.html";
   };
@@ -495,6 +500,7 @@ angular.module('InfoGrappoWeb').controller('NavbarCtrl', function($scope, $rootS
   $scope.logout = function(){
     $window.localStorage.removeItem("user");
     $scope.auth = false;
+    $window.location.reload();
   }
 });
 angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log) {
@@ -947,6 +953,66 @@ angular.module("InfoGrappoWeb").factory("Autocomplete", function($http, $q, $win
         deferred.resolve(response.data);
       }, function (error) {
         deferred.reject("Error occurred when getting similar relation types");
+      });
+      return deferred.promise;
+    }
+  }
+});
+angular.module("InfoGrappoWeb").factory("Timeline", function($http, $q, $window, $rootScope) {
+  return {
+    // Get posts from followed topics
+    postsOfTopics: function () {
+      var deferred = $q.defer();
+      var userId = $window.localStorage.getItem("user");
+      $http({
+        method: 'GET',
+        url: appData.baseUrl + 'timeline/' + userId + '/postOfTopics'
+      }).then(function (response) {
+        deferred.resolve(response.data);
+      }, function (error) {
+        deferred.reject("Error occurred when getting posts of followed topics");
+      });
+      return deferred.promise;
+    },
+    // Get posts written by followed users
+    postsOfUsers: function () {
+      var deferred = $q.defer();
+      var userId = $window.localStorage.getItem("user");
+      $http({
+        method: 'GET',
+        url: appData.baseUrl + 'timeline/' + userId + '/postOfUsers'
+      }).then(function (response) {
+        deferred.resolve(response.data);
+      }, function (error) {
+        deferred.reject("Error occurred when getting posts of followed users");
+      });
+      return deferred.promise;
+    },
+    // Get topics created by followed users
+    topicOfUsers: function () {
+      var deferred = $q.defer();
+      var userId = $window.localStorage.getItem("user");
+      $http({
+        method: 'GET',
+        url: appData.baseUrl + 'timeline/' + userId + '/topicOfUsers'
+      }).then(function (response) {
+        deferred.resolve(response.data);
+      }, function (error) {
+        deferred.reject("Error occurred when getting posts of followed users");
+      });
+      return deferred.promise;
+    },
+    // Get comments written by followed users
+    commentOfUsers:  function () {
+      var deferred = $q.defer();
+      var userId = $window.localStorage.getItem("user");
+      $http({
+        method: 'GET',
+        url: appData.baseUrl + 'timeline/' + userId + '/commentOfUsers'
+      }).then(function (response) {
+        deferred.resolve(response.data);
+      }, function (error) {
+        deferred.reject("Error occurred when getting comments of followed users");
       });
       return deferred.promise;
     }
