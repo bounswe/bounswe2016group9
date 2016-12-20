@@ -3,6 +3,10 @@ package boun.cmpe451.group9;
 import boun.cmpe451.group9.Models.DB.*;
 import boun.cmpe451.group9.Service.*;
 
+import boun.cmpe451.group9.Service.Comment.CommentService;
+import boun.cmpe451.group9.Service.Post.PostService;
+import boun.cmpe451.group9.Service.Topic.TopicService;
+import boun.cmpe451.group9.Service.User.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +29,7 @@ public class BackendTestApp {
     private UserService userService;
 
     @Autowired
-    private PostService postService;
+    protected PostService postService;
 
     @Autowired
     private CommentService commentService;
@@ -55,7 +59,7 @@ public class BackendTestApp {
 
         Post post= new Post();
         post.setContent("test post");
-        post.setUser(userService.getById(1));
+        post.setCreatedUser(userService.getById(1));
         post.setTopic(t);
         postService.save(post);
 
@@ -72,13 +76,13 @@ public class BackendTestApp {
 
         Post post= new Post();
         post.setContent("test post for commenting");
-        post.setUser(userService.getById(1));
+        post.setCreatedUser(userService.getById(1));
         post.setTopic(t);
         postService.save(post);
 
         Comment comment= new Comment();
-        comment.setContet("hello world!");
-        comment.setUser(userService.getById(1));
+        comment.setContent("hello world!");
+        comment.setCreatedUser(userService.getById(1));
         comment.setPostOfComment(post);
         commentService.save(comment);
 
