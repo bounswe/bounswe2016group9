@@ -31,8 +31,6 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
           font: {
             color: 'white'
           },
-          // color: '#51F7F2'
-          //color: '#2ADAD5'
           color: '#C2478B'
         }
       };
@@ -111,13 +109,13 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, $rootSco
             for(var i=0; i<res.length; i++){
               if(res[i].toTopic.entityId == edge.to){
                 console.log("matched");
-                fromTopic = res[i].fromTopic;
-                toTopic = res[i].toTopic;
+                $scope.fromTopic = res[i].fromTopic;
+                $scope.toTopic = res[i].toTopic;
                 break;
               }
             }
             //Header of relation part
-            $scope.relation.name = fromTopic.name+"--"+toTopic.name;
+            $scope.relation.name = $scope.fromTopic.name+"--"+$scope.toTopic.name;
             //relation types
             $scope.relation.types = [{type : "ali"},{ type : "ayşe"},{ type: "fatma"}];
             console.log($scope.relation.types);
@@ -203,7 +201,9 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
   var $ctrl = this;
   $ctrl.items = ['item1', 'item2', 'item3'];
 
-  $scope.getMoreRelations = function(topic1, topic2){
+  $scope.getMoreRelations = function(){
+    var topic1 = $scope.fromTopic.entityId;
+    var topic2 = $scope.toTopic.entityId;
     $window.localStorage.setItem("topic1",topic1);
     $window.localStorage.setItem("topic2",topic2);
     console.log("Get relations between: " + $window.localStorage.getItem("topic1") + " and " + $window.localStorage.getItem("topic2"));
