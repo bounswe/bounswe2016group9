@@ -66,7 +66,7 @@ public class BackendTestApp {
         assertEquals(topicService.getById(t.getEntityId()), t);
         assertEquals(postService.getById(post.getEntityId()),post);
     }
-    //TODO Fill this area with additional unit tests
+
     @Test
     public void testSaveComment(){
         Topic t = new Topic();
