@@ -449,14 +449,10 @@ public class TopicController {
                 "PREFIX dbpedia2: <http://dbpedia.org/property/>\n" +
                 "PREFIX dbpedia: <http://dbpedia.org/>\n" +
                 "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
-                "SELECT DISTINCT ?label ?abs ?wikiLink WHERE {\n" +
-                "  ?entity rdfs:label ?label .\n" +
-                "  ?entity foaf:name \""+entity+"\"@en  .\n" +
-                "  ?entity dbo:abstract ?abs .\n" +
-                "  ?entity foaf:isPrimaryTopicOf ?wikiLink .\n" +
-                "  filter(langMatches(lang(?abs),\"en\")) . \n" +
-                "  filter(langMatches(lang(?label),\"en\"))\n" +
-                " }";
+                "select distinct ?label WHERE { ?entity rdfs:label ?label .  " +
+                "?entity foaf:name ?y . " +
+                "filter(regex(?y, \""+ entity +"\", \"i\")) . " +
+                "filter(langMatches(lang(?label),\"en\"))}";
 
         encode = URLEncoder.encode(encode, "UTF-8");
         encode = encode.replace("%26query%3D", "&query=");

@@ -16,4 +16,8 @@
     <string name="logout">Logout</string>
     <string name="profile">Profile</string>
     <string name="search">Search</string>
+    <string name="button_edit_profile">Edit Profile</string>
+    <string name="button_change_picture">Change Picture</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
