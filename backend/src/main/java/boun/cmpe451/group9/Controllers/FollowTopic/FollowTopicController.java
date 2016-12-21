@@ -2,6 +2,7 @@ package boun.cmpe451.group9.Controllers.FollowTopic;
 
 import boun.cmpe451.group9.Controllers.Topic.TopicController;
 import boun.cmpe451.group9.Models.DB.FollowTopic;
+import boun.cmpe451.group9.Models.Meta.FollowTopicRequest;
 import boun.cmpe451.group9.Service.FollowTopic.FollowTopicService;
 import boun.cmpe451.group9.Service.Topic.TopicService;
 import boun.cmpe451.group9.Service.User.UserService;
@@ -49,9 +50,9 @@ public class FollowTopicController {
      * Adds a new relation
      * @return relation we just added
      */
-    @PostMapping("follow-topic")
+    @PostMapping("/follow-topic")
     public ResponseEntity<FollowTopic> addFollowTopic(@RequestBody FollowTopicRequest request){
-        if(!followTopicService.checkIfFollowTopicExistsByIds(userId, topicId)){
+        if(!followTopicService.checkIfFollowTopicExistsByIds(request.getUserId(), request.getTopicId())){
             FollowTopic followTopic= new FollowTopic();
             followTopic.setFollower(userService.getById(request.getUserId()));
             followTopic.setTopic(topicService.getById(request.getTopicId()));

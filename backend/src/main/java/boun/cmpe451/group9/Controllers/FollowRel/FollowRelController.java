@@ -3,6 +3,7 @@ package boun.cmpe451.group9.Controllers.FollowRel;
 import boun.cmpe451.group9.Controllers.User.UserController;
 import boun.cmpe451.group9.Models.DB.FollowRel;
 import boun.cmpe451.group9.Models.DB.User;
+import boun.cmpe451.group9.Models.Meta.FollowUserRequest;
 import boun.cmpe451.group9.Service.FollowRel.FollowRelService;
 import boun.cmpe451.group9.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +34,14 @@ public class FollowRelController {
     }
 
 
-    @PostMapping("{followerId}/follow_topic/{followingId}")
-    public ResponseEntity<FollowRel> addFollowTopic(@PathVariable("followerId") long followerId, @PathVariable("followingId") long followingId){
-        if(!followRelService.checkIfFollowRelExistsByIds(followerId, followingId)){
+    @PostMapping("/follow_user")
+    public ResponseEntity<FollowRel> addFollowRel(@RequestBody FollowUserRequest request){
+        if(!followRelService.checkIfFollowRelExistsByIds(request.getFollowerId(), request.getFollowingId())){
             FollowRel fR= new FollowRel();
-            fR.setFollower(userService.getById(followerId));
-            fR.setFollowing(userService.getById(followingId));
-
-
+            fR.setFollower(userService.getById(request.getFollowerId()));
+            fR.setFollowing(userService.getById(request.getFollowingId()));
             followRelService.save(fR);
-
             fR = addLinksToFollowRel(fR);
-
             return new ResponseEntity<>(fR, HttpStatus.CREATED);
         }else{
             return new ResponseEntity<>(HttpStatus.CONFLICT);
