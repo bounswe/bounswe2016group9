@@ -18,6 +18,12 @@ public class SearchController {
     @Autowired
     public void setSearchService(SearchService searchService){ this.searchService = searchService; }
 
+    /**
+     * Searches for a topic or post
+     * @param keywords name of the entity
+     * @param type if it is topic or post
+     * @return search result
+     */
     @GetMapping
     public ResponseEntity searchEntity(@RequestParam("keywords") String keywords, @RequestParam("type") String type){
         switch (type) {

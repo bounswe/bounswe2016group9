@@ -33,6 +33,7 @@ public class RelationController {
 
     @Autowired
     public void setRelationTypeService(RelationTypeService relationTypeService){this.relationTypeService=relationTypeService;}
+
     /**
      * Retrieves the relation "id"
      * @param id id of the relation
@@ -87,6 +88,11 @@ public class RelationController {
         }
     }
 
+    /**
+     * Deletes relation with the given id
+     * @param id id of the deleted relation
+     * @return response for the deletion request
+     */
     @DeleteMapping("{id}")
     public ResponseEntity<Relation> deleteRelation(@PathVariable("id") long id){
         if(relationService.checkIfEntityExistsById(id)){
@@ -97,6 +103,10 @@ public class RelationController {
         }
     }
 
+    /**
+     * Returns all relations
+     * @return all relations available
+     */
     @GetMapping
     public ResponseEntity<List<Relation>> getAllRelations(){
         List<Relation> relations = relationService.findAll();
@@ -110,11 +120,21 @@ public class RelationController {
         }
     }
 
+    /**
+     * Adds HATEOAS links to Relation entity
+     * @param relation entity that links are added
+     * @return entity with links
+     */
     public static Relation addLinksToRelation(Relation relation){
         relation.add(linkTo(RelationController.class).slash(relation.getEntityId()).withSelfRel());
         return relation;
     }
 
+    /**
+     * Gets all relation types from DBPedia
+     * @return all relation type
+     * @throws Exception IOException
+     */
     @GetMapping("/setRelationTypes")
     public ResponseEntity<List<RelationType>> addRelationTypes() throws Exception {
         URL url = new URL(createUrlForSPARQLRelationTypes());
@@ -130,8 +150,6 @@ public class RelationController {
             relationTypeService.save(relationType);
             relationTypes.add(relationType);
         }
-
-
 
         return new ResponseEntity<>(relationTypes,HttpStatus.OK);
 

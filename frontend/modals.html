@@ -5,9 +5,14 @@
                     </div>
                     <div class="modal-body" id="modal-body">
                         <span>Topic Name</span>
-                        <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName">
+                          <!-- changes -->
+                        <input type="text" class="form-control" placeholder="Topic Name" ng-model="topicName" ng-blur="$ctrl.findTags(topicName)">
                         <span>Tag</span>
-                        <input type="text" class="form-control" placeholder="Tags" ng-model="topicTags">
+                        <!-- En az 3 kelime girmek gerekiyo sonuçların gelmesi için -->
+                        <tags-input ng-model="topicTags">
+                          <auto-complete source="tags"></auto-complete>
+                        </tags-input>
+                        <!-- changes end -->
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" type="button" ng-click="$ctrl.okCreateTopic()">OK</button>
@@ -20,10 +25,19 @@
                         <h3 class="modal-title" id="modal-title">Add Relation</h3>
                     </div>
                     <div class="modal-body" id="modal-body">
+                        <!-- changes -->
+                        <input type="text" class="form-control" placeholder="Topic Name" ng-model="fromTopic" uib-typeahead="topic as topic.name for topic in $ctrl.getTopics($viewValue)" typeahead-loading="loadingFromTopics" typeahead-no-results="noResults">
+                        <i ng-show="loadingFromTopics" class="glyphicon glyphicon-refresh"></i>
+                        <div ng-show="noResults">
+                          <i class="glyphicon glyphicon-remove"></i> No Results Found
+                        </div>
                         <span>Topic Name</span>
-                        <input type="text" class="form-control" placeholder="Topic Name">
-                        <span>Topic Name</span>
-                        <input type="text" class="form-control" placeholder="Topic Name">
+                        <input type="text" class="form-control" placeholder="Topic Name" ng-model="toTopic" uib-typeahead="topic as topic.name for topic in $ctrl.getTopics($viewValue)" typeahead-loading="loadingToTopics" typeahead-no-results="noResults2">
+                        <i ng-show="loadingToTopics" class="glyphicon glyphicon-refresh"></i>
+                        <div ng-show="noResults2">
+                          <i class="glyphicon glyphicon-remove"></i> No Results Found
+                        </div>
+                        <!-- changes end -->
                         <span>Relation Name</span>
                         <input type="text" class="form-control" placeholder="Relation Name">
                     </div>
@@ -72,10 +86,6 @@
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input class="form-control" type="text" name="name" ng-model="user.name">
-                            </div>
-                            <div class="form-group">
-                                <label for="surname">Surname</label>
-                                <input class="form-control" type="text" name="surname" ng-model="user.surname">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
