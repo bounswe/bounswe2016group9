@@ -28,4 +28,12 @@ import java.util.List;
      */
     List<User> getFollowerUsersById(long topicID);
 
+    /**
+     * Checks if a relation exists from "from" to "to"
+     * @param userID topic the relations come from
+     * @param topicID topic the relation goes to
+     * @return TRUE if exists, FALSE if not
+     */
+    boolean checkIfFollowTopicExistsByIds(long userID, long topicID);
+
 }

@@ -31,4 +31,9 @@ public class FollowRelServiceImpl extends BaseServiceImpl<FollowRel> implements 
     public List<User> getFollowerByUserId(long id) {
         return followRelDAO.getFollowerById(id);
     }
+
+    @Override
+    public boolean checkIfFollowRelExistsByIds(long followerID, long followingID) {
+        return followRelDAO.checkIfFollowRelExistsByIds(followerID,followingID);
+    }
 }

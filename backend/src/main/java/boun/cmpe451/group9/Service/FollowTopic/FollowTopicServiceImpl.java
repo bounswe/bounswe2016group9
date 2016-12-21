@@ -29,4 +29,9 @@ public class FollowTopicServiceImpl extends BaseServiceImpl<FollowTopic> impleme
 
     @Override
     public List<User> getFollowerUsersById(long id) { return  followTopicDAO.getFollowerUsersById(id);}
+
+    @Override
+    public boolean checkIfFollowTopicExistsByIds(long userID, long topicID) {
+        return followTopicDAO.checkIfFollowTopicExistsByIds(userID,topicID);
+    }
 }

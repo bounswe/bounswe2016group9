@@ -23,4 +23,12 @@ public interface FollowRelDAO extends BaseDAO<FollowRel> {
      * @return all users that follow user "id"
      */
     List<User> getFollowerById(long userId);
+
+    /**
+     * Checks if a relation exists from "from" to "to"
+     * @param followingID topic the relations come from
+     * @param followerID topic the relation goes to
+     * @return TRUE if exists, FALSE if not
+     */
+    boolean checkIfFollowRelExistsByIds( long followerID,long followingID);
 }

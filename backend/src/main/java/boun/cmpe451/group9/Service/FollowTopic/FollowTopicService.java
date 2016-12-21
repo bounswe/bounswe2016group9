@@ -14,4 +14,6 @@ public interface FollowTopicService extends BaseService<FollowTopic> {
     List <Topic> getFollowingTopicsById(long id);
 
     List <User> getFollowerUsersById(long id);
+
+    boolean checkIfFollowTopicExistsByIds(long userID, long topicID);
 }
