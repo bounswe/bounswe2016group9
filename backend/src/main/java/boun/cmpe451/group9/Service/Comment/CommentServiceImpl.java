@@ -30,4 +30,8 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
     public List<Comment> getCommentByPostId(long id) {
         return commentDAO.getCommentsByPostId(id);
     }
+
+    @Override
+    public List<Comment> getCommentsByUserIdForTimeline(List<Long> userIdList) { return commentDAO.getCommentsByUserIdForTimeline(userIdList);
+    }
 }

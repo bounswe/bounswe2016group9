@@ -1,4 +1,4 @@
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" ng-controller="NavbarCtrl">
       <div class="container-fluid"  id="main-nav-bar">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -27,11 +27,11 @@
                     </div>
                 </form>
             </li>
-            <li class="navbar-right"><a href="#" style="color: white">Log Out</a></li>
-            <li class="navbar-right"><a href="#" style="color: white">Settings</a></li>
-            <li class="navbar-right"><a href="#" style="color: white">Notification</a></li>
-            <li class="navbar-right"><a href="profile.html" style="color: white;">Profile</a></li>
-            <li class="navbar-right" ng-controller="ModalDemoCtrl as $ctrl"><a href="#" ng-click="$ctrl.openLogin()" style="color: white;">Sign in / Sign Up </a></li>
+            <li class="navbar-right" ng-if="auth"><a href="#" style="color: white" ng-click="logout()">Log Out</a></li>
+            <li class="navbar-right" ng-if="auth"><a href="#" style="color: white">Settings</a></li>
+            <li class="navbar-right" ng-if="auth"><a href="#" style="color: white">Notification</a></li>
+            <li class="navbar-right" ng-if="auth"><a href="profile.html" style="color: white;">Profile</a></li>
+            <li class="navbar-right" ng-controller="ModalDemoCtrl as $ctrl" ng-if="!auth"><a href="#" ng-click="$ctrl.openLogin()" style="color: white;">Sign in / Sign Up </a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->

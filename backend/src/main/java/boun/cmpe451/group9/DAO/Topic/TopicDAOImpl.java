@@ -1,6 +1,7 @@
 package boun.cmpe451.group9.DAO.Topic;
 
 import boun.cmpe451.group9.DAO.BaseDAOImpl;
+import boun.cmpe451.group9.Models.DB.Post;
 import boun.cmpe451.group9.Models.DB.Topic;
 import org.springframework.stereotype.Repository;
 
@@ -74,5 +75,14 @@ public class TopicDAOImpl extends BaseDAOImpl<Topic> implements TopicDAO {
                 .list();
         from.addAll(to);
         return from;
+    }
+
+    @Override
+    public List<Topic> getTopicsByUserIdForTimeline(List<Long> userIdList) {
+        return this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT * FROM topic where user_id in :user_list ORDER by creation_time DESC LIMIT 3")
+                .addEntity(Topic.class)
+                .setParameterList("user_list",userIdList)
+                .list();
     }
 }

@@ -30,4 +30,13 @@ public class CommentDAOImpl extends BaseDAOImpl<Comment> implements CommentDAO {
                 .setParameter("id", postID)
                 .list();
     }
+
+    @Override
+    public List<Comment> getCommentsByUserIdForTimeline(List<Long> userIdList) {
+        return this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT * FROM comment where user_id in :user_list ORDER by creation_time DESC LIMIT 3")
+                .addEntity(Comment.class)
+                .setParameterList("user_list",userIdList)
+                .list();
+    }
 }

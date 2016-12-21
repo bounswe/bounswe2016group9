@@ -19,7 +19,23 @@ public interface TopicService extends BaseService<Topic> {
 
     List<Topic> autoComp(String keyword);
 
+    /**
+     * Retrieves most related topics of topic "id" according to trending_count
+     * @param id the id of topics
+     * @return list of topics that is most relevant
+     */
     List<Topic> getMostRelatedTopics(long id);
 
+    /**
+     * Retrieves most popular topics
+     * @return list of most popular topics
+     */
     List<Topic> getGrappi();
+
+    /**
+     * Retrieves list of most recent topics belong to list of user "userIdList"
+     * @param userIdList the list of ids
+     * @return list of most recent topics belong to users "userIdList"
+     */
+    List<Topic> getTopicsByUserIdForTimeline(List<Long> userIdList);
 }

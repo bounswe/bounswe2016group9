@@ -15,4 +15,6 @@ public interface FollowRelService extends BaseService<FollowRel> {
     List<User> getFollowingByUserId(long id);
 
     List<User> getFollowerByUserId(long id);
+
+    boolean checkIfFollowRelExistsByIds(long followerID, long followingID);
 }

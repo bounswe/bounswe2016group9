@@ -44,6 +44,11 @@ public class PostServiceImpl extends BaseServiceImpl<Post> implements PostServic
         return postDAO.getPostByLocation(id);
     }
 
+    @Override
+    public List<Post> getPostsByTopicIdForTimeline(List<Long> topicIdList) {return postDAO.getPostsByTopicIdForTimeline(topicIdList);}
+
+    @Override
+    public List<Post> getPostsByUserIdForTimeline(List<Long> userIdList) {return postDAO.getPostsByUserIdForTimeline(userIdList);}
 
     public void save(Post entity) {
         Topic topic = entity.getTopic();
