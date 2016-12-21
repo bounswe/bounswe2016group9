@@ -473,12 +473,20 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
     $uibModalInstance.close("result");
   };
 
-    //changes
+  // get created topics
   $ctrl.getTopics = function(keyword){
     return Autocomplete.topics(keyword).then(function(response){
       return response;
     });
-  }
+  };
+
+  // get relation types
+  $ctrl.getRelations = function(keyword){
+    return Autocomplete.relation(keyword).then(function(response){
+      return response;
+    });
+  };
+
   $ctrl.okAddRelation = function () {
     console.log($scope.fromTopic);
     console.log($scope.toTopic);
@@ -564,7 +572,7 @@ angular.module('InfoGrappoWeb').controller('autoCompleteController', function($s
     return inputLabel;
   }
 });
-//navbar.html deki nav a bu controller eklenecek
+// Controller for navbar.html
 angular.module('InfoGrappoWeb').controller('NavbarCtrl', function($scope, $rootScope, $window, User){
   $scope.auth = false;
   if($window.localStorage.getItem('user') != undefined){
@@ -603,7 +611,6 @@ angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log)
     $scope.get = function (searchText) {
         // TODO
     }
-
 });
 
 angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topics, Posts, Comments, $window){
@@ -648,6 +655,7 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
     }
     $scope.relations=relations;
   });
+
   $scope.go = function(topicID){
     Topics.get(topicID).then(function(response){
       $scope.topic = response.data;
@@ -693,7 +701,6 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
     })
   };
 });
-
 
 angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', '$window', function($http, $q, $window) {
   // Might use a resource here that returns a JSON array

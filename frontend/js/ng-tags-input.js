@@ -201,7 +201,7 @@ tagsInput.directive('tagsInput', ["$timeout", "$document", "$window", "$q", "tag
             onInvalidTag: '&',
             onTagRemoving: '&',
             onTagRemoved: '&',
-            onTagClicked: '&',
+            onTagClicked: '&'
         },
         replace: false,
         transclude: true,

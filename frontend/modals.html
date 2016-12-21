@@ -39,7 +39,11 @@
                         </div>
                         <!-- changes end -->
                         <span>Relation Name</span>
-                        <input type="text" class="form-control" placeholder="Relation Name">
+                        <input type="text" class="form-control" placeholder="Relation Name" ng-model="relationType" uib-typeahead="relation as relation.type for relation in $ctrl.getRelations($viewValue)" typeahead-loading="loadingToRelationType" typeahead-no-results="noResults3">
+                        <i ng-show="loadingToRelationType" class="glyphicon glyphicon-refresh"></i>
+                        <div ng-show="noResults3">
+                            <i class="glyphicon glyphicon-remove"> No Results Found </i>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" type="button" ng-click="$ctrl.okAddRelation()">OK</button>
