@@ -1,7 +1,9 @@
 var appData = {
   baseUrl : "http://52.67.44.90:8080/"
 };
-angular.module('InfoGrappoWeb', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+//change ngTagsInput eklendi
+angular.module('InfoGrappoWeb', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ngTagsInput']);
+//change
 angular.module('InfoGrappoWeb').config(function($httpProvider){
   //allows 401 cors error
   $httpProvider.defaults.withCredentials = true;
@@ -446,13 +448,20 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
 // It is not the same as the $uibModal service used above.
 
-angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope, $http , User, $window) {
+angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope, $http , User, $window, Autocomplete) {
   var $ctrl = this;
   $ctrl.items = items;
   $ctrl.selected = $scope.topicName;
-
+  //changes Autocomplete i yukarı ekle
+  $scope.tags = [];
+  $ctrl.findTags = function(topicName){
+    Autocomplete.tags(topicName).then(function(response){
+      $scope.tags = response;
+    });
+  };
+  //changes end
   $ctrl.okCreateTopic = function () {
-    var parameter = {topic:{"name":$scope.topicName}, tags:[{"name":$scope.topicTags}]};
+    var parameter = {topic:{"name":$scope.topicName}, tags:[{"name":$scope.topicTags[0].text}], label:$scope.topicTags[0].text};
     console.log(parameter);
     $http.post(appData.baseUrl+"topics", parameter).
       success(function(data, status, headers, config) {
@@ -464,17 +473,24 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
     $uibModalInstance.close("result");
   };
 
+    //changes
+  $ctrl.getTopics = function(keyword){
+    return Autocomplete.topics(keyword).then(function(response){
+      return response;
+    });
+  }
   $ctrl.okAddRelation = function () {
-    console.log($scope.topicName1);
-    console.log($scope.topicName2);
+    console.log($scope.fromTopic);
+    console.log($scope.toTopic);
     console.log($scope.relationName);
     var result = {
-      topicName1:$scope.topicName1,
-      topicName2:$scope.topicName2,
+      fromTopic:$scope.fromTopic,
+      toTopic:$scope.toTopic,
       relationName:$scope.relationName
     };
     $uibModalInstance.close(result);
   };
+  //changes end
 
   $ctrl.okCreatePost = function () {
     console.log($scope.postContent);
@@ -496,9 +512,6 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
 
   $ctrl.okSaveProfile = function () {
     console.log($scope.user);
-    User.update($scope.user).then(function (response) {
-      console.log(response);
-    });
     var result = {
       user : $scope.user
     };
@@ -990,57 +1003,8 @@ angular.module("InfoGrappoWeb").factory("User", function($http, $q, $window){
         deferred.reject(error);
       });
       return deferred.promise;
-    },
-    // update user settings
-    update: function (user) {
-      var deferred = $q.defer();
-      var userId = $window.localStorage.getItem("user");
-      var userData = {
-        name : user.name,
-        surname : user.surname,
-        age : user.age
-      };
-      var parameter = {user : userData};
-      $http.post(appData.baseUrl+"users/" + userId, userData).success(function (data, status, headers, config) {
-        console.log(data);
-        deferred.resolve();
-      }).error(function (data, status, headers, config) {
-        console.log("Error on updating user with id " + userData.entityId);
-        deferred.reject();
-      });
-      return deferred.promise;
     }
   } 
-});
-angular.module("InfoGrappoWeb").factory("Autocomplete", function($http, $q, $window) {
-  return {
-    // If user who login toweb site is not an admin sees his/her informations
-    topic: function (word) {
-      var deferred = $q.defer();
-      $http({
-        method: 'GET',
-        url: appData.baseUrl + 'autoComp/topics' + word
-      }).then(function (res) {
-        deferred.resolve(res.data);
-      }, function (error) {
-        deferred.reject("Error occurred when getting similar topic names");
-      });
-      return deferred.promise;
-    },
-    // get all info of user
-    relation: function (word) {
-      var deferred = $q.defer();
-      $http({
-        method: 'GET',
-        url: appData.baseUrl + 'autoComp/topics' + word
-      }).then(function (response) {
-        deferred.resolve(response.data);
-      }, function (error) {
-        deferred.reject("Error occurred when getting similar relation types");
-      });
-      return deferred.promise;
-    }
-  }
 });
 angular.module("InfoGrappoWeb").factory("Timeline", function($http, $q, $window, $rootScope) {
   return {
@@ -1128,3 +1092,63 @@ angular.module("InfoGrappoWeb").factory("Follow", function($http, $q, $window, $
       }
     }
 });
+//changes
+angular.module("InfoGrappoWeb").factory("Autocomplete", function($http, $q, $window) {
+  return {
+    topics: function (word) {
+      var deferred = $q.defer();
+      $http({
+        method: 'GET',
+        url: appData.baseUrl + 'autoComp/topics?keyword=' + word
+      }).then(function (response) {
+        var topics = [];
+        for(var i=0; i<response.data.length; i++){
+          topics.push({
+            entityId : response.data[i].entityId,
+            name : response.data[i].name
+          });
+        }
+        console.log(topics);
+        deferred.resolve(topics);
+      }, function (error) {
+        deferred.reject("Error occurred when getting similar topic names");
+      });
+      return deferred.promise;
+    },
+    relation: function (word) {
+      var deferred = $q.defer();
+      $http({
+        method: 'GET',
+        url: appData.baseUrl + 'autoComp/relationTypes?keyword=' + word
+      }).then(function (response) {
+        console.log(response);
+        deferred.resolve(response.data);
+      }, function (error) {
+        deferred.reject("Error occurred when getting similar relation types");
+      });
+      return deferred.promise;
+    },
+    tags : function (topic) {
+      var deferred = $q.defer();
+      $http({
+        method :  "GET",
+        //aşağıdaki url den gelen datadaki results boş geliyor. Aktifleşince bu url i aç.
+        url : appData.baseUrl + 'topics/semantic?topic=' + topic
+
+        //aşağıdaki url den dönen test datası juno(movie) falan diye dönüyo 
+        //url: appData.baseUrl + 'topics/test'
+      }).then(function(response){
+        var labelValues = [];
+        for(var i=0; i<response.data.results.bindings.length; i++){
+          labelValues.push(response.data.results.bindings[i].label.value);
+        }
+        deferred.resolve(labelValues);
+        console.log(labelValues);
+      }, function(error){
+        deferred.reject(error);
+      });
+      return deferred.promise;
+    } 
+  }
+});
+//changes end
