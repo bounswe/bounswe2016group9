@@ -5,16 +5,12 @@ package com.cmpe451.group9.infograppo.common.adapters;
  */
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmpe451.group9.infograppo.R;
@@ -54,39 +50,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView item = (TextView) convertView.findViewById(R.id.text_child);
-        /*ImageView up = (ImageView) convertView.findViewById(R.id.image_relation_up);
-        up.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TextView rate = (TextView) view.findViewById(R.id.text_child);
-            }
-        });*/
-//        ImageView delete = (ImageView) convertView.findViewById(R.id.nav_view);
-//        delete.setOnClickListener(new OnClickListener() {
-//
-//            public void onClick(View v) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                builder.setMessage("Do you want to remove?");
-//                builder.setCancelable(false);
-//                builder.setPositiveButton("Yes",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                List<String> child =
-//                                        topicsWithRelations.get(topics.get(groupPosition));
-//                                child.remove(childPosition);
-//                                notifyDataSetChanged();
-//                            }
-//                        });
-//                builder.setNegativeButton("No",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                dialog.cancel();
-//                            }
-//                        });
-//                AlertDialog alertDialog = builder.create();
-//                alertDialog.show();
-//            }
-//        });
 
         item.setText(relation);
         return convertView;

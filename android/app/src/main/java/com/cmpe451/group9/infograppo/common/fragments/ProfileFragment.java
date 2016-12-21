@@ -128,11 +128,11 @@ public class ProfileFragment extends Fragment {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        User tmp = new Gson().fromJson(String.valueOf(response), User.class);
-                        String utmp = tmp.getName() + " " + tmp.getSurname()
-                                + " ("+tmp.getUsername()+")";
+                        User user = new Gson().fromJson(String.valueOf(response), User.class);
+                        String utmp = user.getName() + " " + user.getSurname()
+                                + " (" + user.getUsername() + ")";
                         userName.setText(utmp);
-                        utmp= tmp.getAge() + " , " +tmp.getEmail();
+                        utmp= user.getAge() + " , " + user.getEmail();
                         userInfo.setText(utmp);
                         int followers = 123, followings = 36;
                         utmp= followers+" followers, "+ followings +" followings";

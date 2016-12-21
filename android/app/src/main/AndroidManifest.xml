@@ -25,7 +25,6 @@
         <activity android:name=".activities.SignupActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.GrappiActivity"/>
     </application>
 
 </manifest>
