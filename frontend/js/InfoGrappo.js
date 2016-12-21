@@ -1025,14 +1025,23 @@ angular.module("InfoGrappoWeb").factory("Timeline", function($http, $q, $window,
 });
 angular.module("InfoGrappoWeb").factory("Follow", function($http, $q, $window, $rootScope) {
     return {
-        followTopic: function (topicId) {
-            var userId = $window.localStorage.getItem("user");
-            var parameter = {topicId: topicId , userId: userId};
-            $http.post(appData.baseUrl+"users/follow-topic", parameter).success(function (data, status, headers, config) {
-                console.log(data);
-            }).error(function (data, status, headers, config) {
-                console.log("Error on following topic with id " + topicId);
-            });
-        }
+      followTopic: function (topicId) {
+          var userId = $window.localStorage.getItem("user");
+          var parameter = {topicId: topicId , userId: userId};
+          $http.post(appData.baseUrl+"users/follow-topic", parameter).success(function (data, status, headers, config) {
+              console.log(data);
+          }).error(function (data, status, headers, config) {
+              console.log("Error on following topic with id " + topicId);
+          });
+      },
+      followUser: function (followingId) {
+        var userId = $window.localStorage.getItem("user");
+        var parameter = {followingId: followingId , followerId: userId};
+        $http.post(appData.baseUrl+"users/follow_user", parameter).success(function (data, status, headers, config) {
+          console.log(data);
+        }).error(function (data, status, headers, config) {
+          console.log("Error on following topic with id " + topicId);
+        });
+      }
     }
 });
