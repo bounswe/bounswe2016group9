@@ -496,6 +496,9 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
 
   $ctrl.okSaveProfile = function () {
     console.log($scope.user);
+    User.update($scope.user).then(function (response) {
+      console.log(response);
+    });
     var result = {
       user : $scope.user
     };
@@ -985,6 +988,25 @@ angular.module("InfoGrappoWeb").factory("User", function($http, $q, $window){
         deferred.resolve(response.data);
       },function(error){
         deferred.reject(error);
+      });
+      return deferred.promise;
+    },
+    // update user settings
+    update: function (user) {
+      var deferred = $q.defer();
+      var userId = $window.localStorage.getItem("user");
+      var userData = {
+        name : user.name,
+        surname : user.surname,
+        age : user.age
+      };
+      var parameter = {user : userData};
+      $http.post(appData.baseUrl+"users/" + userId, userData).success(function (data, status, headers, config) {
+        console.log(data);
+        deferred.resolve();
+      }).error(function (data, status, headers, config) {
+        console.log("Error on updating user with id " + userData.entityId);
+        deferred.reject();
       });
       return deferred.promise;
     }

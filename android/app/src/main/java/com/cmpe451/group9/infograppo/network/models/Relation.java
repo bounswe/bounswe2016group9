@@ -23,6 +23,10 @@ public class Relation {
     @SerializedName("createdUser")
     private User createdUser;
 
+    @SerializedName("content")
+    private String content;
+
+
     public String getName() {
         return name;
     }
@@ -61,5 +65,12 @@ public class Relation {
 
     public void setCreatedUser(User createdUser) {
         this.createdUser = createdUser;
+    }
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
