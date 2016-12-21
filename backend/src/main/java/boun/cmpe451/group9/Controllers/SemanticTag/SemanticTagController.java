@@ -23,6 +23,11 @@ public class SemanticTagController {
         this.semanticTagService = semanticTagService;
     }
 
+    /**
+     * Gets semantic tag with the given id
+     * @param id id of the semantic tag
+     * @return semantic tag with the given id
+     */
     @GetMapping("{id}")
     public ResponseEntity<SemanticTag> getSTag(@PathVariable("id") long id){
         if(semanticTagService.checkIfEntityExistsById(id)){
@@ -34,6 +39,11 @@ public class SemanticTagController {
         }
     }
 
+    /**
+     * Adds semantic tag
+     * @param semanticTag semantic tag to be added
+     * @return response for the add request
+     */
     @PostMapping
     public ResponseEntity<SemanticTag> addSTag(@RequestBody SemanticTag semanticTag){
         if(!semanticTagService.checkExistenceByName(semanticTag.getType())){
@@ -47,6 +57,12 @@ public class SemanticTagController {
         }
     }
 
+    /**
+     * Updates semantic tag with the given id
+     * @param id semantic tag to be updated
+     * @param semanticTag semantic tag with the new values
+     * @return response for the update request
+     */
     @PutMapping("{id}")
     public ResponseEntity<SemanticTag> updateSTag(@PathVariable("id") long id, @RequestBody SemanticTag semanticTag){
         if(semanticTagService.checkIfEntityExistsById(id)){
@@ -59,6 +75,11 @@ public class SemanticTagController {
         }
     }
 
+    /**
+     * Deletes semantic tag with the given id
+     * @param id id of the deleted semantic tag
+     * @return response for the removal request
+     */
     @DeleteMapping("{id}")
     public ResponseEntity<SemanticTag> deleteSTagById(@PathVariable("id") long id){
         if(semanticTagService.checkIfEntityExistsById(id)){
@@ -70,6 +91,10 @@ public class SemanticTagController {
         }
     }
 
+    /**
+     * Retrieves all tags
+     * @return all tags available
+     */
     @GetMapping
     public ResponseEntity<List<SemanticTag>> getAllSTags(){
         List<SemanticTag> semanticTags = semanticTagService.findAll();
@@ -83,6 +108,11 @@ public class SemanticTagController {
         }
     }
 
+    /**
+     * Adds HATEOAS links to SemanticTag entity
+     * @param semanticTag entity that links are added
+     * @return entity with links
+     */
     public static SemanticTag addLinksToSTag(SemanticTag semanticTag){
         semanticTag.add(linkTo(SemanticTagController.class).slash(semanticTag.getEntityId()).withSelfRel());
         return semanticTag;

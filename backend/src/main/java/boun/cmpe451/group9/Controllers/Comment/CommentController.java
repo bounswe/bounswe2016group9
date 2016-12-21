@@ -90,6 +90,11 @@ public class CommentController {
 
     }
 
+    /**
+     * Adds HATEOAS links to comment entity
+     * @param comment entity that links are added to
+     * @return entity with links
+     */
     public static Comment addLinksToComment(Comment comment) {
         comment.add(linkTo(CommentController.class).slash(comment.getEntityId()).withSelfRel());
         comment.add(linkTo(PostController.class).slash(comment.getPostOfComment().getEntityId()).withRel("post"));

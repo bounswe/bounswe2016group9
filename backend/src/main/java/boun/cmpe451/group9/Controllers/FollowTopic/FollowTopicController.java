@@ -1,31 +1,23 @@
 package boun.cmpe451.group9.Controllers.FollowTopic;
 
-import boun.cmpe451.group9.Controllers.Topic.TopicController;
 import boun.cmpe451.group9.Models.DB.FollowTopic;
 import boun.cmpe451.group9.Models.Meta.FollowTopicRequest;
 import boun.cmpe451.group9.Service.FollowTopic.FollowTopicService;
 import boun.cmpe451.group9.Service.Topic.TopicService;
 import boun.cmpe451.group9.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.LinkedList;
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 /**
  * Created by seha on 21.12.2016.
  */
-@SuppressWarnings("MVCPathVariableInspection")
+@SuppressWarnings({"MVCPathVariableInspection", "DefaultFileTemplate"})
 @RestController
 @RequestMapping(value="/users")
 public class FollowTopicController {
@@ -33,6 +25,7 @@ public class FollowTopicController {
     private FollowTopicService followTopicService;
     private UserService userService;
     private TopicService topicService;
+
     @Autowired
     public void setFollowTopicService(FollowTopicService followTopicService) {
         this.followTopicService = followTopicService;
@@ -64,7 +57,12 @@ public class FollowTopicController {
         }
     }
 
-    public static FollowTopic addLinksToFollowTopic(FollowTopic followTopic){
+    /**
+     * Adds HATEOAS links to FollowTopic entity
+     * @param followTopic entity that links are added
+     * @return entity with links
+     */
+    private static FollowTopic addLinksToFollowTopic(FollowTopic followTopic){
         followTopic.add(linkTo(FollowTopicController.class).slash(followTopic.getEntityId()).withSelfRel());
         return followTopic;
     }

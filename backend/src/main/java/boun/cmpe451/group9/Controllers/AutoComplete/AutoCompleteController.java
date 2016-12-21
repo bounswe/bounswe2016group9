@@ -28,11 +28,21 @@ public class AutoCompleteController {
     @Autowired
     public void setRelationTypeService(RelationTypeService relationTypeService){ this.relationTypeService = relationTypeService; }
 
+    /**
+     * Auto completes topic names
+     * @param keyword first part of the topic name
+     * @return topics that starts with "keyword"
+     */
     @GetMapping("/topics")
     public ResponseEntity<List<Topic>> autoCompTopics(@RequestParam("keyword") String keyword){
         return new ResponseEntity<>(topicService.autoComp(keyword), HttpStatus.OK);
     }
 
+    /**
+     * Auto completes relation types
+     * @param keyword first part of the relation name
+     * @return relations that starts with "keyword"
+     */
     @GetMapping("/relationTypes")
     public ResponseEntity<List<RelationType>> autoCompRelTypes(@RequestParam("keyword") String keyword){
         return new ResponseEntity<>(relationTypeService.autoComp(keyword), HttpStatus.OK);
