@@ -150,34 +150,38 @@ public class TopicController {
         SPARQLTypeResponse response = mapper.readValue(url, SPARQLTypeResponse.class);
         List<SPARQLTypeResponse.Results.Types> types = response.getResults().getBindings();
 
-        for(SPARQLTypeResponse.Results.Types type : types){
-            SemanticTag tag = new SemanticTag();
-            STagTopic sTagTopic = new STagTopic();
+        if(!types.isEmpty()){
+            for(SPARQLTypeResponse.Results.Types type : types){
+                SemanticTag tag = new SemanticTag();
+                STagTopic sTagTopic = new STagTopic();
 
-            tag.setType(type.getTypes().getValue());
+                tag.setType(type.getTypes().getValue());
 
-            if(semanticTagService.checkExistenceByName(tag.getType())){
-                sTagTopic.setSemanticTag(semanticTagService.getSTagByName(tag.getType()));
-            }else{
-                semanticTagService.save(tag);
-                sTagTopic.setSemanticTag(tag);
+                if(semanticTagService.checkExistenceByName(tag.getType())){
+                    sTagTopic.setSemanticTag(semanticTagService.getSTagByName(tag.getType()));
+                }else{
+                    semanticTagService.save(tag);
+                    sTagTopic.setSemanticTag(tag);
+                }
+
+                sTagTopic.setTopic(topic);
+                sTagTopicService.save(sTagTopic);
             }
-
-            sTagTopic.setTopic(topic);
-            sTagTopicService.save(sTagTopic);
         }
 
-        for(Tag tag : tags){
-            if(tagService.checkIfTagExistsByName(tag.getName())){
-                tag = tagService.getTagByName(tag.getName());
-            }else{
-                tagService.save(tag);
-            }
+        if(!tags.isEmpty()){
+            for(Tag tag : tags){
+                if(tagService.checkIfTagExistsByName(tag.getName())){
+                    tag = tagService.getTagByName(tag.getName());
+                }else{
+                    tagService.save(tag);
+                }
 
-            TagTopic tagTopic = new TagTopic();
-            tagTopic.setTag(tag);
-            tagTopic.setTopic(topic);
-            tagTopicService.save(tagTopic);
+                TagTopic tagTopic = new TagTopic();
+                tagTopic.setTag(tag);
+                tagTopic.setTopic(topic);
+                tagTopicService.save(tagTopic);
+            }
         }
 
         topic = addLinkToTopic(topic);

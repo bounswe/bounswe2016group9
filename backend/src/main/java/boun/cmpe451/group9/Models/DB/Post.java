@@ -1,19 +1,15 @@
 package boun.cmpe451.group9.Models.DB;
 
 import boun.cmpe451.group9.Models.Base;
-
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "SameParameterValue"})
 @Entity
 @Table(name = "POST")
 public class Post extends Base {
-
     @NotBlank
     @Column(name = "CONTENT", columnDefinition = "TEXT")
     private String content;
