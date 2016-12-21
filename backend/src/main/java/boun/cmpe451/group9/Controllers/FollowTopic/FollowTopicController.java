@@ -49,26 +49,20 @@ public class FollowTopicController {
      * Adds a new relation
      * @return relation we just added
      */
-    @PostMapping("{userId}/follow_topic/{topicId}")
-    public ResponseEntity<FollowTopic> addFollowTopic(@PathVariable("userId") long userId, @PathVariable("topicId") long topicId){
+    @PostMapping("follow-topic")
+    public ResponseEntity<FollowTopic> addFollowTopic(@RequestBody FollowTopicRequest request){
         if(!followTopicService.checkIfFollowTopicExistsByIds(userId, topicId)){
             FollowTopic followTopic= new FollowTopic();
-            followTopic.setFollower(userService.getById(userId));
-            followTopic.setTopic(topicService.getById(topicId));
-
-
+            followTopic.setFollower(userService.getById(request.getUserId()));
+            followTopic.setTopic(topicService.getById(request.getTopicId()));
             followTopicService.save(followTopic);
-
             followTopic = addLinksToFollowTopic(followTopic);
-
             return new ResponseEntity<>(followTopic, HttpStatus.CREATED);
         }else{
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
-
-
-
+    
     public static FollowTopic addLinksToFollowTopic(FollowTopic followTopic){
         followTopic.add(linkTo(FollowTopicController.class).slash(followTopic.getEntityId()).withSelfRel());
         return followTopic;

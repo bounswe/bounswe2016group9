@@ -205,7 +205,7 @@ angular.module('InfoGrappoWeb').controller('TopicGraphCtrl', function($scope, To
     }
   });  
 });
-angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal, $log, $document, $scope, $window) {
+angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal, $log, $document, $scope, $window, Follow) {
   var $ctrl = this;
   $ctrl.items = ['item1', 'item2', 'item3'];
 
@@ -222,6 +222,7 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
 
   $ctrl.followTopic = function () {
     var topicId = $window.localStorage.getItem("topic");
+    Follow.followTopic(topicId);
   };
 
   $ctrl.openCreateTopic = function (size, parentSelector) {
@@ -1025,12 +1026,12 @@ angular.module("InfoGrappoWeb").factory("Timeline", function($http, $q, $window,
 angular.module("InfoGrappoWeb").factory("Follow", function($http, $q, $window, $rootScope) {
   return {
     // Get posts from followed topics
-    followTopic: function () {
+    followTopic: function (topicId) {
       var deferred = $q.defer();
       var userId = $window.localStorage.getItem("user");
       $http({
-        method: 'GET',
-        url: appData.baseUrl + 'follow/' + userId + '/postOfTopics'
+        method: 'POST',
+        url: appData.baseUrl + 'users/' + userId + '/follow_topic/' + topicId
       }).then(function (response) {
         deferred.resolve(response.data);
       }, function (error) {

@@ -47,34 +47,35 @@
             <div class="col-md-8" ng-show="show">
                 <div id="mynetwork"></div>
                 <div id="relation" class="col-md-5" style="display: none; color:white">
-                        <h4>{{relation.name}}</h4>
-                        <div id="topics" ng-repeat="type in relation.types">
-                            <div id="topic" class="row">
-                                <div class="col-md-1">
-                                    <ul class="rating">
-                                        <li>
-                                            <a href=><i class="fa fa-thumbs-up" style="color:white"></i></a>
-                                        </li>
-                                        <li>
-                                            <!--add {{type.vote}}-->
-                                            <span style="color:white">5</span>
-                                        </li>
-                                        <li>
-                                            <a href=><i class="fa fa-thumbs-down" style="color:white"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-11" style="color:white">
-                                    <span id="comment">{{type.type}}</span>
-                                </div>
+                    <h4>{{relation.name}}</h4>
+                    <div id="topics" ng-repeat="type in relation.types">
+                        <div id="topic" class="row">
+                            <div class="col-md-1">
+                                <ul class="rating">
+                                    <li>
+                                        <a href=><i class="fa fa-thumbs-up" style="color:white"></i></a>
+                                    </li>
+                                    <li>
+                                        <!--add {{type.vote}}-->
+                                        <span style="color:white">5</span>
+                                    </li>
+                                    <li>
+                                        <a href=><i class="fa fa-thumbs-down" style="color:white"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-11" style="color:white">
+                                <span id="comment">{{type.type}}</span>
                             </div>
                         </div>
-
-                        <!-- see more -->
-                        <div class="col-md-11">
-                            <a ng-click="getMoreRelations(fromTopic.entityId, toTopic.entityId)" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Relations"> See More Relationships </a>
-                        </div>
                     </div>
+
+                    <!-- see more -->
+                    <div class="col-md-11">
+                        <a ng-click="getMoreRelations(fromTopic.entityId, toTopic.entityId)" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Relations"> See More Relationships </a>
+                    </div>
+
+                </div>
             </div>
             <!--  Content  -->
             <div class="col-md-8" ng-show="!show">
@@ -85,7 +86,7 @@
                     <div class="col-md-1">
 
                         <!--Add Funtionality that Follow Button On Topic Page-->
-                        <button type="button" class="btn btn-primary" ng-click="$ctrl.openFollowTopic()">Follow</button>
+                        <button type="button" class="btn btn-primary" ng-click="$ctrl.followTopic()">Follow</button>
 
                     </div>
                     <div class="col-md-2">
