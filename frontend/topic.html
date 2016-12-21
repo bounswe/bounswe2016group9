@@ -30,120 +30,152 @@
     <script type="text/javascript" src="dist/vis.js"></script>
     <link href="dist/vis.css" rel="stylesheet" type="text/css" />
   </head>
-  <body ng-controller="TopicPageCtrl">
-    <div ng-include="'navbar.html'"></div>
-    <div class="container-fluid" style="padding-left: 0">
-        <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
-        	<div class="col-md-2">
-                <div ng-include="'modals.html'"></div>
-                <ul class="left-navbar">
-                    <li><a ng-click="show = !show"><span ng-show="!show">Grappi</span><span ng-show="show">Topic</span></a></li>
-                    <li><a href="" ng-click="$ctrl.openAddRelation()">Add relation</a></li>
-                    <li><a href="" ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
-                </ul>
-            </div>
+  <body ng-controller="GrappiCtrl">
+  <div ng-controller="TopicPageCtrl">
+      <div ng-include="'navbar.html'"></div>
+      <div class="container-fluid" style="padding-left: 0">
+          <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
+              <div class="col-md-2">
+                  <div ng-include="'modals.html'"></div>
+                  <ul class="left-navbar">
+                      <li><a ng-click="show = !show"><span ng-show="!show">Grappi</span><span ng-show="show">Topic</span></a></li>
+                      <li><a href="" ng-click="$ctrl.openAddRelation()">Add relation</a></li>
+                      <li><a href="" ng-click="$ctrl.openCreateTopic()">Create Topic</a></li>
+                  </ul>
+              </div>
             <!-- Map -->
             <div class="col-md-8" ng-show="show">
-                <div id="mynetwork"></div>    
+                <div id="mynetwork"></div>
+                <div id="relation" class="col-md-5" style="display: none; color:white">
+                        <h4>{{relation.name}}</h4>
+                        <div id="topics" ng-repeat="type in relation.types">
+                            <div id="topic" class="row">
+                                <div class="col-md-1">
+                                    <ul class="rating">
+                                        <li>
+                                            <a href=><i class="fa fa-thumbs-up" style="color:white"></i></a>
+                                        </li>
+                                        <li>
+                                            <!--add {{type.vote}}-->
+                                            <span style="color:white">5</span>
+                                        </li>
+                                        <li>
+                                            <a href=><i class="fa fa-thumbs-down" style="color:white"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-11" style="color:white">
+                                    <span id="comment">{{type.type}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- see more -->
+                        <div class="col-md-11">
+                            <a ng-click="getMoreRelations(fromTopic.entityId, toTopic.entityId)" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Relations"> See More Relationships </a>
+                        </div>
+                    </div>
             </div>
             <!--  Content  -->
-        	<div class="col-md-8" ng-show="!show">
-        		<div class="row">
-        			<div class="col-md-9">
-        				<h1>{{topic.name}}</h1>
-        			</div>
+            <div class="col-md-8" ng-show="!show">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h1>{{topic.name}}</h1>
+                    </div>
                     <div class="col-md-1">
 
                         <!--Add Funtionality that Follow Button On Topic Page-->
                         <button type="button" class="btn btn-primary" ng-click="$ctrl.openFollowTopic()">Follow</button>
 
                     </div>
-        			<div class="col-md-2">
-        				<button type="button" class="btn btn-primary" ng-click="$ctrl.openCreatePost()">Create Post</button>
-        			</div>
-        		</div>
-        		<div class="row">
-        			<div class="btn-group btn-group-justified" role="group" aria-label="...">
-    					<div class="btn-group" role="group">
-    					    <button type="button" class="btn btn-default">Trending</button>
-    					</div>
-    					<div class="btn-group" role="group">
-    				        <button type="button" class="btn btn-default">Newsest</button>
-    					</div>
-    					<div class="btn-group" role="group">
-    			            <button type="button" class="btn btn-default">Rated</button>
-    					</div>
-    				</div>
-        		</div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary" ng-click="$ctrl.openCreatePost()">Create Post</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default">Trending</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default">Newsest</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default">Rated</button>
+                        </div>
+                    </div>
+                </div>
                 <!--  Post  -->
-        		<div class="row" ng-repeat="post in posts">
+                <div class="row" ng-repeat="post in posts">
                     <div class="col-md-1">
                         <ul class="rating">
                             <li>
-                                <a href=><i class="fa fa-thumbs-up"></i></a> 
+                                <a href=><i class="fa fa-thumbs-up"></i></a>
                             </li>
                             <li>
                                 <span>{{post.voteCount}}</span>
                             </li>
                             <li>
-                                <a href=><i class="fa fa-thumbs-down"></i></a> 
+                                <a href=><i class="fa fa-thumbs-down"></i></a>
                             </li>
                             <li>
-                                <a href=><i class="fa fa-star"></i></a> 
+                                <a href=><i class="fa fa-star"></i></a>
                             </li>
                         </ul>
                     </div>
-        			<div class="col-md-11 generalBorder">
-        				<span>{{post.content}}</span>
-        			</div>
+                    <div class="col-md-11 generalBorder">
+                        <span>{{post.content}}</span>
+                    </div>
                     <!--  Comment  -->
                     <div ng-repeat="comment in post.comments">
                         <div class="col-md-1 col-md-offset-1">
                             <ul class="rating">
                                 <li>
-                                    <a href=><i class="fa fa-thumbs-up"></i></a> 
+                                    <a href=><i class="fa fa-thumbs-up"></i></a>
                                 </li>
                                 <li>
                                     <span>{{comment.voteCount}}</span>
                                 </li>
                                 <li>
-                                    <a href=><i class="fa fa-thumbs-down"></i></a> 
+                                    <a href=><i class="fa fa-thumbs-down"></i></a>
                                 </li>
                             </ul>
                         </div>
-            			<div class="col-md-10 generalBorder">
-            				<span>{{comment.content}}</span>
-            			</div>
+                        <div class="col-md-10 generalBorder">
+                            <span>{{comment.content}}</span>
+                        </div>
                     </div>
                     <!--  Add Comment Button  -->
-        			<div class="col-md-2 col-md-offset-2">
-        				<button type="button" class="btn btn-primary" ng-click="$ctrl.openCreateComment()">Add Comment</button>
-        			</div>
+                    <div class="col-md-2 col-md-offset-2">
+                        <button type="button" class="btn btn-primary" ng-click="$ctrl.openCreateComment()">Add Comment</button>
+                    </div>
                 </div>
-        	</div>
-        	<div class="col-md-2">
-        		<div class="row">
-        			<div class="col-md-12">
-        				<h3>Related Topics</h3>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Related Topics</h3>
                         <ul>
                             <li ng-repeat="relation in relations" ng-click="go(relation.entityId)">
                                 {{relation.name}}
                             </li>
                         </ul>
-        			</div>
-        		</div>
-        	</div>
+                    </div>
+                </div>
+            </div>
 
-    	</div>
+        </div>
     </div>
     <!-- Angular file(necessary for UI-Bootstrap's Angular plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-touch.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
     <!-- Our own js file -->
     <script src="js/InfoGrappo.js"></script>
+    </div>
   </body>
 </html>

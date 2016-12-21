@@ -30,7 +30,7 @@
     <script type="text/javascript" src="dist/vis.js"></script>
     <link href="dist/vis.css" rel="stylesheet" type="text/css" />
   </head>
-  <body ng-controller="HomeCtrl">
+  <body ng-controller="GrappiCtrl">
     <div ng-include="'navbar.html'"></div>
     <div class="row" ng-controller="ModalDemoCtrl as $ctrl">
         <div class="col-md-2 col-lg-2">
@@ -42,7 +42,37 @@
             </ul>
         </div>
         <div class="col-md-9 col-lg-9" ng-show="show">
-            <div id="mynetwork"></div>    
+            <div id="mynetwork"></div>
+            <div id="relation" class="col-md-5" style="display: none; color:white">
+                <h4>{{relation.name}}</h4>
+                <div id="topics" ng-repeat="type in relation.types">
+                    <div id="topic" class="row">
+                        <div class="col-md-1">
+                            <ul class="rating">
+                                <li>
+                                    <a href=><i class="fa fa-thumbs-up" style="color:white"></i></a>
+                                </li>
+                                <li>
+                                    <!--add {{type.vote}}-->
+                                    <span style="color:white">5</span>
+                                </li>
+                                <li>
+                                    <a href=><i class="fa fa-thumbs-down" style="color:white"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-11" style="color:white">
+                            <span id="comment">{{type.type}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- see more -->
+                <div class="col-md-11">
+                    <a ng-click="getMoreRelations(fromTopic.entityId, toTopic.entityId)" title="Header" style="color:blue; text-decoration: underline data-toggle="popover" data-placement="top" data-content="Relations"> See More Relationships </a>
+                </div>
+
+            </div>
         </div>
         <div class="col-md-9 col-lg-9" ng-show="!show">
             <h1>Search</h1>
@@ -104,6 +134,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-touch.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
     <!-- Our own js file -->

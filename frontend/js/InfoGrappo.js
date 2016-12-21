@@ -220,6 +220,10 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
 
   $ctrl.animationsEnabled = true;
 
+  $ctrl.followTopic = function () {
+    var topicId = $window.localStorage.getItem("topic");
+  };
+
   $ctrl.openCreateTopic = function (size, parentSelector) {
     var parentElem = parentSelector ? 
       angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
@@ -1013,6 +1017,24 @@ angular.module("InfoGrappoWeb").factory("Timeline", function($http, $q, $window,
         deferred.resolve(response.data);
       }, function (error) {
         deferred.reject("Error occurred when getting comments of followed users");
+      });
+      return deferred.promise;
+    }
+  }
+});
+angular.module("InfoGrappoWeb").factory("Follow", function($http, $q, $window, $rootScope) {
+  return {
+    // Get posts from followed topics
+    followTopic: function () {
+      var deferred = $q.defer();
+      var userId = $window.localStorage.getItem("user");
+      $http({
+        method: 'GET',
+        url: appData.baseUrl + 'follow/' + userId + '/postOfTopics'
+      }).then(function (response) {
+        deferred.resolve(response.data);
+      }, function (error) {
+        deferred.reject("Error occurred when getting posts of followed topics");
       });
       return deferred.promise;
     }
