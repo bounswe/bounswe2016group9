@@ -139,3 +139,40 @@
                         <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
                     </div>
                 </script>
+                <script type="text/ng-template" id="followTopicOk.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Follow Topic</h3>
+                    </div>
+                    <div class="modal-body" style="height: 50px">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <form>
+                                    <div class="form-group">
+                                        <label>Topic is followed.</label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info" type="button" ng-click="$ctrl.cancel()">OK</button>
+                    </div>
+                </script>
+                <script type="text/ng-template" id="followTopicError.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Follow Topic</h3>
+                    </div>
+                    <div class="modal-body" style="height: 80px">
+                        <div class="col-md-12">
+                            <form>
+                                <div class="form-group">
+                                    <label>Error occurred on following this topic!</label></br>
+                                    <label>Reason: This topic is already followed.</label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info" type="button" ng-click="$ctrl.cancel()">OK</button>
+                    </div>
+                </script>

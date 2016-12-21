@@ -222,7 +222,12 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
 
   $ctrl.followTopic = function () {
     var topicId = $window.localStorage.getItem("topic");
-    Follow.followTopic(topicId);
+    Follow.followTopic(topicId).then(function () {
+      $ctrl.openFollowOk();
+    }, function () {
+      $log.info('Error on following topic  ' + new Date());
+      $ctrl.openFollowTopicError();
+    });
   };
 
   $ctrl.openCreateTopic = function (size, parentSelector) {
@@ -366,6 +371,58 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
       controller: 'ModalInstanceCtrl',
       controllerAs: '$ctrl',
       size: "lg",
+      appendTo: parentElem,
+      resolve: {
+        items: function () {
+          return $ctrl.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (result) {
+      console.log(result);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
+  $ctrl.openFollowOk = function (size, parentSelector) {
+    var parentElem = parentSelector ?
+        angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+    var modalInstance = $uibModal.open({
+      animation: $ctrl.animationsEnabled,
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      templateUrl: 'followTopicOk.html',
+      controller: 'ModalInstanceCtrl',
+      controllerAs: '$ctrl',
+      size: size,
+      appendTo: parentElem,
+      resolve: {
+        items: function () {
+          return $ctrl.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (result) {
+      console.log(result);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
+  $ctrl.openFollowTopicError = function (size, parentSelector) {
+    var parentElem = parentSelector ?
+        angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+    var modalInstance = $uibModal.open({
+      animation: $ctrl.animationsEnabled,
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      templateUrl: 'followTopicError.html',
+      controller: 'ModalInstanceCtrl',
+      controllerAs: '$ctrl',
+      size: size,
       appendTo: parentElem,
       resolve: {
         items: function () {
@@ -1026,13 +1083,17 @@ angular.module("InfoGrappoWeb").factory("Timeline", function($http, $q, $window,
 angular.module("InfoGrappoWeb").factory("Follow", function($http, $q, $window, $rootScope) {
     return {
       followTopic: function (topicId) {
-          var userId = $window.localStorage.getItem("user");
-          var parameter = {topicId: topicId , userId: userId};
-          $http.post(appData.baseUrl+"users/follow-topic", parameter).success(function (data, status, headers, config) {
-              console.log(data);
-          }).error(function (data, status, headers, config) {
-              console.log("Error on following topic with id " + topicId);
-          });
+        var deferred = $q.defer();
+        var userId = $window.localStorage.getItem("user");
+        var parameter = {topicId: topicId , userId: userId};
+        $http.post(appData.baseUrl+"users/follow-topic", parameter).success(function (data, status, headers, config) {
+          console.log(data);
+          deferred.resolve();
+        }).error(function (data, status, headers, config) {
+          console.log("Error on following topic with id " + topicId)
+          deferred.reject();
+        });
+        return deferred.promise;
       },
       followUser: function (followingId) {
         var userId = $window.localStorage.getItem("user");
