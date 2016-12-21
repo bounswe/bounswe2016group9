@@ -30,4 +30,14 @@ public class FollowTopicDAOImpl extends BaseDAOImpl<FollowTopic> implements Foll
                 .setParameter("id", topicID)
                 .list();
     }
+
+    @Override
+    public boolean checkIfFollowTopicExistsByIds(long userID, long topicID) {
+        return this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT rel.* FROM follow_topic rel WHERE (rel.follower_id = :userID) AND (rel.topic_id = :topicID)")
+                .addEntity(FollowTopic.class)
+                .setParameter("userID", userID)
+                .setParameter("topicID", topicID)
+                .uniqueResult() != null;
+    }
 }

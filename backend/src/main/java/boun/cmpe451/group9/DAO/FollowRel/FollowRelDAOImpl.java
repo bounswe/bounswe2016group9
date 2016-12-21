@@ -26,4 +26,14 @@ public class FollowRelDAOImpl extends BaseDAOImpl<FollowRel> implements FollowRe
                 .setParameter("id", userId)
                 .list();
     }
+
+    @Override
+    public boolean checkIfFollowRelExistsByIds(long followerID,long followingID) {
+        return this.getSessionFactory().getCurrentSession()
+                .createSQLQuery("SELECT rel.* FROM follow_rel rel WHERE (rel.following_id = :followingID) AND (rel.follower_id= :followerID)")
+                .addEntity(FollowRel.class)
+                .setParameter("followingID", followingID)
+                .setParameter("followerID", followerID)
+                .uniqueResult() != null;
+    }
 }
