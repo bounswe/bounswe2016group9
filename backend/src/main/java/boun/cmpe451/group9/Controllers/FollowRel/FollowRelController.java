@@ -34,6 +34,11 @@ public class FollowRelController {
     }
 
 
+    /**
+     * Adds follower relation between two users
+     * @param request follower request sent by user
+     * @return response for the request
+     */
     @PostMapping("/follow_user")
     public ResponseEntity<FollowRel> addFollowRel(@RequestBody FollowUserRequest request){
         if(!followRelService.checkIfFollowRelExistsByIds(request.getFollowerId(), request.getFollowingId())){
@@ -87,7 +92,7 @@ public class FollowRelController {
         }
     }
 
-    public static FollowRel addLinksToFollowRel(FollowRel followRel){
+    private static FollowRel addLinksToFollowRel(FollowRel followRel){
         followRel.add(linkTo(FollowRelController.class).slash(followRel.getEntityId()).withSelfRel());
         return followRel;
     }

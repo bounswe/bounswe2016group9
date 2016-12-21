@@ -93,6 +93,10 @@ public class TagController {
         }
     }
 
+    /**
+     * Retrieves all tags
+     * @return all tags available
+     */
     @GetMapping
     public ResponseEntity<List<Tag>> getAllTags(){
         List<Tag> tags = tagService.findAll();
@@ -106,6 +110,11 @@ public class TagController {
         }
     }
 
+    /**
+     * Adds HATEOAS links to Tag entity
+     * @param tag entity that links are added
+     * @return entity with links
+     */
     public static Tag addLinksToTag(Tag tag){
         tag.add(linkTo(TagController.class).slash(tag.getEntityId()).withSelfRel());
         return tag;

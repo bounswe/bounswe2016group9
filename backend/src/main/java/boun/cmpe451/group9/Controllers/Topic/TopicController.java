@@ -423,6 +423,11 @@ public class TopicController {
         }
     }
 
+    /**
+     * Adds HATEOAS links to Topic entity
+     * @param topic entity that links are added
+     * @return entity with links
+     */
     public static Topic addLinkToTopic(Topic topic){
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel());
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("tags").withRel("tags"));

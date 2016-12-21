@@ -157,6 +157,11 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Adds HATEOAS links to Post entity
+     * @param post entity that links are added
+     * @return entity with links
+     */
     public static Post addLinksToPost(Post post){
         post.add(linkTo(PostController.class).slash(post.getEntityId()).withSelfRel());
         post.add(linkTo(PostController.class).slash("tags").withRel("tags"));
