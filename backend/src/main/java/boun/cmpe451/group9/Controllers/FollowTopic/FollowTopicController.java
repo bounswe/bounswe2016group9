@@ -62,7 +62,7 @@ public class FollowTopicController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
-    
+
     public static FollowTopic addLinksToFollowTopic(FollowTopic followTopic){
         followTopic.add(linkTo(FollowTopicController.class).slash(followTopic.getEntityId()).withSelfRel());
         return followTopic;
