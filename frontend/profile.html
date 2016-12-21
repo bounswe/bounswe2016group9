@@ -80,16 +80,18 @@
 
                     </div>
                 </div>
-                <div class="col-md-9" ng-show="!show">
+                <div class="col-md-9" ng-show="!show" ng-controller="ProfileCtrl">
                     <h1 style="text-align: center;">Profile</h1>
                     <div class="row">
                         <div class="col-md-2 col-sm-3 col-xs-6 col-xs-offset-3 col-sm-offset-0 col-md-offset-0 text-center">
                             <img class="img-circle img-responsive" src="http://www.freeiconspng.com/uploads/person-icon-blue-18.png"/>
                             <button class="btn btn-primary">Change Picture</button>
                         </div>
-                        <div class="col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-md-9 col-sm-8 col-xs-11 text-center">
-                            <p>Çomar Ali</p>
-                            <p>18, Male, Adana/Turkey</p>
+                        <div class="col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-md-9 col-sm-8 col-xs-11 text-left">
+                            <p><b>Name:</b>{{profile.data.userName}}</p>
+                            <p><b>Age:</b> {{profile.data.age}}</p>
+                            <p><b>Gender:</b> {{profile.data.gender}}</p>
+                            <p><b>Location:</b> {{profile.data.location}}</p>
                             <p>123 Following, 36 Followers</p>
                             <button class="btn btn-primary" ng-click="$ctrl.openProfileSettings()">Edit Profile</button>
                         </div>
@@ -133,5 +135,6 @@
         <script src="js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
         <!-- Our own js file -->
         <script src="js/InfoGrappo.js"></script>
+        <script src="js/ProfileCtrl.js"></script>
     </body>
 </html>
