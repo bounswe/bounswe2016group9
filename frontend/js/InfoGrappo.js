@@ -13,6 +13,14 @@ angular.module('InfoGrappoWeb').controller('GrappiCtrl', function ($scope, Topic
       $window.localStorage.setItem("topic",toTopicID);
       console.log($window.localStorage.getItem("topic"));
   };
+
+  $scope.search = function () {
+    var x = $scope.searchInput;
+    $window.localStorage.setItem("searchText", x);
+    console.log("Search: " + x);
+    $window.location= "search.html";
+  };
+
   Topics.all().then(function(response){
         $scope.topics = response;
         console.log($scope.topics.data);
@@ -159,6 +167,7 @@ angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics, 
       return response;
     });
   };
+
 });
 angular.module('InfoGrappoWeb').controller('TopicGraphCtrl', function($scope, Topics){
   $scope.sendTopic = function(toTopicID){
@@ -486,6 +495,13 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
     $uibModalInstance.close("result");
   };
 
+  // get created topics
+  $ctrl.getTopics = function(keyword){
+    return Autocomplete.topics(keyword).then(function(response){
+      return response;
+    });
+  };
+
   // get relation types
   $ctrl.getRelations = function(keyword){
     return Autocomplete.relation(keyword).then(function(response){
@@ -566,33 +582,6 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
     $uibModalInstance.dismiss('cancel');
   };
 });
-angular.module('InfoGrappoWeb').controller('autoCompleteController', function($scope, $http) {
-  $scope.Customer =[
-    {CustomerID:1,CustomerCode:'C001',CustomerName:'John Papa', City:'RedMond' },
-    {CustomerID:7,CustomerCode:'C002',CustomerName:'Scott Hansleman', City:'Texas'},
-    {CustomerID:8,CustomerCode:'C003',CustomerName:'Scott Gu', City:'Dallas'},
-    {CustomerID:2,CustomerCode:'C004',CustomerName:'Mad Kristien', City:'Albany'}
-  ];
-  $scope.selected = $scope.Customer[1];
-
-  $scope.onSelect = function ($item, $model, $label) {
-    $scope.$item = $item;
-    $scope.$model = $model;
-    $scope.$label = $label;
-  };
-
-  $scope.formatInput = function($model) {
-    var inputLabel = '';
-    angular.forEach($scope. Customer, function(Customer)
-    {
-      if ($model === Customer.id)
-      {
-        inputLabel = Customer.CustomerID + "-" + Customer.CustomerName;
-      }
-    });
-    return inputLabel;
-  }
-});
 // Controller for navbar.html
 angular.module('InfoGrappoWeb').controller('NavbarCtrl', function($scope, $rootScope, $window, User){
   $scope.auth = false;
@@ -610,7 +599,7 @@ angular.module('InfoGrappoWeb').controller('NavbarCtrl', function($scope, $rootS
     $window.location.reload();
   }
 });
-angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log) {
+angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log, $window) {
 
     $scope.dataset = [
         'Apple',
@@ -623,11 +612,6 @@ angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log)
         'InfoGrappo',
         'Boğaziçi University'
     ];
-
-    $scope.search = function () {
-        var x = $scope.searchText;
-        console.log("Search: " + x);
-    };
 
     $scope.get = function (searchText) {
         // TODO
@@ -1169,11 +1153,7 @@ angular.module("InfoGrappoWeb").factory("Autocomplete", function($http, $q, $win
       var deferred = $q.defer();
       $http({
         method :  "GET",
-        //aşağıdaki url den gelen datadaki results boş geliyor. Aktifleşince bu url i aç.
         url : appData.baseUrl + 'topics/semantic?topic=' + topic
-
-        //aşağıdaki url den dönen test datası juno(movie) falan diye dönüyo 
-        //url: appData.baseUrl + 'topics/test'
       }).then(function(response){
         var labelValues = [];
         for(var i=0; i<response.data.results.bindings.length; i++){

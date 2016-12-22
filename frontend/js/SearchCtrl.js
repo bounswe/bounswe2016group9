@@ -1,35 +1,13 @@
 /**
  * Created by serpilkuzu on 17.12.2016.
  */
-angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log, $window) {
-
-    $scope.dataset = [
-        'Apple',
-        'Banana',
-        'Pink',
-        'Donald Trump',
-        'Hillary Clinton',
-        'USA Elections',
-        'Walter White',
-        'InfoGrappo',
-        'Boğaziçi University'
-    ];
-    $scope.result1 = [
-        'Apple',
-        'Banana',
-        'Pink',
-        'Donald Trump',
-        'Hillary Clinton',
-        'USA Elections',
-        'Walter White',
-        'InfoGrappo',
-        'Boğaziçi University'
-    ];
+angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log) {
 
     $scope.search = function () {
-        var x = $scope.searchText;
-        $window.localStorage.setItem("searchText")
+        var x = $scope.searchInput;
+        $window.localStorage.setItem("searchText", x);
         console.log("Search: " + x);
+        $window.location = "index.html";
     };
 
     $scope.get = function (searchText) {
