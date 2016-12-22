@@ -10,4 +10,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cmpe451.group9.infograppo.activities.TopicActivity">
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/list_post"/>
+
 </RelativeLayout>

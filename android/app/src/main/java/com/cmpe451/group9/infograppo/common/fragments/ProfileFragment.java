@@ -122,7 +122,7 @@ public class ProfileFragment extends Fragment {
         final TextView userInfo = (TextView) getActivity().findViewById(R.id.text_profile_userinfo);
         final TextView userFollow = (TextView) getActivity().findViewById(R.id.text_profile_userfollow);
 
-        String baseURL = NavigationDrawerActivity.baseURL + "/users/2";
+        String baseURL = NavigationDrawerActivity.baseURL + "users/2";
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, baseURL, null, new Response.Listener<JSONObject>() {
