@@ -552,12 +552,7 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
     console.log($scope.postContent);
     console.log($scope.postTags);
 
-    var userId=$window.localStorage.getItem("user");
-    User.get(userId).then(function (response) {
-      $scope.user = response;
-    }, function () {
-      console.$log= "Error occurred when getting user information";
-    });
+    var userId = $window.localStorage.getItem("user");
     var topicId = $window.localStorage.getItem("topic");
     var requestParams = {
       content: $scope.postContent,
@@ -565,7 +560,7 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
         entityId: topicId
       },
       createdUser: {
-        entityId: $scope.user.entityId
+        entityId: userId
       }
     };
     Posts.add(requestParams);
@@ -669,12 +664,14 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
       $scope.posts[i].comments = res; 
     });
   }
-  var topicId = $window.localStorage.getItem("topic");
-  Topics.getPosts(topicId).then(function(data){
-    $scope.posts = data;
-    for(var i=0; i<$scope.posts.length; i++){
-      getComments($scope.posts[i].entityId, i);
-    }
+  Topics.get($window.localStorage.getItem("topic")).then(function(response){
+    $scope.topic = response.data;
+    Topics.getPosts($scope.topic.entityId).then(function(data){
+      $scope.posts = data;
+      for(var i=0; i<$scope.posts.length; i++){
+        getComments($scope.posts[i].entityId, i);
+      }
+    });
   });
   
   var relations = [];
@@ -708,7 +705,6 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
     Topics.get(topicID).then(function(response){
       $scope.topic = response.data;
       $scope.posts = [];
-      $window.localStorage.setItem("topic", topicID);
       Topics.getPosts($scope.topic.entityId).then(function(data){
         $scope.posts = data;
         for(var i=0; i<$scope.posts.length; i++){
@@ -836,7 +832,7 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', '$window', fun
       }).then(function successCallback(data){
         deferred.resolve(data.data);
       }, function errorCallback(data){
-        deferred.reject("Error occurred when getting posts");
+        deferred.reject("not posts");
       });
       return deferred.promise;
     }
@@ -1164,8 +1160,8 @@ angular.module("InfoGrappoWeb").factory("Follow", function($http, $q, $window, $
         $http.post(appData.baseUrl+"users/follow-topic", parameter).success(function (data, status, headers, config) {
           console.log(data);
           deferred.resolve();
-        }).error(function () {
-          console.log("Error on following topic with id " + topicId);
+        }).error(function (data, status, headers, config) {
+          console.log("Error on following topic with id " + topicId)
           deferred.reject();
         });
         return deferred.promise;
@@ -1181,7 +1177,7 @@ angular.module("InfoGrappoWeb").factory("Follow", function($http, $q, $window, $
       }
     }
 });
-// Autcomplete requests are handled
+//changes
 angular.module("InfoGrappoWeb").factory("Autocomplete", function($http, $q, $window) {
   return {
     topics: function (word) {
@@ -1236,3 +1232,4 @@ angular.module("InfoGrappoWeb").factory("Autocomplete", function($http, $q, $win
     } 
   }
 });
+//changes end
