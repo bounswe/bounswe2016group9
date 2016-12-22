@@ -5,6 +5,7 @@ import com.cmpe451.group9.infograppo.R;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 
 import android.content.Intent;
@@ -13,6 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import butterknife.ButterKnife;
 import butterknife.Bind;
@@ -72,7 +77,19 @@ public class LoginActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own authentication logic here.
+        String url ="http://52.67.44.90:8080/";
+
+
+        HttpURLConnection connection = null;
+        try {
+            connection = (HttpURLConnection) new URL(url).openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final String basicAuth = "Basic " + Base64.encodeToString((email + ":" + password).getBytes(), Base64.NO_WRAP);
+        assert connection != null;
+        connection.setRequestProperty ("Authorization", basicAuth);
+
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -101,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // Disable going back to the MainActivity
-        moveTaskToBack(true);
+//        moveTaskToBack(true);
     }
 
     public void onLoginSuccess() {
@@ -128,8 +145,8 @@ public class LoginActivity extends AppCompatActivity {
             _emailText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+        if (password.isEmpty() || password.length() < 3 || password.length() > 100) {
+            _passwordText.setError("between 4 and 32 alphanumeric characters");
             valid = false;
         } else {
             _passwordText.setError(null);

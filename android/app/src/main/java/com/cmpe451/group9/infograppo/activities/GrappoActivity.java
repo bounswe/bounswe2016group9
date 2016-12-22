@@ -51,11 +51,71 @@ public class GrappoActivity extends AppCompatActivity {
         relatedTopics = new ArrayList<>();
         topicsWithRelations = new LinkedHashMap<>();
         setGroupIndicatorToRight();
-        //for relations From, not To
-        final String url = baseURL + "topics/" + topicId + "/relationsFrom";
+
+        final String urlRelationsFrom = baseURL + "topics/" + topicId + "/relationsFrom";
 
         MySingleton.getInstance(this).addToRequestQueue(new JsonArrayRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                (Request.Method.GET, urlRelationsFrom, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        Relation tmp;
+                        ArrayList<String> allTops= new ArrayList<>();
+                        Map<String, List<String>> topicWithRelations= new LinkedHashMap<>();
+                        JSONObject obj = new JSONObject();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                obj = response.getJSONObject(i);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            tmp = new Gson().fromJson(String.valueOf(obj), Relation.class);
+                            String relatedTopicName="";//related topic name
+                            try {
+                                relatedTopicName= tmp.getToTopic().getName();//topic name "To" relations
+                            }catch (Exception e){}
+                            List<String> content= new ArrayList<>();//all relations content related to this topic
+                            try {
+                                if(topicWithRelations.containsKey(relatedTopicName)) {
+                                    content= topicWithRelations.get(relatedTopicName);
+                                    content.add(tmp.getRelationType().getType());
+                                }else {
+                                    content.add(tmp.getRelationType().getType());
+                                    allTops.add(relatedTopicName);
+                                }
+                            }catch(Exception e){}
+                            topicWithRelations.put(relatedTopicName, content);
+                        }
+                        final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(
+                                grappoActivity, allTops, topicWithRelations);
+
+
+                        expListView.setAdapter(expListAdapter);
+
+
+                        expListView.setOnChildClickListener(new OnChildClickListener() {
+
+                            public boolean onChildClick(ExpandableListView parent, View v,
+                                                        int groupPosition, int childPosition, long id) {
+                                String selected = (String) expListAdapter.getChild(
+                                        groupPosition, childPosition);
+                                Toast.makeText(getBaseContext(), selected, Toast.LENGTH_LONG)
+                                        .show();
+
+                                return true;
+                            }
+                        });
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {}
+                }));
+
+        final String urlRelationsTo = baseURL + "topics/" + topicId + "/relationsTo";
+
+        MySingleton.getInstance(this).addToRequestQueue(new JsonArrayRequest
+                (Request.Method.GET, urlRelationsTo, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
 
@@ -96,7 +156,7 @@ public class GrappoActivity extends AppCompatActivity {
 
                             public boolean onChildClick(ExpandableListView parent, View v,
                                                         int groupPosition, int childPosition, long id) {
-                                final String selected = (String) expListAdapter.getChild(
+                                String selected = (String) expListAdapter.getChild(
                                         groupPosition, childPosition);
                                 Toast.makeText(getBaseContext(), selected, Toast.LENGTH_LONG)
                                         .show();

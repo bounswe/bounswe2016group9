@@ -19,7 +19,7 @@
             android:text="@string/topicclicked"
             android:textColor="@color/half_black"
             android:background="@color/white"
-            android:gravity="fill_vertical"
+            android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/button_clicked_topic"
