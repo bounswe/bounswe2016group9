@@ -14,6 +14,9 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.Bind;
 
+/**
+ * The SignupActivity program implements the sign-up functionality of InfoGrappo
+ */
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 

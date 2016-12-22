@@ -84,6 +84,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * ChangePicture method in Profile section
+     * enables a user to change his/her profile picture
+     * @param view the image that will be uploaded to the user's profile
+     */
     public void changePicture(View view) {
         ImageView iw= (ImageView) findViewById(R.id.image_profile);
         iw.setImageResource(R.drawable.menaf);
