@@ -448,7 +448,7 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
 // It is not the same as the $uibModal service used above.
 
-angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope, $http , User, $window, Autocomplete) {
+angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope, $http , User, $window, Autocomplete, Relations) {
   var $ctrl = this;
   $ctrl.items = items;
   $ctrl.selected = $scope.topicName;
@@ -491,12 +491,27 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
     console.log($scope.fromTopic);
     console.log($scope.toTopic);
     console.log($scope.relationName);
-    var result = {
+    var userId=$window.localStorage.getItem("user");
+    User.get(userId).then(function (response) {
+      $scope.user = response;
+    }, function () {
+      console.$log= "Error occurred when getting user information";
+    });
+    var requestParams = {
       fromTopic:$scope.fromTopic,
       toTopic:$scope.toTopic,
-      relationName:$scope.relationName
+      relationType: {
+        type: $scope.relationType.type
+      },
+      createdUser: {
+        username: $scope.user.username,
+        enabled: $scope.user.enabled,
+        email: $scope.user.email
+      },
+      voteCount : 1
     };
-    $uibModalInstance.close(result);
+    Relations.add(requestParams);
+    $uibModalInstance.close();
   };
   //changes end
 
@@ -883,14 +898,26 @@ angular.module('InfoGrappoWeb').factory('Comments', function(){
   };
 });
 
-angular.module('InfoGrappoWeb').factory('Relations', ['$http', '$q', function($http, $q) {
+angular.module('InfoGrappoWeb').factory('Relations', ['$http', '$q', function($http, $q, $window) {
   // Might use a resource here that returns a JSON array
   var toTopic = 1;
   return {
+    add: function (params) {
+      var deferred = $q.defer();
+      var parameter = params;
+      $http.post(appData.baseUrl+"relations", parameter).success(function (data, status, headers, config) {
+        console.log(data);
+        deferred.resolve();
+      }).error(function (data, status, headers, config) {
+        console.log("Error occurred when adding relation " + params);
+        deferred.reject();
+      });
+      return deferred.promise;
+    },
     all: function() {
       return $http({
         method: 'GET',
-        url: appData.baseUrl + "topics"
+        url: appData.baseUrl + "relations"
       }).then(function successCallback(data) {
         console.log(data);
         return data;
@@ -904,9 +931,6 @@ angular.module('InfoGrappoWeb').factory('Relations', ['$http', '$q', function($h
     },
     sendTopic:function(toTopic2) {
       toTopic = toTopic2;
-    },
-    getTopic:function(){
-      return toTopic;
     },
     get: function(topicID) {
       return $http({

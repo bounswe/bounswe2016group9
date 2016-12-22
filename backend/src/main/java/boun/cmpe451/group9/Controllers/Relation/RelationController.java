@@ -59,7 +59,6 @@ public class RelationController {
     public ResponseEntity<Relation> addRelation(@RequestBody Relation relation){
         if(!relationService.checkIfRelationExistsByTopicIds(relation.getFromTopic().getEntityId(), relation.getToTopic().getEntityId())){
             relationService.save(relation);
-
             relation = addLinksToRelation(relation);
 
             return new ResponseEntity<>(relation, HttpStatus.CREATED);
