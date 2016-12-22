@@ -13,5 +13,11 @@ public interface SemanticTagDAO extends BaseDAO<SemanticTag>{
      */
     SemanticTag getSTagByName(String name);
 
+
+    /**
+     * Checks if a semantic tag exists in table
+     * @param name name of the topic
+     * @return TRUE if exists, FALSE if not
+     */
     boolean checkExistenceByName(String name);
 }

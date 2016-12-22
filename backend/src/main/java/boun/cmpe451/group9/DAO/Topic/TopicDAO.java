@@ -48,6 +48,10 @@ public interface TopicDAO extends BaseDAO<Topic> {
      * @return List of topics
      */
     List<Topic> getTopicsByUserIdForTimeline(List<Long> userIdList);
-
+    /**
+     * Retrieves the list of row with the given keywords using regex from the table "TOPIC"
+     * @param keyword the keyword of the query
+     * @return List of Relation Types
+     */
     List<Topic> autoComp(String keyword);
 }
