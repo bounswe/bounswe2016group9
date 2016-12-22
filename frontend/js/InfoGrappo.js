@@ -14,11 +14,15 @@ angular.module('InfoGrappoWeb').controller('GrappiCtrl', function ($scope, Topic
       console.log($window.localStorage.getItem("topic"));
   };
 
-  $scope.search = function () {
-    var x = $scope.searchInput;
-    $window.localStorage.setItem("searchText", x);
-    console.log("Search: " + x);
-    $window.location= "search.html";
+  $scope.search = function (searchInput) {
+    if (searchInput.entityId != undefined) {
+      $window.localStorage.setItem("topic", searchInput.entityId);
+      $window.location = "topic.html";
+    } else {
+      $window.localStorage.setItem("searchText", searchInput);
+      console.log("Search: " + searchInput);
+      $window.location = "search.html";
+    }
   };
 
   Topics.all().then(function(response){
@@ -520,17 +524,18 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
       console.$log= "Error occurred when getting user information";
     });
     var requestParams = {
-      fromTopic:$scope.fromTopic,
-      toTopic:$scope.toTopic,
-      relationType: {
-        type: $scope.relationType.type
+      "fromTopic": {
+        "entityId" : $scope.fromTopic.entityId
       },
-      createdUser: {
-        username: $scope.user.username,
-        enabled: $scope.user.enabled,
-        email: $scope.user.email
+      "toTopic": {
+        entityId: $scope.toTopic.entityId
       },
-      voteCount : 1
+      "relationType": {
+        entityId: $scope.relationType.entityId
+      },
+      "createdUser": {
+        entityId: $scope.user.entityId
+      }
     };
     Relations.add(requestParams);
     $uibModalInstance.close();

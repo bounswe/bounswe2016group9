@@ -14,7 +14,7 @@
                 <form class="navbar-form searchForm" method="get" ng-controller="SearchCtrl">
                     <div class="form-group" ng-controller="HomeCtrl">
                         <input autocomplete="off" type="text" id="tfq" name="q" class="form-control search-elements" size="21" maxlength="120" placeholder="Search our website" ng-model="searchInput" uib-typeahead="topic as topic.name for topic in getTopics(searchInput)" typeahead-loading="loadingSearch">
-                        <button type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search()">Search</button>
+                        <button type="submit" class="btn btn-default btn-warning searchBtn" ng-click="search(searchInput)">Search</button>
                     </div>
                 </form>
             </li>
