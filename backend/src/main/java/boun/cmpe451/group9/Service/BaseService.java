@@ -4,6 +4,10 @@ import boun.cmpe451.group9.Models.Base;
 
 import java.util.List;
 
+/**
+ * Base service that is common for all entities
+ * @param <T> class of the entity
+ */
 public interface BaseService<T extends Base> {
 
     /**
@@ -14,7 +18,7 @@ public interface BaseService<T extends Base> {
 
     /**
      * Retrieves object T with id "id"
-     * @param id
+     * @param id id of the object T
      * @return object T with id "id"
      */
     T getById(long id);

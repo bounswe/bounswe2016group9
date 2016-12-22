@@ -432,8 +432,8 @@ public class TopicController {
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).withSelfRel());
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("tags").withRel("tags"));
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("semanticTags").withRel("semanticTags"));
-        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("fromTopics").withRel("relationsFromTopics"));
-        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("toTopics").withRel("relationsToTopics"));
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("relationsFrom").withRel("relationsFromTopics"));
+        topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("relationsTo").withRel("relationsToTopics"));
         topic.add(linkTo(TopicController.class).slash(topic.getEntityId()).slash("posts").withRel("posts"));
         topic.add(linkTo(SearchController.class).withRel("search"));
         topic.add(linkTo(AutoCompleteController.class).withRel("autoComplete"));
