@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Created by narya on 12/19/16.
  */
+@SuppressWarnings("ALL")
 public class SPARQLRelationTypeResponse {
     private Head head;
     private Results results;

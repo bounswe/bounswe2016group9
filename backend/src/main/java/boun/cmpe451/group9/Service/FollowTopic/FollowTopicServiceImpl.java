@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Created by seha on 10.12.2016.
  */
+@SuppressWarnings("DefaultFileTemplate")
 @Service
 @Transactional(readOnly = true)
 public class FollowTopicServiceImpl extends BaseServiceImpl<FollowTopic> implements FollowTopicService {

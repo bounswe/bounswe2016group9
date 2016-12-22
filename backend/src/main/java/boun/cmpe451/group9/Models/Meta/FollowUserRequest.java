@@ -3,8 +3,7 @@ package boun.cmpe451.group9.Models.Meta;
 /**
  * Created by narya on 12/21/16.
  */
-
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "DefaultFileTemplate"})
 public class FollowUserRequest {
     private Integer followerId;
     private Integer followingId;

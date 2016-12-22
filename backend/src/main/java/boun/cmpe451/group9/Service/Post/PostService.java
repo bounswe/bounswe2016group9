@@ -5,7 +5,10 @@ import boun.cmpe451.group9.Service.BaseService;
 
 import java.util.List;
 
-
+/**
+ * Service methods for resource Post
+ */
+@SuppressWarnings("unused")
 public interface PostService extends BaseService<Post>{
     /**
      * Retrieves all the posts created by the user "id"
