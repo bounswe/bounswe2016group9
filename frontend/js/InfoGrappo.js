@@ -146,12 +146,19 @@ angular.module('InfoGrappoWeb').controller('GrappiCtrl', function ($scope, Topic
         }
       });
 });
-angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics, $window, $document, User){
+angular.module('InfoGrappoWeb').controller('HomeCtrl', function($scope, Topics, $window, $document, User, Autocomplete){
   if($window.localStorage.getItem('user') != undefined){
     $scope.showHome = true;
   } else {
     $scope.showHome = false;
   }
+
+  // get created topics
+  $scope.getTopics = function(keyword){
+    return Autocomplete.topics(keyword).then(function(response){
+      return response;
+    });
+  };
 });
 angular.module('InfoGrappoWeb').controller('TopicGraphCtrl', function($scope, Topics){
   $scope.sendTopic = function(toTopicID){
@@ -477,13 +484,6 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
         console.log("olmadı be !!!");
     });
     $uibModalInstance.close("result");
-  };
-
-  // get created topics
-  $ctrl.getTopics = function(keyword){
-    return Autocomplete.topics(keyword).then(function(response){
-      return response;
-    });
   };
 
   // get relation types

@@ -1,7 +1,7 @@
 /**
  * Created by serpilkuzu on 17.12.2016.
  */
-angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log) {
+angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log, $window) {
 
     $scope.dataset = [
         'Apple',
@@ -28,6 +28,7 @@ angular.module('InfoGrappoWeb').controller('SearchCtrl', function ($scope, $log)
 
     $scope.search = function () {
         var x = $scope.searchText;
+        $window.localStorage.setItem("searchText")
         console.log("Search: " + x);
     };
 
