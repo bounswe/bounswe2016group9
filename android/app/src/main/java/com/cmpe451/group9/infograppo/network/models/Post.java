@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by menaf on 16/11/16.
  */
 
-public class Post {
+public class Post extends BaseModel{
 
     @SerializedName("content")
     private String content;

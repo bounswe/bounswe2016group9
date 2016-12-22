@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by menaf on 16/11/16.
  */
 
-public class User {
+public class User extends BaseModel{
 
     @SerializedName("username")
     private String username;
@@ -26,8 +26,11 @@ public class User {
     @SerializedName("email")
     private String email;
 
-    @SerializedName("entity_id")
-    private int entityId;
+    @SerializedName("enabled")
+    private boolean enabled = true;
+
+    @SerializedName("image_url")
+    private String image_url;
 
     public String getUsername() {
         return username;
@@ -77,12 +80,19 @@ public class User {
         this.email = email;
     }
 
-    public int getEntityId() {
-        return entityId;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setEntityId(int entityId) {
-        this.entityId = entityId;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
 }
