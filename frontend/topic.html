@@ -152,7 +152,7 @@
                     </div>
                     <!--  Add Comment Button  -->
                     <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-primary" ng-click="$ctrl.openCreateComment()">Add Comment</button>
+                        <button type="button" class="btn btn-primary" ng-click="$ctrl.createComment(post)">Add Comment</button>
                     </div>
                 </div>
             </div>
@@ -162,7 +162,7 @@
                         <h3>Related Topics</h3>
                         <ul>
                             <li ng-repeat="relation in relations" ng-click="go(relation.entityId)">
-                                {{relation.name}}
+                                <a>{{relation.name}}</a>
                             </li>
                         </ul>
                     </div>

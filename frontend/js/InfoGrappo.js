@@ -330,6 +330,11 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
     });
   };
 
+  $ctrl.createComment = function(post){
+    $scope.postId = post.entityId;
+    $ctrl.openCreateComment();
+  };
+
   $ctrl.openCreateComment = function (size, parentSelector) {
     var parentElem = parentSelector ? 
       angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
@@ -468,7 +473,7 @@ angular.module('InfoGrappoWeb').controller('ModalDemoCtrl', function ($uibModal,
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
 // It is not the same as the $uibModal service used above.
 
-angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope, $http , User, $window, Autocomplete, Relations) {
+angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibModalInstance, items, $scope, $http , User, $window, Autocomplete, Relations, Posts, Comments) {
   var $ctrl = this;
   $ctrl.items = items;
   $ctrl.selected = $scope.topicName;
@@ -524,20 +529,21 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
       console.$log= "Error occurred when getting user information";
     });
     var requestParams = {
-      "fromTopic": {
-        "entityId" : $scope.fromTopic.entityId
+      fromTopic: {
+        entityId : $scope.fromTopic.entityId
       },
-      "toTopic": {
+      toTopic: {
         entityId: $scope.toTopic.entityId
       },
-      "relationType": {
+      relationType: {
         entityId: $scope.relationType.entityId
       },
-      "createdUser": {
+      createdUser: {
         entityId: $scope.user.entityId
       }
     };
     Relations.add(requestParams);
+    $window.location.reload();
     $uibModalInstance.close();
   };
   //changes end
@@ -545,10 +551,26 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
   $ctrl.okCreatePost = function () {
     console.log($scope.postContent);
     console.log($scope.postTags);
-    var result = {
-      postContent:$scope.postContent,
-      postTags:$scope.postTags
+
+    var userId=$window.localStorage.getItem("user");
+    User.get(userId).then(function (response) {
+      $scope.user = response;
+    }, function () {
+      console.$log= "Error occurred when getting user information";
+    });
+    var topicId = $window.localStorage.getItem("topic");
+    var requestParams = {
+      content: $scope.postContent,
+      topic: {
+        entityId: topicId
+      },
+      createdUser: {
+        entityId: $scope.user.entityId
+      }
     };
+    Posts.add(requestParams);
+    $window.location.reload();
+    $uibModalInstance.close();
     $uibModalInstance.close(result);
   };
 
@@ -557,6 +579,24 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
     var result = {
       comment:$scope.comment
     };
+    var userId=$window.localStorage.getItem("user");
+    var topicId = $window.localStorage.getItem("topic");
+    var requestParams = {
+      comment: $scope.comment,
+      topic: {
+        entityId: topicId
+      },
+      post: {
+        entityId: $scope.postId
+      },
+      createdUser : {
+        entityId: userId
+      }
+    };
+    Comments.add(requestParams);
+    $window.location.reload();
+    $uibModalInstance.close();
+    $uibModalInstance.close(result);
     $uibModalInstance.close(result);
   };
 
@@ -629,14 +669,12 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
       $scope.posts[i].comments = res; 
     });
   }
-  Topics.get($window.localStorage.getItem("topic")).then(function(response){
-    $scope.topic = response.data;
-    Topics.getPosts($scope.topic.entityId).then(function(data){ 
-      $scope.posts = data;
-      for(var i=0; i<$scope.posts.length; i++){
-        getComments($scope.posts[i].entityId, i);
-      }
-    });  
+  var topicId = $window.localStorage.getItem("topic");
+  Topics.getPosts(topicId).then(function(data){
+    $scope.posts = data;
+    for(var i=0; i<$scope.posts.length; i++){
+      getComments($scope.posts[i].entityId, i);
+    }
   });
   
   var relations = [];
@@ -670,7 +708,8 @@ angular.module('InfoGrappoWeb').controller('TopicPageCtrl',function($scope, Topi
     Topics.get(topicID).then(function(response){
       $scope.topic = response.data;
       $scope.posts = [];
-      Topics.getPosts($scope.topic.entityId).then(function(data){ 
+      $window.localStorage.setItem("topic", topicID);
+      Topics.getPosts($scope.topic.entityId).then(function(data){
         $scope.posts = data;
         for(var i=0; i<$scope.posts.length; i++){
           $scope.postForComment = $scope.posts[i];
@@ -797,7 +836,7 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', '$window', fun
       }).then(function successCallback(data){
         deferred.resolve(data.data);
       }, function errorCallback(data){
-        deferred.reject("not posts");
+        deferred.reject("Error occurred when getting posts");
       });
       return deferred.promise;
     }
@@ -830,6 +869,18 @@ angular.module('InfoGrappoWeb').factory('Posts', function($q, $http){
     all: function() {
       return posts;
     },
+    add: function (params) {
+      var deferred = $q.defer();
+      var parameter = params;
+      $http.post(appData.baseUrl+"posts", parameter).success(function (data, status, headers, config) {
+        console.log(data);
+        deferred.resolve();
+      }).error(function (data, status, headers, config) {
+        console.log("Error occurred when adding relation " + params);
+        deferred.reject();
+      });
+      return deferred.promise;
+    },
     remove: function(post) {
       posts.splice(posts.indexOf(post), 1);
     },
@@ -856,7 +907,7 @@ angular.module('InfoGrappoWeb').factory('Posts', function($q, $http){
   };
 });
 
-angular.module('InfoGrappoWeb').factory('Comments', function(){
+angular.module('InfoGrappoWeb').factory('Comments', function($q, $http){
 
   var comment = [{
     commentID:0,
@@ -878,6 +929,18 @@ angular.module('InfoGrappoWeb').factory('Comments', function(){
   return {
     all: function() {
       return comment;
+    },
+    add: function (params) {
+      var deferred = $q.defer();
+      var parameter = params;
+      $http.post(appData.baseUrl+"comments", parameter).success(function (data, status, headers, config) {
+        console.log(data);
+        deferred.resolve();
+      }).error(function (data, status, headers, config) {
+        console.log("Error occurred when adding relation " + params);
+        deferred.reject();
+      });
+      return deferred.promise;
     },
     remove: function(comment) {
       comment.splice(comment.indexOf(comment), 1);
@@ -1101,8 +1164,8 @@ angular.module("InfoGrappoWeb").factory("Follow", function($http, $q, $window, $
         $http.post(appData.baseUrl+"users/follow-topic", parameter).success(function (data, status, headers, config) {
           console.log(data);
           deferred.resolve();
-        }).error(function (data, status, headers, config) {
-          console.log("Error on following topic with id " + topicId)
+        }).error(function () {
+          console.log("Error on following topic with id " + topicId);
           deferred.reject();
         });
         return deferred.promise;
@@ -1118,7 +1181,7 @@ angular.module("InfoGrappoWeb").factory("Follow", function($http, $q, $window, $
       }
     }
 });
-//changes
+// Autcomplete requests are handled
 angular.module("InfoGrappoWeb").factory("Autocomplete", function($http, $q, $window) {
   return {
     topics: function (word) {
@@ -1173,4 +1236,3 @@ angular.module("InfoGrappoWeb").factory("Autocomplete", function($http, $q, $win
     } 
   }
 });
-//changes end
