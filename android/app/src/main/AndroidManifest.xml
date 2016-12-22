@@ -21,7 +21,7 @@
             android:name=".activities.NavigationDrawerActivity"
             android:label="@string/title_activity_navigation_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.TopicsMapActivity" />
+        <activity android:name=".activities.GrappoActivity" />
         <activity android:name=".activities.SignupActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.LoginActivity" />

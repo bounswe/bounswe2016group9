@@ -1,17 +1,6 @@
 package com.cmpe451.group9.infograppo.activities;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.cmpe451.group9.infograppo.common.adapters.ExpandableListAdapter;
-
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -22,9 +11,13 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.cmpe451.group9.infograppo.R;
+import com.cmpe451.group9.infograppo.common.adapters.ExpandableListAdapter;
 import com.cmpe451.group9.infograppo.network.models.Relation;
-import com.cmpe451.group9.infograppo.network.models.Topic;
 import com.cmpe451.group9.infograppo.network.services.MySingleton;
 import com.google.gson.Gson;
 
@@ -32,25 +25,34 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TopicsMapActivity extends Activity {
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-    String ourTopic="7";
-    String ourURL="http://52.67.44.90:8080/";
+public class GrappoActivity extends AppCompatActivity {
+
+    String baseURL ="http://52.67.44.90:8080/";
 
     List<String> relatedTopics;
     Map<String, List<String>> topicsWithRelations;
     ExpandableListView expListView;
-    TopicsMapActivity topicsMapActivity = this;
+    GrappoActivity grappoActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
+
+        Intent intent = getIntent();
+        int topicId = intent.getIntExtra("topicId", 0);
+
         expListView = (ExpandableListView) findViewById(R.id.list_expandable);
         relatedTopics = new ArrayList<>();
         topicsWithRelations = new LinkedHashMap<>();
         setGroupIndicatorToRight();
-        final String url = ourURL+"topics/"+ourTopic+"/relationsFrom";//for relations From, not To
+        //for relations From, not To
+        final String url = baseURL + "topics/" + topicId + "/relationsFrom";
 
         MySingleton.getInstance(this).addToRequestQueue(new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -76,16 +78,16 @@ public class TopicsMapActivity extends Activity {
                             try {
                                 if(topicWithRelations.containsKey(relatedTopicName)) {
                                     content= topicWithRelations.get(relatedTopicName);
-                                    content.add(tmp.getContent());
+                                    content.add(tmp.getRelationType().getType());
                                 }else {
-                                    content.add(tmp.getContent());
+                                    content.add(tmp.getRelationType().getType());
                                     allTops.add(relatedTopicName);
                                 }
                             }catch(Exception e){}
                             topicWithRelations.put(relatedTopicName, content);
                         }
                         final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(
-                                topicsMapActivity, allTops, topicWithRelations);
+                                grappoActivity, allTops, topicWithRelations);
 
                         expListView.setAdapter(expListAdapter);
 

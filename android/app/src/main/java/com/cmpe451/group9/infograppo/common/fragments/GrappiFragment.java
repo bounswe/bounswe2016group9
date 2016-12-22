@@ -16,7 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.cmpe451.group9.infograppo.R;
-import com.cmpe451.group9.infograppo.activities.TopicsMapActivity;
+import com.cmpe451.group9.infograppo.activities.GrappoActivity;
 import com.cmpe451.group9.infograppo.network.models.Topic;
 import com.cmpe451.group9.infograppo.network.services.MySingleton;
 import com.google.gson.Gson;
@@ -46,6 +46,7 @@ public class GrappiFragment extends Fragment {
     private String mParam2;
 
     ArrayList<String> topics;
+    ArrayList<Integer> topicsIds;
     ArrayAdapter<String> adapter;
     String ourURL="http://52.67.44.90:8080/";
 
@@ -98,6 +99,7 @@ public class GrappiFragment extends Fragment {
                     public void onResponse(JSONArray response) {
 
                         topics = new ArrayList<>();
+                        topicsIds = new ArrayList<>();
                         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, topics);
                         listView.setAdapter(adapter);
                         Topic tmp;
@@ -111,6 +113,7 @@ public class GrappiFragment extends Fragment {
                             tmp = new Gson().fromJson(String.valueOf(obj), Topic.class);
                             try {
                                 topics.add(tmp.getName());
+                                topicsIds.add(tmp.getEntityId());
                             }catch (Exception ignored){}
                         }
                     }
@@ -119,11 +122,14 @@ public class GrappiFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {}
                 }));
+
         listView.setOnItemClickListener( new AdapterView.OnItemClickListener(){
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(new Intent(getActivity(),TopicsMapActivity.class));
+                startActivity(new Intent(getActivity(),GrappoActivity.class)
+                        .putExtra("topicId", topicsIds.get(i)));
+
             }
         });
         // Inflate the layout for this fragment
