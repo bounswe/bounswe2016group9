@@ -563,10 +563,13 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
         entityId: userId
       }
     };
-    Posts.add(requestParams);
-    $window.location.reload();
+    Posts.add(requestParams).then(function (response) {
+      $window.location.reload();
+    }, function () {
+      $window.location.reload();
+      console.log("Error on saving post");
+    });
     $uibModalInstance.close();
-    $uibModalInstance.close(result);
   };
 
   $ctrl.okCreateComment = function () {
@@ -840,7 +843,6 @@ angular.module('InfoGrappoWeb').factory('Topics', ['$http', '$q', '$window', fun
 }]);
 
 angular.module('InfoGrappoWeb').factory('Posts', function($q, $http){
-
   var posts = [{
     postID:0,
     postLikes:45,
@@ -866,6 +868,8 @@ angular.module('InfoGrappoWeb').factory('Posts', function($q, $http){
       return posts;
     },
     add: function (params) {
+      console.log(params)
+
       var deferred = $q.defer();
       var parameter = params;
       $http.post(appData.baseUrl+"posts", parameter).success(function (data, status, headers, config) {
