@@ -123,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
+        startActivity(new Intent(this, NavigationDrawerActivity.class));
         finish();
     }
 
