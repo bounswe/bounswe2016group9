@@ -461,7 +461,13 @@ angular.module('InfoGrappoWeb').controller('ModalInstanceCtrl', function ($uibMo
   };
   //changes end
   $ctrl.okCreateTopic = function () {
-    var parameter = {topic:{"name":$scope.topicName}, tags:[{"name":$scope.topicTags[0].text}], label:$scope.topicTags[0].text};
+    var tags = [];
+    angular.forEach($scope.topicTags, function (topic) {
+      tags.push({
+        "name" : topic.text
+      })
+    });
+    var parameter = {topic:{"name":$scope.topicName}, tags: tags, label:$scope.topicTags[0].text};
     console.log(parameter);
     $http.post(appData.baseUrl+"topics", parameter).
       success(function(data, status, headers, config) {
