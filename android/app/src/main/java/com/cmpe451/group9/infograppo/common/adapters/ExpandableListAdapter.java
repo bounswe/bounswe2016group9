@@ -6,6 +6,7 @@ package com.cmpe451.group9.infograppo.common.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.cmpe451.group9.infograppo.R;
+import com.cmpe451.group9.infograppo.activities.GrappoActivity;
+import com.cmpe451.group9.infograppo.activities.TopicActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -23,12 +26,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Activity context;
     private Map<String, List<String>> topicsWithRelations;
     private List<String> topics;
+    private List<Integer> topicIds;
 
     public ExpandableListAdapter(Activity context, List<String> topics,
-                                 Map<String, List<String>> topicsWithRelations) {
+                                 Map<String, List<String>> topicsWithRelations, List<Integer> topicIds) {
         this.context = context;
         this.topicsWithRelations = topicsWithRelations;
         this.topics = topics;
+        this.topicIds = topicIds;
+
     }
 
     public Object getChild(int groupPosition, int childPosition) {
@@ -71,7 +77,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return groupPosition;
     }
 
-    public View getGroupView(int groupPosition, boolean isExpanded,
+    public View getGroupView(final int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
         String topicName = (String) getGroup(groupPosition);
         if (convertView == null) {
@@ -81,6 +87,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     null);
         }
         TextView item = (TextView) convertView.findViewById(R.id.text_group);
+        item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, GrappoActivity.class)
+                .putExtra("topicId", topicIds.get(groupPosition)).putExtra("topicName", topics.get(groupPosition)));
+            }
+        });
         item.setTypeface(null, Typeface.BOLD);
         item.setText(topicName);
         return convertView;
@@ -92,5 +105,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public void goTopicClicked(View view) { //when click on the topic
+//        startActivity(new Intent(this, TopicActivity.class)
+//                .putExtra("topicId", topicId).putExtra("topicName", topicName));
+
     }
 }

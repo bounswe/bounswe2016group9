@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:paddingLeft="25dp"
-        android:onClick="goThatTopic"/>
+        android:onClick="goTopicClicked"/>
     <ImageView
         android:id="@+id/image_extend_topic"
         android:layout_width="wrap_content"

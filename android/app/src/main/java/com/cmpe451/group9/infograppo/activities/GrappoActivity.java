@@ -58,7 +58,7 @@ public class GrappoActivity extends AppCompatActivity {
         topicsWithRelations = new LinkedHashMap<>();
         setGroupIndicatorToRight();
 
-        final String urlRelationsTo = baseURL + "topics/" + topicId + "/relationsTo";
+        final String urlRelationsTo = baseURL + "topics/" + topicId + "/relationsFrom";
 
         MySingleton.getInstance(this).addToRequestQueue(new JsonArrayRequest
                 (Request.Method.GET, urlRelationsTo, null, new Response.Listener<JSONArray>() {
@@ -67,6 +67,7 @@ public class GrappoActivity extends AppCompatActivity {
 
                         Relation tmp;
                         ArrayList<String> allTops= new ArrayList<>();
+                        ArrayList<Integer> topicIds= new ArrayList<>();
                         Map<String, List<String>> topicWithRelations= new LinkedHashMap<>();
                         JSONObject obj = new JSONObject();
                         for (int i = 0; i < response.length(); i++) {
@@ -88,12 +89,13 @@ public class GrappoActivity extends AppCompatActivity {
                                 }else {
                                     content.add(tmp.getRelationType().getType());
                                     allTops.add(relatedTopicName);
+                                    topicIds.add(tmp.getToTopic().getEntityId());
                                 }
                             }catch(Exception e){}
                             topicWithRelations.put(relatedTopicName, content);
                         }
                         final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(
-                                grappoActivity, allTops, topicWithRelations);
+                                grappoActivity, allTops, topicWithRelations, topicIds);
 
                         expListView.setAdapter(expListAdapter);
 
@@ -152,7 +154,7 @@ public class GrappoActivity extends AppCompatActivity {
         String rr= (Integer.parseInt((String)rate.getText())-1)+"";
         rate.setText(rr);
     }
-    public void goThatTopic(View view) {//when click on the topic
+    public void goTopic(View view) { //when click on the topic
         startActivity(new Intent(this, TopicActivity.class)
                 .putExtra("topicId", topicId).putExtra("topicName", topicName));
 
