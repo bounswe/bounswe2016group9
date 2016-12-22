@@ -4,6 +4,9 @@ package boun.cmpe451.group9.Service.SemanticTag;
 import boun.cmpe451.group9.Models.DB.SemanticTag;
 import boun.cmpe451.group9.Service.BaseService;
 
+/**
+ * Service methods for resource SemanticTag
+ */
 public interface SemanticTagService extends BaseService<SemanticTag> {
 
     /**

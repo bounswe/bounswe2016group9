@@ -6,7 +6,9 @@ import boun.cmpe451.group9.Service.BaseService;
 
 import java.util.List;
 
-
+/**
+ * Service methods for resource STagTopic
+ */
 public interface STagTopicService extends BaseService<STagTopic> {
 
     /**

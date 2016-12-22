@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by seha on 10.12.2016.
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "DefaultFileTemplate"})
 @Repository
 public class FollowTopicDAOImpl extends BaseDAOImpl<FollowTopic> implements FollowTopicDAO {
     @Override

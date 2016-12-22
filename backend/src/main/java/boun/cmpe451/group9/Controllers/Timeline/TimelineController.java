@@ -4,19 +4,22 @@ package boun.cmpe451.group9.Controllers.Timeline;
 import boun.cmpe451.group9.Controllers.Comment.CommentController;
 import boun.cmpe451.group9.Controllers.Post.PostController;
 import boun.cmpe451.group9.Controllers.Topic.TopicController;
-import boun.cmpe451.group9.Models.DB.*;
+import boun.cmpe451.group9.Models.DB.Comment;
+import boun.cmpe451.group9.Models.DB.Post;
+import boun.cmpe451.group9.Models.DB.Topic;
+import boun.cmpe451.group9.Models.DB.User;
 import boun.cmpe451.group9.Service.Comment.CommentService;
 import boun.cmpe451.group9.Service.FollowRel.FollowRelService;
 import boun.cmpe451.group9.Service.FollowTopic.FollowTopicService;
 import boun.cmpe451.group9.Service.Post.PostService;
 import boun.cmpe451.group9.Service.Topic.TopicService;
-import boun.cmpe451.group9.Service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +27,7 @@ import java.util.List;
 /**
  * Created by seha on 17.12.2016.
  */
-
-@SuppressWarnings("MVCPathVariableInspection")
+@SuppressWarnings({"MVCPathVariableInspection", "DefaultFileTemplate"})
 @RestController
 @RequestMapping(value = "/timeline")
 public class TimelineController {
@@ -33,10 +35,8 @@ public class TimelineController {
     private TopicService topicService;
     private PostService postService;
     private FollowTopicService followTopicService;
-    private UserService userService;
     private CommentService commentService;
     private FollowRelService followRelService;
-
 
     @Autowired
     public void setTopicService(TopicService topicService) {
@@ -49,10 +49,6 @@ public class TimelineController {
     @Autowired
     public void setFollowTopicService(FollowTopicService followTopicService) { this.followTopicService = followTopicService;}
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-    @Autowired
     public void setCommentService(CommentService commentService) {
         this.commentService = commentService;
     }
@@ -61,9 +57,6 @@ public class TimelineController {
 
     @GetMapping("{id}/postOfTopics")
     public ResponseEntity<List<Post>> getTimelineFollowingTopicPost(@PathVariable("id") long id){
-
-
-
         List<Topic> followingTopics=followTopicService.getFollowingTopicsById(id);
         if(!followingTopics.isEmpty()) {
             List<Long> followingTopicIds = new ArrayList<>();
@@ -111,7 +104,7 @@ public class TimelineController {
             return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+    
     @GetMapping("{id}/topicOfUsers")
     public ResponseEntity<List<Topic>> getTimelineFollowingUserTopics(@PathVariable("id") long id){
         List<User> followingUsers= followRelService.getFollowingByUserId(id);

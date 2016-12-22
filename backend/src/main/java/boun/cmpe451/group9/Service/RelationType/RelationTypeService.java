@@ -5,6 +5,9 @@ import boun.cmpe451.group9.Service.BaseService;
 
 import java.util.List;
 
+/**
+ * Service methods for resource RelationType
+ */
 public interface RelationTypeService extends BaseService<RelationType>{
 
     /**

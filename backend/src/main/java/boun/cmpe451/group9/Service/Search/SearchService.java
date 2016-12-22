@@ -6,6 +6,9 @@ import boun.cmpe451.group9.Models.DB.Topic;
 
 import java.util.List;
 
+/**
+ * Service methods for search functionality
+ */
 public interface SearchService {
 
     /**

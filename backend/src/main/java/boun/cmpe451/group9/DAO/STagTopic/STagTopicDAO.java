@@ -7,7 +7,9 @@ import boun.cmpe451.group9.Models.DB.Topic;
 
 import java.util.List;
 
-
+/**
+ * DAO methods for entity STagTopic
+ */
 public interface STagTopicDAO extends BaseDAO<STagTopic> {
     /**
      * Retrieves semantic tags of topics with given id from table "STAGTopic"

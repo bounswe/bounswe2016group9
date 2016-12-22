@@ -250,13 +250,6 @@ public class UserController {
 
     }
 
-    /*@GetMapping("{id}/timeline")
-    public ResponseEntity<List<Post>> getTimelineByUserId(@PathVariable("id") long id){
-        if(userService.checkIfEntityExistsById(id)){
-
-        }
-
-    }*/
     public static User addLinkToUser(User user){
         user.add(linkTo(UserController.class).slash(user.getEntityId()).withSelfRel());
         user.add(linkTo(UserController.class).slash(user.getEntityId()).slash("topics").withRel("topics"));

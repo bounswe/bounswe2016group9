@@ -1,9 +1,5 @@
 package boun.cmpe451.group9.DAO.FollowTopic;
 
-/**
- * Created by seha on 10.12.2016.
- */
-
 import boun.cmpe451.group9.Models.DB.Topic;
 import boun.cmpe451.group9.Models.DB.User;
 
