@@ -128,7 +128,7 @@ public class GrappiFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 startActivity(new Intent(getActivity(),GrappoActivity.class)
-                        .putExtra("topicId", topicsIds.get(i)));
+                        .putExtra("topicId", topicsIds.get(i)).putExtra("topicName", topics.get(i)));
 
             }
         });
