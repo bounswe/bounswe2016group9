@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.cmpe451.group9.infograppo.R;
+import com.cmpe451.group9.infograppo.activities.NavigationDrawerActivity;
 import com.cmpe451.group9.infograppo.network.models.User;
 import com.cmpe451.group9.infograppo.network.services.MySingleton;
 import com.google.gson.Gson;
@@ -121,10 +122,10 @@ public class ProfileFragment extends Fragment {
         final TextView userInfo = (TextView) getActivity().findViewById(R.id.text_profile_userinfo);
         final TextView userFollow = (TextView) getActivity().findViewById(R.id.text_profile_userfollow);
 
-        String url = "http://52.67.44.90:8080/users/2";
+        String baseURL = NavigationDrawerActivity.baseURL + "/users/2";
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, baseURL, null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {

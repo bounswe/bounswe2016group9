@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.cmpe451.group9.infograppo.R;
 import com.cmpe451.group9.infograppo.activities.GrappoActivity;
+import com.cmpe451.group9.infograppo.activities.NavigationDrawerActivity;
 import com.cmpe451.group9.infograppo.network.models.Topic;
 import com.cmpe451.group9.infograppo.network.services.MySingleton;
 import com.google.gson.Gson;
@@ -48,7 +49,7 @@ public class GrappiFragment extends Fragment {
     ArrayList<String> topics;
     ArrayList<Integer> topicsIds;
     ArrayAdapter<String> adapter;
-    String ourURL="http://52.67.44.90:8080/";
+    String baseURL = NavigationDrawerActivity.baseURL;
 
     private OnFragmentInteractionListener mListener;
 
@@ -91,7 +92,7 @@ public class GrappiFragment extends Fragment {
 
 
         final ListView listView = (ListView) view.findViewById(R.id.list_grappi);
-        final String url = ourURL + "topics"; //all topics
+        final String url = baseURL + "topics"; //all topics
 
         MySingleton.getInstance(getContext()).addToRequestQueue(new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {

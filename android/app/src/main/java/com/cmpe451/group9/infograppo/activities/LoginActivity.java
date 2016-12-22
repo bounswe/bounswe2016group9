@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        String url ="http://52.67.44.90:8080/";
+        String url =NavigationDrawerActivity.baseURL;
 
 
         HttpURLConnection connection = null;
@@ -108,7 +108,6 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
 
-                // TODO: Implement successful signup logic here
                 // By default we just finish the Activity and log them in automatically
                 this.finish();
             }

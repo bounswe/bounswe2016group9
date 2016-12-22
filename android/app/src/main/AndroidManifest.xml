@@ -24,7 +24,6 @@
         <activity android:name=".activities.GrappoActivity"
             android:noHistory="true"/>
         <activity android:name=".activities.SignupActivity" />
-        <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.TopicActivity"
             android:noHistory="true"/>
     </application>

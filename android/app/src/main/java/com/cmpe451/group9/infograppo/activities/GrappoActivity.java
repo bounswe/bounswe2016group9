@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class GrappoActivity extends AppCompatActivity {
 
-    String baseURL ="http://52.67.44.90:8080/";
+    String baseURL = NavigationDrawerActivity.baseURL;
 
     List<String> relatedTopics;
     Map<String, List<String>> topicsWithRelations;
