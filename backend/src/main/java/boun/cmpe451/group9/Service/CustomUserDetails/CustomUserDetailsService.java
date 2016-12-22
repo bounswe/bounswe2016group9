@@ -6,5 +6,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface CustomUserDetailsService extends UserDetailsService {
 
+    /**
+     * Retrieves userDetails by username text
+     * @param username
+     * @return userDetails object
+     */
     UserDetails loadUserByUsername(String username);
 }
