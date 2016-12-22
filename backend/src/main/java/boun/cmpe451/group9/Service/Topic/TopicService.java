@@ -17,6 +17,11 @@ public interface TopicService extends BaseService<Topic> {
      */
     List<Topic> getTopicsByUserId(long id);
 
+    /**
+     * Retrieves all the topics has string "keyword" as their names
+     * @param keyword keywords that wanted to find
+     * @return list of topics that predicted by autoComplete
+     */
     List<Topic> autoComp(String keyword);
 
     /**

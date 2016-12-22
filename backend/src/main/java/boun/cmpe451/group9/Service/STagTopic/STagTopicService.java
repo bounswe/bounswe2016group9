@@ -9,5 +9,10 @@ import java.util.List;
 
 public interface STagTopicService extends BaseService<STagTopic> {
 
+    /**
+     * Retrieves all semanticTags of a topic "id"
+     * @param id id of the topic
+     * @return list of semanticTags of topic "id"
+     */
     List<SemanticTag> getSTagsByTopicId(long id);
 }

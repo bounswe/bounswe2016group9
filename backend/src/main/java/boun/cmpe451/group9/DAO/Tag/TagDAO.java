@@ -7,7 +7,11 @@ import java.util.List;
 
 
 public interface TagDAO extends BaseDAO<Tag> {
-
+    /**
+     *
+     * @param name
+     * @return
+     */
     Tag getTagByName(String name);
 
     boolean checkIfTagExistsByName(String name);
