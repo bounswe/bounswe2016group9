@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="10dp"
-    tools:context="com.cmpe451.group9.infograppo.activities.TopicsMapActivity">
+    tools:context="com.cmpe451.group9.infograppo.activities.GrappoActivity">
 
     <TextView
         android:id="@+id/text_group"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:paddingLeft="25dp"
-        android:onClick="goThatTopic"/>
+        android:onClick="goTopicClicked"/>
     <ImageView
         android:id="@+id/image_extend_topic"
         android:layout_width="wrap_content"

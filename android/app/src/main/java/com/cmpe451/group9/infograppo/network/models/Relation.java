@@ -6,10 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by menaf on 16/11/16.
  */
 
-public class Relation {
-
-    @SerializedName("name")
-    private String name;
+public class Relation extends BaseModel {
 
     @SerializedName("fromTopic")
     private Topic fromTopic;
@@ -23,17 +20,8 @@ public class Relation {
     @SerializedName("createdUser")
     private User createdUser;
 
-    @SerializedName("content")
-    private String content;
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @SerializedName("relationType")
+    private RelationType relationType;
 
     public Topic getFromTopic() {
         return fromTopic;
@@ -66,11 +54,12 @@ public class Relation {
     public void setCreatedUser(User createdUser) {
         this.createdUser = createdUser;
     }
-    public String getContent() {
-        return content;
+
+    public RelationType getRelationType() {
+        return relationType;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setRelationType(RelationType relationType) {
+        this.relationType = relationType;
     }
 }

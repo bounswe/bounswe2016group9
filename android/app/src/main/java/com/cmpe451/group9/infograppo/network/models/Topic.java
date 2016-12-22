@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by menaf on 16/11/16.
  */
 
-public class Topic {
+public class Topic extends BaseModel{
 
     @SerializedName("name")
     private String name;
@@ -14,14 +14,11 @@ public class Topic {
     @SerializedName("user")
     private User user;
 
-    @SerializedName("trending_count")
+    @SerializedName("trendingCount")
     private int trendingCount;
 
-    @SerializedName("post_count")
+    @SerializedName("postCount")
     private int postCount;
-
-    @SerializedName("entity_id")
-    private int entityId;
 
     public String getName() {
         return name;
@@ -54,13 +51,4 @@ public class Topic {
     public void setPostCount(int postCount) {
         this.postCount = postCount;
     }
-
-    public int getEntityId() {
-        return entityId;
-    }
-
-    public void setEntityId(int entityId) {
-        this.entityId = entityId;
-    }
-
 }
